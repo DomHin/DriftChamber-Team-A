@@ -1,5 +1,5 @@
 
-# Drift Chamber Reference Project
+# Drift Chamber Project
 
 This is a python3 project and needs at least python version 3.4 to work properly.
 
