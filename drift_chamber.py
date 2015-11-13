@@ -3,14 +3,14 @@
 import logging
 
 from core.run_engine import RunEngine
-from modules.ByeByeWorldModule import ByeByeWorld
 from modules.HelloWorldModule import HelloWorld
+from modules.ByeByeWorldModule import ByeByeWorld
 
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    logging.info("Drift Chamber project started")
+    logging.info('Drift Chamber project started')
 
     helloWorldModule = HelloWorld()
     byebyeWorldModule = ByeByeWorld()
@@ -22,8 +22,8 @@ def main():
 
     runEngine.run()
 
-    logging.info("All processing done")
+    logging.info('All processing done')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
