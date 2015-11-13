@@ -2,12 +2,25 @@
 
 import logging
 
+from run_engine import RunEngine
+from modules.HelloWorldModule import HelloWorld
+from modules.ByeByeWorldModule import ByeByeWorld
+
+
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
     logging.info("Drift Chamber project started")
 
-    # your code goes here
+    helloWorldModule = HelloWorld()
+    byebyeWorldModule = ByeByeWorld()
+
+    runEngine = RunEngine()
+    runEngine.add_module(helloWorldModule)
+    runEngine.add_module(byebyeWorldModule)
+    runEngine.set_events(100)
+
+    runEngine.run()
 
     logging.info("All processing done")
 
