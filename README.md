@@ -22,3 +22,4 @@ or
 ## Contributors
 
 Genti Saliu
+Anna Friedel
