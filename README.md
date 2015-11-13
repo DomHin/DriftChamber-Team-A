@@ -1,5 +1,6 @@
-
 # Drift Chamber Project
+
+![Travis Build Status](https://api.travis-ci.com/KIT-CSD-WS15/DriftChamber-Team-A.svg?token=gFo2Ex7F6BVFXsMexjnj)
 
 This is a python3 project and needs at least python version 3.4 to work properly.
 
@@ -21,8 +22,10 @@ or
 
 ## Contributors
 
+Anna Friedel
+
+Fabian Leven
+
 Genti Saliu
 
 Patrick Schreiber
-
-Anna Friedel

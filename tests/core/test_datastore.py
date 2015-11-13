@@ -1,9 +1,7 @@
 __author__ = 'Thomas Hauth, Martin Heck'
 
 import unittest
-
 from core.datastore import DataStore, NotFoundInDataStore, AlreadyInDataStore, ObjectLifetime
-
 
 class DataStoreTest(unittest.TestCase):
     """
