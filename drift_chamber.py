@@ -2,9 +2,9 @@
 
 import logging
 
-from run_engine import RunEngine
-from modules.HelloWorldModule import HelloWorld
+from core.run_engine import RunEngine
 from modules.ByeByeWorldModule import ByeByeWorld
+from modules.HelloWorldModule import HelloWorld
 
 
 
