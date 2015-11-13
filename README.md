@@ -22,6 +22,10 @@ or
 
 ## Contributors
 
-Genti Saliu
-Patrick Schreiber
 Anna Friedel
+
+Fabian Leven
+
+Genti Saliu
+
+Patrick Schreiber
