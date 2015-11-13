@@ -1,6 +1,6 @@
-__author__ = "Patrick Schreiber"
+__author__ = 'Patrick Schreiber'
 
-from core.datastore import DataStore
+from driftchamber.core.datastore import DataStore
 
 class RunEngine(object):
 

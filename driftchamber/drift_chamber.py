@@ -3,7 +3,7 @@
 import logging
 from configparser import ConfigParser
 
-from core.run_engine import RunEngine
+from driftchamber.core.run_engine import RunEngine
 
 
 

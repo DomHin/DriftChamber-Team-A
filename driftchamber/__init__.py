@@ -1,0 +1,1 @@
+__author__ = 'Thomas Hauth, Martin Heck, Patrick Schreiber, Genti Saliu'

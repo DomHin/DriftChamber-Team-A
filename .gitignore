@@ -1,6 +1,7 @@
+# Eclipse project files
 .project
 .pydevproject
 
+# PyCharm project files
 *.py[cod]
-
 .idea
