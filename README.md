@@ -22,4 +22,7 @@ or
 ## Contributors
 
 Genti Saliu
+
+Patrick Schreiber
+
 Anna Friedel
