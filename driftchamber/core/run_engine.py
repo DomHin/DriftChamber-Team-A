@@ -1,6 +1,6 @@
 __author__ = 'Patrick Schreiber'
 
-from driftchamber.core.datastore import DataStore
+from driftchamber.core.datastore import DataStore, ObjectLifetime
 
 class RunEngine(object):
 
@@ -44,6 +44,8 @@ class RunEngine(object):
         for n in range(self.eventCount):
             for module in self._modules:
                 module.event(self.datastore)
+            # clear event based storage.
+            self.datastore.clear(ObjectLifetime.Event)
 
         # Run end function of every module
         for module in self._modules:
