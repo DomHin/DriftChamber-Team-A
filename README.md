@@ -16,16 +16,10 @@ To run all unit tests, execute:
 
 ./run_unittest.sh
 
-or
-
-./drift_tests.py
-
 ## Contributors
 
-Anna Friedel
-
-Fabian Leven
-
-Genti Saliu
-
-Patrick Schreiber
+* Anna Friedel
+* Fabian Leven
+* Genti Saliu
+* Patrick Schreiber
+* Jonas Wagner

@@ -7,6 +7,6 @@ python:
     - "nightly"
 
 notifications:
-  slack: team-a-collsoftdes:uygRtC38l74KuBVMH2zyoaM9
+    slack: team-a-collsoftdes:uygRtC38l74KuBVMH2zyoaM9
 
 script: python -m unittest discover
