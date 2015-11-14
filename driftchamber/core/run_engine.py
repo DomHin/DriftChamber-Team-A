@@ -1,6 +1,7 @@
 __author__ = 'Patrick Schreiber'
 
 from driftchamber.core.datastore import DataStore, ObjectLifetime
+import logging
 
 class RunEngine(object):
 
@@ -33,7 +34,7 @@ class RunEngine(object):
         :return:
         """
         if self.eventCount is None or not isinstance(self.eventCount, int):
-            print("No number of Events or no integer specified.")
+            logging.error("No number of Events or no integer specified.")
             return
 
         # Run begin functions of every module
