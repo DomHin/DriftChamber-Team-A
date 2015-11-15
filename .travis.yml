@@ -9,4 +9,7 @@ python:
 notifications:
     slack: team-a-collsoftdes:uygRtC38l74KuBVMH2zyoaM9
 
+install:
+    - pip install testfixtures
+    
 script: python -m unittest discover
