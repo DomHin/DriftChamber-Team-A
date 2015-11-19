@@ -9,7 +9,7 @@ class ParticlePrinter(Module):
 
     def begin(self, datastore):
         # print("Begin of Simulation of ParticleGun")
-        logging.info('Begin of Simulation of ParticleGun')
+        logging.info('Begin of Simulation of ParticlePrinter')
 
     def event(self, datastore):
         particle = datastore.get(self.particle_name)
@@ -20,6 +20,6 @@ class ParticlePrinter(Module):
 
     def end(self, datastore):
         # print("End of Simulation of ParticleGun")
-        logging.info('End of Simulation of ParticleGun')
+        logging.info('End of Simulation of ParticlePrinter')
 
 
