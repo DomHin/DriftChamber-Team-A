@@ -1,84 +1,63 @@
 #! /usr/bin/env python3.4
 
 import logging
-from configparser import ConfigParser
-from argparse import ArgumentParser
-import os
-
+from importlib import import_module
+from driftchamber.core.configuration import Configuration
 from driftchamber.core.run_engine import RunEngine
+import traceback
 
 
+class DriftChamber:
+    '''
+    Objects of this class represent an instance of the program. It manages the general program flow.
+    
+    args     The command line arguments. Only use this for testing purposes and let it default to sys.argv otherwise.
+    '''
+    def __init__(self, args = None):
+        # The configuration class also parses the command line arguments.
+        # Hence, in order for the argument parser to be the first to stream to the standard output. No output should be streamed before the next line is executed.
+        self._configuration = Configuration(args)
+        logging.basicConfig(level=self._configuration["General_levelOfLogging"])
+        self._modules = []
+        self._runEngine = None
+        self._instantiateModules()
+        
+    def getConfiguration(self):
+        return self._configuration
 
-def main():
-    parser = ArgumentParser('Driftchamber Project of Team A')
-    parser.add_argument('--config', type=str, default=None,
-                        help='The configuration file to load. This overrides --modules and --eventCount.')
-    parser.add_argument('--module', type=str, default=None, action='append',
-                        help='Specify a module to load. Can be used multiple times to load multiple modules.')
-    parser.add_argument('--eventCount', type=int, default=None, help='Specify the amount of events to run.')
-    args = parser.parse_args()
+        
+    def _instantiateModules(self):
+        for moduleName in self._configuration["Modules_moduleSequence"]:
+            module = import_module('driftchamber.modules.' + moduleName)
+            className = moduleName[:-6]
+            # this creates an instance of the module class
+            self._modules.append(getattr(module, className)())
+            
+        
+    def startSimulation(self):
+        logging.info("'Drift Chamber Simulation' started.")
+        self._runEngine = RunEngine(self, self._configuration["General_nEvent"])
+        for module in self._modules:
+            self._runEngine.add_module(module)
+        self._runEngine.run()
+        logging.info("'Drift Chamber Simulation' done.")
+        
 
-    logging.basicConfig(level=logging.DEBUG)
-    logging.info('Drift Chamber project started')
-
-    if args.config:
-        if not os.path.isfile(args.config):
-            logging.error("Specified config file does not exist")
-            return
-        config = ConfigParser()
-        config.read(args.config)
-        # Check if section Modules and option load_modules exists in config file and read the values
-        if config.has_option('Modules', 'load_modules'):
-            modules = config['Modules']['load_modules'].strip().split('\n')
-        else:
-            logging.error('No Modules specified')
-            return
-
-        # Check if section General and option event_count exists in config file and read values
-        if config.has_option('General', 'event_count'):
-            event_count = config.getint('General', 'event_count')
-        else:
-            logging.error('Event Count was not specified')
-            return
-    elif args.module and args.eventCount:
-        modules = args.module
-        event_count = args.eventCount
-    else:
-        if not args.module:
-            logging.error('No modules to load.')
-        if not args.eventCount:
-            logging.error('Number of events (eventCount) has to be specified.')
-        return
-
-
-    # Import modules specified in config file. Create objects of Classes in the module (note:
-    # the module Class has to have the same name as the file without Module at the end. e.g.
-    # filename: EventModule, classname: Event)
-    # Append created objects to module_list
-    module_list = []
-    for mod in modules:
-        try:
-            tmp = __import__('modules.'+mod, globals(), locals(), [mod[:-6]])
-        except ImportError:
-            logging.error('Specified Module does not exist or could not be loaded.')
-            return
-        try:
-            module_list.append(getattr(tmp, mod[:-6])())
-        except AttributeError as e:
-            logging.error('\''+mod[:-6]+'\' class was not found in module \''+mod+'\'')
-
-    runEngine = RunEngine()
-
-    # Register every module in module_list in runEngine
-    for mod in module_list:
-        runEngine.add_module(mod)
-    runEngine.set_events(event_count)
-
-    # Run simulation
-    runEngine.run()
-
-    logging.info('All processing done')
-
+def main(args = None):
+    '''
+    Program entry point.
+    
+    args     The command line arguments. Only use this for testing purposes and let it default to sys.argv otherwise.
+    '''
+    # This is the default logging level. It can be adapted using the configuration key 'levelOfLogging'.
+    logging.basicConfig(level=logging.NOTSET)
+    try:
+        driftChamber = DriftChamber(args)
+        driftChamber.startSimulation()
+    except Exception:
+        logging.error('Fatal error: \n' + traceback.format_exc())
+        # no reraise because the program will terminate anyway and we want our logging mechanism to handle all exceptions
+    
 
 if __name__ == '__main__':
     main()
