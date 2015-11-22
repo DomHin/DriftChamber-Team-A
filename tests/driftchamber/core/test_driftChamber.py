@@ -25,4 +25,4 @@ class DriftChamberTest(unittest.TestCase):
             
     def test_configurationIsNotNone(self):
         driftChamber = mainModule.DriftChamber(['--config', self.pathToConfigFile])
-        self.assertIsNotNone(driftChamber.getConfiguration())
+        self.assertIsNotNone(driftChamber.get_configuration())

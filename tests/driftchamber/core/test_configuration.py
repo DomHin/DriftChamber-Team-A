@@ -4,9 +4,10 @@
 """
 
 import unittest
-from driftchamber.core.configuration import Configuration
 import os
 import logging
+
+from driftchamber.core.configuration import Configuration
 
 
 class ConfigurationTest(unittest.TestCase):
@@ -15,45 +16,59 @@ class ConfigurationTest(unittest.TestCase):
     """
     
     def setUp(self):
-        self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
+        self.pathToConfgiFiles = (
+            os.path.dirname(os.path.abspath(__file__)) + '/../../../configurations/')
 
-    def test_onlyConfigFile(self):
-        pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_allOptions.cfg'
+    def test_config_file_only(self):
+        pathToConfigFile = self.pathToConfgiFiles + '/test_config_allOptions.cfg'
         configuration = Configuration(['--config', pathToConfigFile])
         self.assertEqual(configuration['General_nEvent'], 100)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], ['HelloWorldModule', 'ByeByeWorldModule'])
+        self.assertEqual(configuration['Modules_moduleSequence'], 
+                         ['HelloWorldModule', 'ByeByeWorldModule'])
 
 
-    def test_configFileNotFound(self):
-        self.assertRaises(ValueError, Configuration, ['--config', "thisIsARandomBliberBlubberPath"])
+    def test_config_file_not_found(self):
+        self.assertRaises(ValueError, 
+                          Configuration, ['--config', "thisIsARandomBliberBlubberPath"])
         
     
-    def test_compulsoryOptionMissing(self):
-        pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_compulsoryOptionMissing.cfg'
+    def test_compulsory_option_missing(self):
+        pathToConfigFile = self.pathToConfgiFiles + 'test_config_compulsoryOptionMissing.cfg'
         self.assertRaises(ValueError, Configuration, ['--config', pathToConfigFile])
         
         
-    def test_optionalOptionMissing(self):
-        pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_optionalOptionMissing.cfg'
+    def test_optional_option_missing(self):
+        pathToConfigFile = self.pathToConfgiFiles + 'test_config_optionalOptionMissing.cfg'
         Configuration(['--config', pathToConfigFile])
         
     
-    def test_invalidValue(self):
-        pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_invalidValue.cfg'
+    def test_invalid_value(self):
+        pathToConfigFile = self.pathToConfgiFiles + 'test_config_invalidValue.cfg'
         self.assertRaises(ValueError, Configuration, ['--config', pathToConfigFile])
         
         
-    def test_onlyCommandLineArguments(self):
-        configuration = Configuration(['--General_nEvent', '100', '--Modules_moduleSequence', 'HelloWorldModule,ByeByeWorldModule', '--General_levelOfLogging', 'DEBUG'])
+    def test_only_command_line_arguments(self):
+        configuration = Configuration(['--General_nEvent', 
+                                       '100', 
+                                       '--Modules_moduleSequence', 
+                                       'HelloWorldModule,ByeByeWorldModule',
+                                       '--General_levelOfLogging', 
+                                       'DEBUG'])
         self.assertEqual(configuration['General_nEvent'], 100)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], ['HelloWorldModule', 'ByeByeWorldModule'])
+        self.assertEqual(configuration['Modules_moduleSequence'], 
+                         ['HelloWorldModule', 'ByeByeWorldModule'])
         
         
-    def test_commandLineArgumentsOverrideConfigFile(self):
-        pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_allOptions.cfg'
-        configuration = Configuration(['--config', pathToConfigFile, '--General_nEvent', '101', '--Modules_moduleSequence', 'HelloWorldModule'])
+    def test_command_line_arguments_override_config_file(self):
+        pathToConfigFile = self.pathToConfgiFiles + 'test_config_allOptions.cfg'
+        configuration = Configuration(['--config', 
+                                       pathToConfigFile, 
+                                       '--General_nEvent', 
+                                       '101', 
+                                       '--Modules_moduleSequence', 
+                                       'HelloWorldModule'])
         self.assertEqual(configuration['General_nEvent'], 101)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
         self.assertEqual(configuration['Modules_moduleSequence'], ['HelloWorldModule'])
