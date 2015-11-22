@@ -17,10 +17,10 @@ class ConfigurationTest(unittest.TestCase):
     
     def setUp(self):
         self.pathToConfgiFiles = (
-            os.path.dirname(os.path.abspath(__file__)) + '/../../../configurations/')
+            os.path.dirname(os.path.abspath(__file__)) + '/')
 
     def test_config_file_only(self):
-        pathToConfigFile = self.pathToConfgiFiles + '/test_config_allOptions.cfg'
+        pathToConfigFile = self.pathToConfgiFiles + 'test_config_allOptions.cfg'
         configuration = Configuration(['--config', pathToConfigFile])
         self.assertEqual(configuration['General_nEvent'], 100)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)

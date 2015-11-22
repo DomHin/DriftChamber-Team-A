@@ -14,7 +14,7 @@ class DriftChamberTest(unittest.TestCase):
     
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
-        self.pathToConfigFile = self.pathToConfgiFiles+'/../../../configurations/test_config_allOptions.cfg'
+        self.pathToConfigFile = self.pathToConfgiFiles + '/test_configuration/test_config_allOptions.cfg'
 
     def test_main(self):
         try:
@@ -23,6 +23,6 @@ class DriftChamberTest(unittest.TestCase):
             self.fail("Calling the main module should not throw an exception.")
             
             
-    def test_configurationIsNotNone(self):
+    def test_configuration_is_not_none(self):
         driftChamber = mainModule.DriftChamber(['--config', self.pathToConfigFile])
         self.assertIsNotNone(driftChamber.get_configuration())
