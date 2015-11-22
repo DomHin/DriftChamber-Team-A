@@ -41,9 +41,7 @@ class DriftChamber:
         
     def start_simulation(self):
         logging.info("'Drift Chamber Simulation' started.")
-        self._runEngine = RunEngine(self, self._configuration["General_nEvent"])
-        for module in self._modules:
-            self._runEngine.add_module(module)
+        self._runEngine = RunEngine(self._configuration["General_nEvent"], self._modules, self)
         self._runEngine.run()
         logging.info("'Drift Chamber Simulation' done.")
         

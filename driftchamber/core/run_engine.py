@@ -4,20 +4,11 @@ from driftchamber.core.datastore import DataStore, ObjectLifetime
 
 class RunEngine(object):
 
-    def __init__(self, p_driftChamper, p_nEvent):
+    def __init__(self, p_nEvent, p_moduleList, p_driftChamper = None):
         self._datastore = DataStore()
         self._driftChamper = p_driftChamper
-        self._modules = []
-        self._nEvent = p_nEvent
-        
-
-    def add_module(self, module):
-        """
-        Add/Register a module to run it during the simulation
-        :param object module: A python object representing the module that shall be executed
-        """
-        self._modules.append(module)
-        
+        self._modules = p_moduleList
+        self._nEvent = p_nEvent 
 
     def run(self):
         """
