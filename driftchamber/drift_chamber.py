@@ -50,7 +50,7 @@ class DriftChamber:
         detector_config = {}
         for key in detector_config_keys:
             detector_config[key] = self._configuration[key]
-        self._runEngine = RunEngine(self._configuration["General_nEvent"], self._modules, self, detector_config)
+        self._runEngine = RunEngine(self._configuration["General_nEvent"], self._modules, detector_config, self)
         self._runEngine.run()
         logging.info("'Drift Chamber Simulation' done.")
         

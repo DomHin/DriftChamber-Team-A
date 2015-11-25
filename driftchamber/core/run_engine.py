@@ -1,18 +1,19 @@
 __author__ = 'Patrick Schreiber'
 
+import logging
+
 from driftchamber.core.datastore import DataStore, ObjectLifetime
 from driftchamber.data.detector import Detector
-import logging
+
 
 class RunEngine(object):
 
-    def __init__(self, p_nEvent, p_moduleList, p_driftChamber = None, detector_config = None):
+    def __init__(self, p_nEvent, p_moduleList, detector_config, p_driftChamber = None):
         self._datastore = DataStore()
         self._driftChamber = p_driftChamber
         self._modules = p_moduleList
         self._nEvent = p_nEvent
         self._detector_config = detector_config
-        self.detector = None
         self.detector = Detector(self._detector_config['Detector_width'],
                                  self._detector_config['Detector_superlayers'],
                                  self._detector_config['Detector_layers'])
