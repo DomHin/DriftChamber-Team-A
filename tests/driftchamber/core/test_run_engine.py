@@ -27,7 +27,16 @@ class RunEngineTest(unittest.TestCase):
         with LogCapture() as logCapture:
             runEngine = RunEngine(2, [HelloWorld([0]), ByeByeWorld([0])], {"Detector_superlayers": 1, "Detector_layers": [1], "Detector_width": 1})
             runEngine.run()
-            logCapture.check(
+            logCapture.check(('root', 'INFO', "RunEngine configuration:"),
+                             ('root', 'INFO', "--------------------------------------------------------------------"),
+                             ('root', 'INFO', 'modules:'),
+                             ('root', 'INFO', '0\t' + str(HelloWorld)),
+                             ('root', 'INFO', '0\t' + str(ByeByeWorld)),
+                             ('root', 'INFO', 'detector:'),
+                             ('root', 'INFO', "superlayers:\t1"),
+                             ('root', 'INFO', "layers:\t[1]"),
+                             ('root', 'INFO', 'width:\t1'),
+                             ('root', 'INFO', "--------------------------------------------------------------------"),
                              ('root', 'INFO', 'Begin of Simulation of HelloWorld'),
                              ('root', 'INFO', 'Begin of Simulation of ByeByeWorld'),
                              ('root', 'INFO', 'Number of previous Events in Hello: 1'),
