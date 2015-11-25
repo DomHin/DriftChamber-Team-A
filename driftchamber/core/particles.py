@@ -73,11 +73,13 @@ class Particle(object):
     """
     Class representing a particle
     """
-    def __init__(self, x=None, y=None, px=None, py=None, pos=None, mom=None):
+    def __init__(self, mass, name, x=None, y=None, px=None, py=None, pos=None, mom=None):
         """
         Initialise a particle
         Either initialise using x, y, px, py (omitted values will be treated as 0)
         or using pos and mom (omitted values will be treated as 0)
+        :param mass: mass of the particle
+        :param name: name of the particle
         :param x: x-position
         :param y: y-position
         :param px: x-momentum
@@ -86,6 +88,8 @@ class Particle(object):
         :param mom: instance of Momentum
         :return:
         """
+        self.mass = mass
+        self.name = name
         if pos:
             self.pos = pos
         else:
@@ -114,6 +118,30 @@ class Particle(object):
             _x = x if x else 0
             _y = y if y else 0
             self.pos = Position(_x, _y)
+
+    def get_energy(self):
+        return (self.mass**2 + self.mom.x**2 + self.mom.y**2)**0.5
+
+    def subtract_energy(self, energy):
+        new_energy = self.get_energy() - energy
+        if new_energy < self.mass:
+            self.mom.x = 0
+            self.mom.y = 0
+            return
+
+        new_mom_squared = (new_energy**2 - self.mass**2)
+        if new_mom_squared <= 0:
+            self.mom.x = 0
+            self.mom.y = 0
+            return
+
+        old_mom_squared = (self.mom.x**2 + self.mom.y**2)
+        if old_mom_squared == 0:
+            return
+
+        ratio = (new_mom_squared/old_mom_squared)**0.5
+        self.mom.x *= ratio
+        self.mom.y *= ratio
 
     def set_momentum(self, px=None, py=None, mom=None):
         """
