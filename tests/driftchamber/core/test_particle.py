@@ -1,7 +1,9 @@
 __author__ = 'Patrick Schreiber'
 
 import unittest
+
 from driftchamber.core.particles import Position, Momentum, Particle
+
 
 class PositionTest(unittest.TestCase):
 
@@ -45,17 +47,17 @@ class PositionTest(unittest.TestCase):
             pos+mom
 
     def test_particle_position(self):
-        P = Particle()
+        P = Particle(1, 'id')
         self.assertEqual(P.position().pos(), (0, 0))
-        P = Particle(1, 2)
+        P = Particle(1, 'id', x=1, y=2)
         self.assertEqual(P.position().pos(), (1, 2))
         P.set_position(4, 5)
         self.assertEqual(P.position().pos(), (4, 5))
 
     def test_particle_momentum(self):
-        P = Particle()
+        P = Particle(1, 'id')
         self.assertEqual(P.momentum().mom(), (0, 0))
-        P = Particle(px=1, py=2)
+        P = Particle(1, 'id', px=1, py=2)
         self.assertEqual(P.momentum().mom(), (1, 2))
         P.set_momentum(4, 5)
         self.assertEqual(P.momentum().mom(), (4, 5))
