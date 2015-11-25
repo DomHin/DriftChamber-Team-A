@@ -10,8 +10,6 @@ class Cell:
         self.triggered = False
         self.pos = position  # in (x, y) - Tupel
 
-    # self.size = 1					#given in UserStory, not sure if necessary
-
     def deposit_energy(self, particle):
         energy = particle.mass * random.random()
         self.triggered = energy > 0
@@ -112,7 +110,7 @@ class Detector:
         for index, sl in enumerate(self.detector):
             for layer in sl.layers:
                 for cell in layer.cells:
-                    print(symbols[index], end='')
+                    print(symbols[index % len(symbols)], end='')
                 print('')
 
     def show(self):
@@ -120,10 +118,8 @@ class Detector:
         for idx, sl in enumerate(self.detector):
             for layer in sl.layers:
                 for cell in layer.cells:
-                    # marker = MarkerStyle(marker='s', fillstyle='full' if cell.been_hit() else 'none')
-                    # symbol = 's' if cell.been_hit() else 's'
                     fillstyle = 'full' if cell.been_hit() else 'none'
-                    plt.plot(cell.pos[0], cell.pos[1], marker='s', fillstyle=fillstyle, color=colors[idx])
+                    plt.plot(cell.pos[0], cell.pos[1], marker='s', fillstyle=fillstyle, color=colors[idx % len(colors)])
         plt.ylim(-0.5, self.height-0.5)
         plt.show()
 

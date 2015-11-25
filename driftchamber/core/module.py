@@ -21,6 +21,10 @@ class Module(object):
                 raise IndexError('Index for module is not an integer. (Exception type is joke :) )')
             self.config = None
         else:
+            try:
+                self.index = int(config[0])
+            except ValueError:
+                raise IndexError('Index for module is not an integer. (Exception type is joke :) )')
             self.config = config[1:]
 
     def begin(self, datastore):
