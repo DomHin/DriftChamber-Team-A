@@ -5,7 +5,9 @@
 __author__ = 'elcerdo'
 
 import unittest
+
 from testfixtures import LogCapture
+
 from driftchamber.modules.HelloWorldModule import HelloWorld
 
 
@@ -14,7 +16,7 @@ class HelloWorldTest(unittest.TestCase):
     Test class for the HelloWorld class
     """
     def setUp(self):
-        self.module = HelloWorld()
+        self.module = HelloWorld([0])
 
     def test_begin(self):
         with LogCapture() as l:

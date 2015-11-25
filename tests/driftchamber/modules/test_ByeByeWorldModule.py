@@ -5,7 +5,9 @@
 __author__ = 'elcerdo'
 
 import unittest
+
 from testfixtures import LogCapture
+
 from driftchamber.modules.ByeByeWorldModule import ByeByeWorld
 
 
@@ -14,7 +16,7 @@ class ByeByeWorldTest(unittest.TestCase):
     Test class for the ByeByeWorld class
     """
     def setUp(self):
-        self.module = ByeByeWorld()
+        self.module = ByeByeWorld([0])
 
     def test_begin(self):
         with LogCapture() as l:

@@ -5,8 +5,10 @@ import logging
 from driftchamber.core.module import Module
 
 class ByeByeWorld(Module):
-
     number_of_events = 0
+
+    def __init__(self, config):
+        super(ByeByeWorld, self).__init__(config)
 
     def begin(self, datastore):
         # print("Begin of Simulation of HelloWorld")

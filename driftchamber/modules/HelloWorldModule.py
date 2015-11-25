@@ -9,6 +9,9 @@ class HelloWorld(Module):
 
     number_of_events = 0
 
+    def __init__(self, config):
+        super(HelloWorld, self).__init__(config)
+
     def begin(self, datastore):
         # print("Begin of Simulation of HelloWorld")
         logging.info('Begin of Simulation of HelloWorld')

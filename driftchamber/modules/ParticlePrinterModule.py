@@ -1,11 +1,14 @@
 __author__ = 'Patrick Schreiber'
 
-from itertools import chain
-
-from driftchamber.core.module import Module
 import logging
 
+from driftchamber.core.module import Module
+
+
 class ParticlePrinter(Module):
+
+    def __init__(self, config):
+        super(ParticlePrinter, self).__init__(config)
 
     def begin(self, datastore):
         # print("Begin of Simulation of ParticleGun")
