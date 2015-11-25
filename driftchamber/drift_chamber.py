@@ -6,6 +6,7 @@ from importlib import import_module
 
 from driftchamber.core.configuration import Configuration
 from driftchamber.core.run_engine import RunEngine
+from driftchamber.data.particlepropagator import Propagator
 
 
 class DriftChamber:
@@ -32,16 +33,24 @@ class DriftChamber:
 
         
     def _instantiate_modules(self):
-        for moduleName in self._configuration["Modules_moduleSequence"]:
+        for moduleSequence in self._configuration["Modules_moduleSequence"]:
+            moduleName = moduleSequence[0]
+            moduleArgs = moduleSequence[1:] if len(moduleSequence) > 0 else None
             module = import_module('driftchamber.modules.' + moduleName)
             className = moduleName[:-6]
             # this creates an instance of the module class
-            self._modules.append(getattr(module, className)())
+            self._modules.append(getattr(module, className)(moduleArgs))
+        self._modules.append(Propagator())
+        self._modules.sort()
             
         
     def start_simulation(self):
         logging.info("'Drift Chamber Simulation' started.")
-        self._runEngine = RunEngine(self._configuration["General_nEvent"], self._modules, self)
+        detector_config_keys = ('Detector_superlayers', 'Detector_layers', 'Detector_width')
+        detector_config = {}
+        for key in detector_config_keys:
+            detector_config[key] = self._configuration[key]
+        self._runEngine = RunEngine(self._configuration["General_nEvent"], self._modules, self, detector_config)
         self._runEngine.run()
         logging.info("'Drift Chamber Simulation' done.")
         

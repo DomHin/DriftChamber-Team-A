@@ -9,6 +9,7 @@ from configparser import ConfigParser
 from argparse import ArgumentParser
 import re
 import logging
+from ast import literal_eval
 
 def to_bool(p_value):
     """
@@ -153,14 +154,40 @@ class Configuration:
                         list(
                             filter(
                                 bool, 
-                                [moduleName.strip() for moduleName in re.split(r'[,\n]+', value)]
+                                [moduleName.strip().split() for moduleName in re.split(r'[\n]+', value)]
                             )),
                     [
                         _ConfigurationOptionValidation(
                             lambda value: len(value) > 0, 
                             "There must be at least one module in the module sequence.")
                     ])
-            ]     
+            ],
+            'Detector': [
+                _ConfigurationOption('superlayers',
+                                     'The number of Superlayers.',
+                                     int,
+                                     [_ConfigurationOptionValidation(
+                                         lambda value: value > 0,
+                                         'Number of superlayers has to be positive.'
+                                     )],
+                                     p_isCompulsory=True),
+                _ConfigurationOption('layers',
+                                     'List of layers per superlayer.',
+                                     lambda value: literal_eval(value),
+                                     [_ConfigurationOptionValidation(
+                                         lambda value: isinstance(value, list),
+                                         'layers has to be a python parseable list.'
+                                     )],
+                                     p_isCompulsory=True),
+                _ConfigurationOption('width',
+                                     'Width of the driftchamber.',
+                                     int,
+                                     [_ConfigurationOptionValidation(
+                                         lambda value: value > 0,
+                                         'Width has to be positive.'
+                                     )],
+                                     p_isCompulsory=True)
+            ]
         }
         
         # reorganize the specifications of the options from 
@@ -264,7 +291,7 @@ class Configuration:
                 raise ValueError("Error while parsing configuration option '" + 
                                  p_configurationOption.key + "': " + 
                                  optionTest.failureMessage)
-        
-        
+
+
     def __getitem__(self, p_key):
         return self._options[p_key]

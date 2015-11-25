@@ -5,13 +5,23 @@ class Module(object):
     """
     Base class for processing modules
     """
+    index = 0
 
-    def __init__(self):
+    def __init__(self, config=None):
         """
         initializer method without function
         :return: None
         """
-        pass
+        if config == [] or config is None:
+            self.config = None
+        elif len(config) == 1:
+            try:
+                self.index = int(config[0])
+            except ValueError:
+                raise IndexError('Index for module is not an integer. (Exception type is joke :) )')
+            self.config = None
+        else:
+            self.config = config[1:]
 
     def begin(self, datastore):
         """
@@ -47,4 +57,19 @@ class Module(object):
         :return: None
         """
         pass
+
+    def __lt__(self, other):
+        if self.index < other.index:
+            return True
+        return False
+
+    def __gt__(self, other):
+        if self.index > other.index:
+            return True
+        return False
+
+    def __eq__(self, other):
+        if self.index == other.index:
+            return True
+        return False
 
