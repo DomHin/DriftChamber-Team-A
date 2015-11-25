@@ -3,9 +3,9 @@
 @author: Fabian Leven
 """
 
-import unittest
-import os
 import logging
+import os
+import unittest
 
 from driftchamber.core.configuration import Configuration
 
@@ -25,7 +25,7 @@ class ConfigurationTest(unittest.TestCase):
         self.assertEqual(configuration['General_nEvent'], 100)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
         self.assertEqual(configuration['Modules_moduleSequence'], 
-                         ['HelloWorldModule', 'ByeByeWorldModule'])
+                         [['HelloWorldModule'], ['ByeByeWorldModule'], ['ParticleGunModule']])
 
 
     def test_config_file_not_found(self):
@@ -52,13 +52,16 @@ class ConfigurationTest(unittest.TestCase):
         configuration = Configuration(['--General_nEvent', 
                                        '100', 
                                        '--Modules_moduleSequence', 
-                                       'HelloWorldModule,ByeByeWorldModule',
+                                       'HelloWorldModule\nByeByeWorldModule',
                                        '--General_levelOfLogging', 
-                                       'DEBUG'])
+                                       'DEBUG',
+                                       '--Detector_superlayers', '1',
+                                       '--Detector_layers', '[1]',
+                                       '--Detector_width', '1'])
         self.assertEqual(configuration['General_nEvent'], 100)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
         self.assertEqual(configuration['Modules_moduleSequence'], 
-                         ['HelloWorldModule', 'ByeByeWorldModule'])
+                         [['HelloWorldModule'], ['ByeByeWorldModule']])
         
         
     def test_command_line_arguments_override_config_file(self):
@@ -71,5 +74,5 @@ class ConfigurationTest(unittest.TestCase):
                                        'HelloWorldModule'])
         self.assertEqual(configuration['General_nEvent'], 101)
         self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], ['HelloWorldModule'])
+        self.assertEqual(configuration['Modules_moduleSequence'], [['HelloWorldModule']])
         
