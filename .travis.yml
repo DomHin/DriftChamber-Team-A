@@ -11,5 +11,6 @@ notifications:
 
 install:
     - pip install testfixtures
+    - pip install matplotlib
     
 script: python -m unittest discover
