@@ -12,9 +12,11 @@ import logging
 
 class Tracking(Module):
 
-    def __init__(self, config):
-        super(Tracking, self).__init__(config)
-        self.precision = int(config[1]) if config else 0  # n nachkommastellen
+    def __init__(self):
+        super(Tracking, self).__init__()
+        # TODO: config argument
+        self.precision = 1  # n decimals precision. This increases required memory by a lot!
+
         self.max_distance = 0
         self.rows = 0
         self.columns = 0
