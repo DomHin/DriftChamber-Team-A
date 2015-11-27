@@ -12,7 +12,6 @@ class ShowDetectorInMatplotLib(Module):
 
 
     def event(self, datastore):
-        
         pass
 
     def end(self, datastore):
