@@ -2,23 +2,15 @@ __author__ = 'Patrick Schreiber'
 
 import logging
 
-from driftchamber.core.datastore import DataStore, ObjectLifetime
-from driftchamber.data.detector import Detector
+from driftchamber.core.datastore import ObjectLifetime
 
 
 class RunEngine(object):
 
-    def __init__(self, p_nEvent, p_moduleList, detector_config, p_driftChamber = None):
-        self._datastore = DataStore()
-        self._driftChamber = p_driftChamber
+    def __init__(self, p_moduleList, p_dataStore):
+        self._datastore = p_dataStore
+        self._nEvent = self._datastore.get('nEvent')
         self._modules = p_moduleList
-        self._nEvent = p_nEvent
-        self._detector_config = detector_config
-        self.detector = Detector(self._detector_config['Detector_width'],
-                                 self._detector_config['Detector_superlayers'],
-                                 self._detector_config['Detector_layers'])
-
-        self._datastore.put('Detector', self.detector, ObjectLifetime.Application)
         self.log_configuration()
 
     def run(self):
@@ -36,10 +28,6 @@ class RunEngine(object):
                 ("Amount of events not specified or specified in a wrong data type. "
                  "Integer expected."))
 
-        if self.detector:
-            self.detector.print()
-            # self.detector.show()
-
         for module in self._modules:
             module.begin(self._datastore)
 
@@ -53,17 +41,7 @@ class RunEngine(object):
         for module in self._modules:
             module.end(self._datastore)
 
-        if self.detector:
-            self.detector.show()
-
     def log_configuration(self):
-        logging.info("RunEngine configuration:")
-        logging.info("--------------------------------------------------------------------")
-        logging.info("modules:")
+        logging.info("Registered modules in the run engine:")
         for module in self._modules:
-            logging.info(str(module.index) + "\t" + str(module.__class__))
-        logging.info("detector:")
-        logging.info("superlayers:\t" + str(self.detector.superlayers))
-        logging.info("layers:\t" + str(self.detector.layer_info))
-        logging.info("width:\t" + str(self.detector.width))
-        logging.info("--------------------------------------------------------------------")
+            logging.info("\t" + str(module.__class__))

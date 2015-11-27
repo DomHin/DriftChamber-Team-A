@@ -27,8 +27,8 @@ class DataStoreTest(unittest.TestCase):
     def test_ref_assumption_val_type(self):
         ds = DataStore()
         ds.put("item", 20)
-        i = ds.get("item")
-        i = 40
+        _ = ds.get("item")
+        _ = 40
 
         self.assertEqual(ds.get("item"), 20)
 

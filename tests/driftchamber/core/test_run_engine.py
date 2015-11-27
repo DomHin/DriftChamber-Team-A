@@ -2,48 +2,62 @@
 """
 @author: elcerdo
 """
+from driftchamber.core.module import Module
+
 __author__ = 'elcerdo'
 
 import unittest
 
-from testfixtures import LogCapture
-
 from driftchamber.core.run_engine import RunEngine
-from driftchamber.modules.ByeByeWorldModule import ByeByeWorld
-from driftchamber.modules.HelloWorldModule import HelloWorld
+from driftchamber.core.datastore import DataStore
+
+class TestModule(Module):
+    
+    def __init__(self):
+        self.beginCalled = 0
+        self.eventCalled = 0
+        self.endCalled = 0
+    
+    def begin(self, datastore):
+        self.beginCalled += 1
+
+    def event(self, datastore):
+        self.eventCalled += 1
+
+    def end(self, datastore):
+        self.endCalled += 1
 
 
 class RunEngineTest(unittest.TestCase):
     """
     Test class for the RunEngine class
-    """       
-
-    def test_run_failcase(self):
-            runEngine = RunEngine(20.5, [], {"Detector_superlayers": 0, "Detector_layers": [], "Detector_width": 0})
-            self.assertRaises(ValueError, runEngine.run)
-            
+    """          
 
     def test_run(self):
-        with LogCapture() as logCapture:
-            runEngine = RunEngine(2, [HelloWorld([0]), ByeByeWorld([0])], {"Detector_superlayers": 1, "Detector_layers": [1], "Detector_width": 1})
-            runEngine.run()
-            logCapture.check(('root', 'INFO', "RunEngine configuration:"),
-                             ('root', 'INFO', "--------------------------------------------------------------------"),
-                             ('root', 'INFO', 'modules:'),
-                             ('root', 'INFO', '0\t' + str(HelloWorld)),
-                             ('root', 'INFO', '0\t' + str(ByeByeWorld)),
-                             ('root', 'INFO', 'detector:'),
-                             ('root', 'INFO', "superlayers:\t1"),
-                             ('root', 'INFO', "layers:\t[1]"),
-                             ('root', 'INFO', 'width:\t1'),
-                             ('root', 'INFO', "--------------------------------------------------------------------"),
-                             ('root', 'INFO', 'Begin of Simulation of HelloWorld'),
-                             ('root', 'INFO', 'Begin of Simulation of ByeByeWorld'),
-                             ('root', 'INFO', 'Number of previous Events in Hello: 1'),
-                             ('root', 'INFO', 'Number of previous Events in ByeBye: 1'),
-                             ('root', 'INFO', 'Number of previous Events in Hello: 2'),
-                             ('root', 'INFO', 'Number of previous Events in ByeBye: 2'),
-                             ('root', 'INFO', 'End of Simulation of HelloWorld'),
-                             ('root', 'INFO', 'End of Simulation of ByeByeWorld'))
+        testModule1 = TestModule()
+        testModule2 = TestModule()
+        dataStore = DataStore()
+        dataStore.put('nEvent', 100)
+        
+        self.assertEqual(testModule1.beginCalled, 0)
+        self.assertEqual(testModule1.eventCalled, 0)
+        self.assertEqual(testModule1.endCalled, 0)
+        
+        self.assertEqual(testModule2.beginCalled, 0)
+        self.assertEqual(testModule2.eventCalled, 0)
+        self.assertEqual(testModule2.endCalled, 0)
+
+        runEngine = RunEngine([testModule1, testModule2], dataStore)
+        runEngine.run()
+        
+        self.assertEqual(testModule1.beginCalled, 1)
+        self.assertEqual(testModule1.eventCalled, 100)
+        self.assertEqual(testModule1.endCalled, 1)
+        
+        self.assertEqual(testModule2.beginCalled, 1)
+        self.assertEqual(testModule2.eventCalled, 100)
+        self.assertEqual(testModule2.endCalled, 1)
+        
+    #todo add test for right order of execution
 
 

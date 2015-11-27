@@ -1,13 +1,11 @@
 __author__ = 'Patrick Schreiber'
 
-from itertools import chain
 
-from driftchamber.core.datastore import NotFoundInDataStore, ObjectLifetime
+from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
 from driftchamber.data.hitobjects import HitObjects
 
-class Propagator(Module):
-    index = 500
+class ParticlePropagator(Module):
 
     def begin(self, datastore):
         self._detector = datastore.get('Detector')
@@ -47,16 +45,16 @@ class Propagator(Module):
         x_dist = (init_pos[0] - (int(init_pos[0]) + 1 * sign(momentum.x)))
         y_dist = (init_pos[1] - (int(init_pos[1]) + 1 * sign(momentum.y)))
         # calculate the flight duration
-        x_dur = abs(x_dist / (momentum.x / particle.mass))
-        y_dur = abs(y_dist / (momentum.y / particle.mass))
+        x_dur = abs(x_dist / (momentum.x / particle.particle_mass))
+        y_dur = abs(y_dist / (momentum.y / particle.particle_mass))
 
         # set particle into the nearest cell using the flight duration
         if x_dur < y_dur:
-            x = particle.position().x + momentum.x / particle.mass * x_dur
-            y = particle.position().y + momentum.y / particle.mass * x_dur
+            x = particle.position().x + momentum.x / particle.particle_mass * x_dur
+            y = particle.position().y + momentum.y / particle.particle_mass * x_dur
         else:
-            x = particle.position().x + momentum.x / particle.mass * y_dur
-            y = particle.position().y + momentum.y / particle.mass * y_dur
+            x = particle.position().x + momentum.x / particle.particle_mass * y_dur
+            y = particle.position().y + momentum.y / particle.particle_mass * y_dur
 
         particle.set_position(x=x, y=y)
 
@@ -64,7 +62,7 @@ class Propagator(Module):
         if 0 < cell_pos([x, y])[0] < self._detector.width and 0 < cell_pos([x, y])[1] < self._detector.height:
             hit = self._detector.deposit_energy_at(cell_pos([x, y]), particle)
             n = datastore.get('CurrentEvent')
-            datastore.get('HitObjects').add_hit(hit, n, particle.name)
+            datastore.get('HitObjects').add_hit(hit, n, particle.particle_name)
 
 
             return True

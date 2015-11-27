@@ -3,11 +3,14 @@
 @author: Fabian Leven
 """
 
-import logging
 import os
 import unittest
 
-from driftchamber.core.configuration import Configuration
+from driftchamber.core.configuration.configuration import Configuration
+from driftchamber.core.configuration.configuration_option import ConfigurationOption
+from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
+from driftchamber.core.configuration.parsing_functions import to_bool, parse_module_sequence, ModuleSpecification
+
 
 
 class ConfigurationTest(unittest.TestCase):
@@ -16,63 +19,135 @@ class ConfigurationTest(unittest.TestCase):
     """
     
     def setUp(self):
-        self.pathToConfgiFiles = (
-            os.path.dirname(os.path.abspath(__file__)) + '/')
+        self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
+        self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/test_config.cfg'
+        self.defaultSpec = {
+            "Section1": [ 
+                ConfigurationOption(
+                    "aPositiveInt",
+                    "",
+                    int, 
+                    [
+                        ConfigurationOptionValidation(
+                            lambda value: value > 0, 
+                            "This value must be positive.")]),
+                ConfigurationOption(
+                    "aNegativeInt",
+                    "",
+                    int, 
+                    [
+                        ConfigurationOptionValidation(
+                            lambda value: value < 0, 
+                            "This value must be negative.")]),
+                ConfigurationOption(
+                    "aBoolean",
+                    "",
+                    to_bool)
+            ],
+            "Section2": [ 
+                ConfigurationOption(
+                    "aPositiveInt",
+                    "",
+                    int, 
+                    [
+                        ConfigurationOptionValidation(
+                            lambda value: value > 0, 
+                            "This value must be positive.")]),
+                ConfigurationOption(
+                    "aNegativeInt",
+                    "",
+                    int, 
+                    [
+                        ConfigurationOptionValidation(
+                            lambda value: value < 0, 
+                            "This value must be negative.")]),
+                ConfigurationOption(
+                    "aFloat",
+                    "",
+                    float),
+                ConfigurationOption(
+                    "aBoolean",
+                    "",
+                    to_bool)
+            ],  
+        }
 
-    def test_config_file_only(self):
-        pathToConfigFile = self.pathToConfgiFiles + 'test_config_allOptions.cfg'
-        configuration = Configuration(['--config', pathToConfigFile])
-        self.assertEqual(configuration['General_nEvent'], 100)
-        self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], 
-                         [['HelloWorldModule'], ['ByeByeWorldModule'], ['ParticleGunModule']])
+    def test_config_file_standard_types(self):
+        configuration = Configuration(self.pathToDefaultTestConfigFile, self.defaultSpec)
+        self.assertEqual(configuration['Section1_aPositiveInt'], 100)
+        self.assertEqual(configuration['Section1_aNegativeInt'], -100)
+        self.assertEqual(configuration['Section1_aBoolean'], True)
+        self.assertEqual(configuration['Section2_aPositiveInt'], 100)
+        self.assertEqual(configuration['Section2_aNegativeInt'], -100)
+        self.assertEqual(configuration['Section2_aFloat'], 0.5)
+        self.assertEqual(configuration['Section2_aBoolean'], False)
 
 
     def test_config_file_not_found(self):
-        self.assertRaises(ValueError, 
-                          Configuration, ['--config', "thisIsARandomBliberBlubberPath"])
+        self.assertRaises(ValueError, Configuration, "randomPathBlibberBlubber", self.defaultSpec)
         
     
     def test_compulsory_option_missing(self):
-        pathToConfigFile = self.pathToConfgiFiles + 'test_config_compulsoryOptionMissing.cfg'
-        self.assertRaises(ValueError, Configuration, ['--config', pathToConfigFile])
+        spec = {
+            'Section1': [
+                ConfigurationOption(
+                    "thisIsCompulsory",
+                    "",
+                    to_bool,
+                    p_isCompulsory=True)
+            ]
+        }
+        self.assertRaises(ValueError, Configuration, self.pathToDefaultTestConfigFile, spec)
         
         
     def test_optional_option_missing(self):
-        pathToConfigFile = self.pathToConfgiFiles + 'test_config_optionalOptionMissing.cfg'
-        Configuration(['--config', pathToConfigFile])
+        spec = {
+            'Section1': [
+                ConfigurationOption(
+                    "thisIsOptional",
+                    "",
+                    to_bool,
+                    p_isCompulsory=False)
+            ]
+        }
+        Configuration(self.pathToDefaultTestConfigFile, spec)
         
     
     def test_invalid_value(self):
-        pathToConfigFile = self.pathToConfgiFiles + 'test_config_invalidValue.cfg'
-        self.assertRaises(ValueError, Configuration, ['--config', pathToConfigFile])
+        spec = {
+            "Section1": [ 
+                ConfigurationOption(
+                    "aPositiveInt",
+                    "",
+                    int, 
+                    [
+                        ConfigurationOptionValidation(
+                            lambda value: value > 200, 
+                            "This value must be very large.")])
+            ]
+        }
+        self.assertRaises(ValueError, Configuration, self.pathToDefaultTestConfigFile, spec)
         
         
-    def test_only_command_line_arguments(self):
-        configuration = Configuration(['--General_nEvent', 
-                                       '100', 
-                                       '--Modules_moduleSequence', 
-                                       'HelloWorldModule\nByeByeWorldModule',
-                                       '--General_levelOfLogging', 
-                                       'DEBUG',
-                                       '--Detector_superlayers', '1',
-                                       '--Detector_layers', '[1]',
-                                       '--Detector_width', '1'])
-        self.assertEqual(configuration['General_nEvent'], 100)
-        self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], 
-                         [['HelloWorldModule'], ['ByeByeWorldModule']])
-        
-        
-    def test_command_line_arguments_override_config_file(self):
-        pathToConfigFile = self.pathToConfgiFiles + 'test_config_allOptions.cfg'
-        configuration = Configuration(['--config', 
-                                       pathToConfigFile, 
-                                       '--General_nEvent', 
-                                       '101', 
-                                       '--Modules_moduleSequence', 
-                                       'HelloWorldModule'])
-        self.assertEqual(configuration['General_nEvent'], 101)
-        self.assertEqual(configuration['General_levelOfLogging'], logging.DEBUG)
-        self.assertEqual(configuration['Modules_moduleSequence'], [['HelloWorldModule']])
-        
+    def test_parsing_of_module_sequence(self):
+        testConfig = (
+            "DetectorInitializerModule ../configuration/detector.cfg\n"
+            "ParticleGunModule ../configuration/particleGun_Electron.cfg\n"
+            "ParticleGunModule ../configuration/particleGun_Kaon.cfg\n"
+            "ParticlePrinterModule\n"
+        )
+        parsingResult = parse_module_sequence(testConfig)
+        self.assertEqual(len(parsingResult), 4)
+        for moduleSpecification in parsingResult:
+            self.assertIsInstance(moduleSpecification, ModuleSpecification)
+            
+        self.assertEqual(parsingResult[0].moduleName, "DetectorInitializerModule")
+        self.assertEqual(parsingResult[0].pathToConfigurationFile, "../configuration/detector.cfg")
+        self.assertEqual(parsingResult[1].moduleName, "ParticleGunModule")
+        self.assertEqual(parsingResult[1].pathToConfigurationFile, "../configuration/particleGun_Electron.cfg")
+        self.assertEqual(parsingResult[2].moduleName, "ParticleGunModule")
+        self.assertEqual(parsingResult[2].pathToConfigurationFile, "../configuration/particleGun_Kaon.cfg")
+        self.assertEqual(parsingResult[3].moduleName, "ParticlePrinterModule")
+        self.assertEqual(parsingResult[3].pathToConfigurationFile, None)
+            
+            

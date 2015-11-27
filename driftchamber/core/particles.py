@@ -78,8 +78,8 @@ class Particle(object):
         Initialise a particle
         Either initialise using x, y, px, py (omitted values will be treated as 0)
         or using pos and mom (omitted values will be treated as 0)
-        :param mass: mass of the particle
-        :param name: name of the particle
+        :param particle_mass: particle_mass of the particle
+        :param particle_name: particle_name of the particle
         :param x: x-position
         :param y: y-position
         :param px: x-momentum
@@ -88,8 +88,8 @@ class Particle(object):
         :param mom: instance of Momentum
         :return:
         """
-        self.mass = mass
-        self.name = name
+        self.particle_mass = mass
+        self.particle_name = name
         if pos:
             self.pos = pos
         else:
@@ -120,16 +120,16 @@ class Particle(object):
             self.pos = Position(_x, _y)
 
     def get_energy(self):
-        return (self.mass**2 + self.mom.x**2 + self.mom.y**2)**0.5
+        return (self.particle_mass**2 + self.mom.x**2 + self.mom.y**2)**0.5
 
     def subtract_energy(self, energy):
         new_energy = self.get_energy() - energy
-        if new_energy < self.mass:
+        if new_energy < self.particle_mass:
             self.mom.x = 0
             self.mom.y = 0
             return
 
-        new_mom_squared = (new_energy**2 - self.mass**2)
+        new_mom_squared = (new_energy**2 - self.particle_mass**2)
         if new_mom_squared <= 0:
             self.mom.x = 0
             self.mom.y = 0
