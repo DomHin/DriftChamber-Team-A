@@ -16,7 +16,7 @@ class DetectorInitializer(Module):
         nLayersList = configuration['Detector_nLayersList']
         self._detector = Detector(width, nSuperLayers, nLayersList)
         datastore.put(
-            'Detector', 
+            'Detector',
             self._detector,
             ObjectLifetime.Application)
         self._logInfo()
