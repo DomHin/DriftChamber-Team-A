@@ -59,7 +59,7 @@ class ParticlePropagator(Module):
         particle.set_position(x=x, y=y)
 
         # return false if particle is outside of detector
-        if 0 < cell_pos([x, y])[0] < self._detector.width and 0 < cell_pos([x, y])[1] < self._detector.height:
+        if 0 <= cell_pos([x, y])[0] < self._detector.width and 0 <= cell_pos([x, y])[1] < self._detector.height:
             hit = self._detector.deposit_energy_at(cell_pos([x, y]), particle)
             n = datastore.get('CurrentEvent')
             datastore.get('HitObjects').add_hit(hit, n, particle.particle_name)
