@@ -13,8 +13,8 @@ class HelloWorld(Module):
 
     def event(self, datastore):
         self.number_of_events += 1
-        logging.info("Number of previous events in module: 'HelloWorld'" + str(self.number_of_events))
+        logging.info("Number of previous events in module 'HelloWorld': " + str(self.number_of_events))
 
     def end(self, datastore):
-        logging.info("Begin of module 'HelloWorld'")
+        logging.info("End of module 'HelloWorld'")
 
