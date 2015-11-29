@@ -16,7 +16,7 @@ class ParticlePrinterTest(unittest.TestCase):
         self.datastore = DataStore()
         self.module = ParticlePrinter()
         self.datastore.put('Particles', ParticleContainer(), ObjectLifetime.Application)
-        particle = Particle(0.1, 'electron', 5, 0, 0.001, 0.005)
+        particle = Particle(0.1, 'electron', 5, 0, 0.001, 0.005) #Create Particle with determined specification for read out with the printer
         self.datastore.get('Particles').add_particle(particle, 'electron')
 
 

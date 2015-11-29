@@ -16,7 +16,7 @@ class ParticleGunTest(unittest.TestCase):
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
         self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/particleGun_Electron.cfg'
-        configuration = Configuration(self.pathToDefaultTestConfigFile, configuration_specification)
+        configuration = Configuration(self.pathToDefaultTestConfigFile, configuration_specification) #Read configuration from config file
         self.datastore = DataStore()
         self.module = ParticleGun()
         self.datastore.put(self.module, configuration, ObjectLifetime.Application)
@@ -35,7 +35,7 @@ class ParticleGunTest(unittest.TestCase):
     def test_event(self):
         self.module.begin(self.datastore) #Execute begin method to set variables needed to execute event method
         self.module.event(self.datastore)
-        for particle in self.datastore.get('Particles').get_all_particles():
+        for particle in self.datastore.get('Particles').get_all_particles(): #Test outputs to be in expected range
             self.assertLessEqual(particle.position().pos()[0], self.module.cells)
             self.assertEqual(particle.position().pos()[1], 0)
             self.assertLessEqual(particle.momentum().mom()[0], self.module.particle_max_mom)
