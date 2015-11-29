@@ -7,13 +7,14 @@ from driftchamber.core.module import Module
 class Noise(Module):
 
     def begin(self, datastore):
+        logging.info("Begin of module 'Noise'")
         configuration = datastore.get(self)
         self._noiseName = configuration['Particle_name']
         self._noiseMass = configuration['Particle_mass']
-        self._noiseProbability = configuration['Particle_prob'] #Probability to have noise per cell
+        self._noiseProbability = configuration['Particle_probability'] #Probability to have noise per cell
         self._noisePart = Particle(self._noiseMass, self._noiseName) #Creates a "particle", which is flagged as noise
         self._detector = datastore.get('Detector')
-        logging.info("Begin of module Noise")
+        
 
     def event(self, datastore):
 
@@ -25,7 +26,7 @@ class Noise(Module):
                     datastore.get('HitObjects').add_hit(hit, n, 'Noise')
 
     def end(self, datastore):
-        logging.info("End of module Noise")
+        logging.info("End of module 'Noise'")
 
 
 

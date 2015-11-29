@@ -80,6 +80,7 @@ class DriftChamber:
             module = import_module(pathToModule_py)
             className = moduleName[:-6]
             moduleInstance = getattr(module, className)()
+            # store the configuration for each module in the data store using the instance of the module as key
             self._dataStore.put(moduleInstance, moduleConfiguration, ObjectLifetime.Application)
             self._modules.append(moduleInstance)
     

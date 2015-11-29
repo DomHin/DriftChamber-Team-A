@@ -16,12 +16,12 @@ configuration_specification = {
                         'The name of a particle.',
                         lambda value: str(value),
                         p_isCompulsory=True),
-    ConfigurationOption('prob',
+    ConfigurationOption('probability',
                         'The probability for noise per cell and event',
                         float,
                         [ConfigurationOptionValidation(
-                            lambda value: value > 0,
-                            'The maximum momentum of a particle must be positive.'
+                            lambda value: value >= 0 and value <= 1,
+                            'The probability must be a number between 0 and 1.'
                         )],
                         p_isCompulsory=True)
     ]
