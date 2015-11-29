@@ -44,8 +44,23 @@ class TestObjectLifeTimeModule(Module):
 
     def end(self, datastore):
         pass
-        
+    
+class TestOrderOfExcecutionModule(Module):
+    def __init__(self, pIndex, p_order_begin_list, p_order_event_list, p_order_end_list):
+        self._index = pIndex
+        self._order_begin_list = p_order_begin_list
+        self._order_event_list = p_order_event_list
+        self._order_end_list = p_order_end_list
+    
+    def begin(self, datastore):
+        self._order_begin_list.append(self._index)
 
+    def event(self, datastore):
+        self._order_event_list.append(self._index)
+
+    def end(self, datastore):
+        self._order_end_list.append(self._index)
+        
 class RunEngineTest(unittest.TestCase):
     """
     Test class for the RunEngine class
@@ -85,6 +100,20 @@ class RunEngineTest(unittest.TestCase):
         runEngine.run()
         dataStore.get('ApplicationLifetime')
         
-    #todo add test for right order of execution
+    def test_order_of_execution(self):
+        order_begin_list = []
+        order_event_list = []
+        order_end_list = []
+        testModule0 = TestOrderOfExcecutionModule(0, order_begin_list, order_event_list, order_end_list)
+        testModule1 = TestOrderOfExcecutionModule(1, order_begin_list, order_event_list, order_end_list)
+        testModule2 = TestOrderOfExcecutionModule(2, order_begin_list, order_event_list, order_end_list)
+        dataStore = DataStore()
+        dataStore.put('nEvent', 3)
+        
+        runEngine = RunEngine([testModule0, testModule1, testModule2], dataStore)
+        runEngine.run()
+        self.assertEqual(order_begin_list, [0, 1, 2])
+        self.assertEqual(order_event_list, [0, 1, 2, 0, 1, 2, 0, 1, 2,])
+        self.assertEqual(order_end_list, [0, 1, 2])
 
 
