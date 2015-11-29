@@ -9,10 +9,10 @@ class Noise(Module):
     def begin(self, datastore):
         logging.info("Begin of module 'Noise'")
         configuration = datastore.get(self)
-        self._noiseName = configuration['Particle_name']
-        self._noiseMass = configuration['Particle_mass']
-        self._noiseProbability = configuration['Particle_probability'] #Probability to have noise per cell
-        self._noisePart = Particle(self._noiseMass, self._noiseName) #Creates a "particle", which is flagged as noise
+        self._noise_name = configuration['Particle_name']
+        self._noise_mass = configuration['Particle_mass']
+        self._noise_probability = configuration['Particle_probability'] #Probability to have noise per cell
+        self._noise_part = Particle(self._noise_mass, self._noise_name) #Creates a "particle", which is flagged as noise
         self._detector = datastore.get('Detector')
         
 
@@ -20,8 +20,8 @@ class Noise(Module):
 
         for y in range(self._detector.height): #Loop over layers
             for x in range(self._detector.width): #Loop over cells in one layer
-                if random.random() < self._noiseProbability:
-                    hit = self._detector.deposit_energy_at((x,y), self._noisePart) #Flag current cell as triggered due to noise
+                if random.random() < self._noise_probability:
+                    hit = self._detector.deposit_energy_at((x,y), self._noise_part) #Flag current cell as triggered due to noise
                     n = datastore.get('CurrentEvent')
                     datastore.get('HitObjects').add_hit(hit, n, 'Noise')
 
