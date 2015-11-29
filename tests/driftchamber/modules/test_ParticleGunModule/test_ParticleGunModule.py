@@ -3,7 +3,6 @@ import os
 
 from testfixtures import LogCapture
 from driftchamber.modules.ParticleGunModule.ParticleGunModule import ParticleGun
-from driftchamber.modules.DetectorInitializerModule.DetectorInitializerModule import DetectorInitializer
 from driftchamber.core.datastore import DataStore, ObjectLifetime
 from driftchamber.core.configuration.configuration import Configuration
 from driftchamber.modules.ParticleGunModule.configuration_specification import configuration_specification
