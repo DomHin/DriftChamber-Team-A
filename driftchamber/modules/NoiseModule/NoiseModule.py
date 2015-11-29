@@ -7,9 +7,11 @@ from driftchamber.core.module import Module
 class Noise(Module):
 
     def begin(self, datastore):
-        self._noiseProbability =0.0005 #Probability of noise per event and cell
-        self._noiseMass =0.001 #Mass of the Noise-"Particle" determines the average energy deposit
-        self._noisePart = Particle(self._noiseMass, 'Noise') #Creates a "particle", which is flagged as noise
+        configuration = datastore.get(self)
+        self._noiseName = configuration['Particle_name']
+        self._noiseMass = configuration['Particle_mass']
+        self._noiseProbability = configuration['Particle_prob']
+        self._noisePart = Particle(self._noiseMass, self._noiseName) #Creates a "particle", which is flagged as noise
         self._detector = datastore.get('Detector')
         logging.info("Begin of module Noise")
 
