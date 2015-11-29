@@ -16,7 +16,11 @@ class ParticleGun(Module):
         self.particle_name = configuration['Particle_name']
         self.particle_mass = configuration['Particle_mass']
         self.particle_max_mom = configuration['Particle_max_mom']
-        self.cells = datastore.get('Detector').width
+        self.cells = 100 #Default value when no detector is found (for example in test case)
+        try:
+            self.cells = datastore.get('Detector').width
+        except NotFoundInDataStore:
+            logging.warning("ParticleGun hasn't found detector, set cells to default.")
         try:
             datastore.get('Particles')
         except NotFoundInDataStore:
