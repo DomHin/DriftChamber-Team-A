@@ -1,9 +1,9 @@
 __author__ = 'Patrick Schreiber'
 
-
 from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
 from driftchamber.data.hitobjects import HitObjects
+
 
 class ParticlePropagator(Module):
 
@@ -19,13 +19,12 @@ class ParticlePropagator(Module):
         """
         for particle in datastore.get('Particles').get_all_particles():
             if particle.position().x < 0 or particle.position().x >= self._detector.width or \
-                            particle.position().y < 0 or particle.position().y >= self._detector.width:
-                return
-            self._detector.deposit_energy_at((particle.position().x, particle.position().y), particle)
-            # while (particle.position().x, particle.position().y) < (self._detector.width, self._detector.height):
-            #     self._propagation_step(particle)
-            while self._propagation_step(particle, datastore):
+                            particle.position().y < 0 or particle.position().y >= self._detector.height:
                 pass
+            else:
+                self._detector.deposit_energy_at((particle.position().x, particle.position().y), particle)
+                while self._propagation_step(particle, datastore):
+                    pass
 
     def _propagation_step(self, particle, datastore):
         """
