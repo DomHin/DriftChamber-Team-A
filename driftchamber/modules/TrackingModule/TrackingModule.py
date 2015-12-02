@@ -3,11 +3,14 @@
 @author: elcerdo
 """
 
-import numpy as np
-from driftchamber.core.module import Module
-from driftchamber.core.datastore import ObjectLifetime
-from driftchamber.core.datastore import NotFoundInDataStore
 import logging
+
+import numpy as np
+
+from driftchamber.core.datastore import NotFoundInDataStore
+from driftchamber.core.module import Module
+from driftchamber.data.eventcontainer import EventContainer
+from driftchamber.modules.TrackingModule.Track import Track
 
 
 class Tracking(Module):
@@ -21,8 +24,7 @@ class Tracking(Module):
         self.rows = 0
         self.columns = 0
         self.radians = []  # numpy calculates with radians but matrix is easier to understand with degrees
-        self.geometry_width = 0
-        self.geometry_heigt = 0
+        self.parametrisation = "[0] = cos([1]/degree)*x + sin([1]/degree)*y"
 
     def begin(self, datastore):
         try:
@@ -39,17 +41,9 @@ class Tracking(Module):
         self.rows = 10**self.precision * 180 - 1  # 180 degrees times 10**precision
         self.radians = np.radians(np.linspace(0, 180, num=self.rows, endpoint=False))
 
-        self.geometry_heigt = detector.height
-        self.geometry_width = detector.width
+        datastore.put("Tracks", EventContainer())
 
-        # TODO: create Trackcontainer in datastore
-        #self.datastore.put("Tracks", TrackObjects)
-
-    def event(self, datastore):
-        if self.geometry_heigt is None or self.geometry_width is None:
-            return
-        if self.rows is None or self.columns is None:
-            return
+    def event(self, datastore)
         try:
             hitlist = datastore.get('HitObjects').get_all_hits(datastore.get('CurrentEvent'))
         except NotFoundInDataStore:
@@ -67,11 +61,8 @@ class Tracking(Module):
         i, j = np.unravel_index(vote_mat.argmax(), vote_mat.shape)
         angle = i / (10**self.precision)
         distance = j / 10**self.precision - self.max_distance
-        # TODO: pass to trackcontainer
-        try:
-            datastore.put("track", (angle, distance), ObjectLifetime.Application)
-        except:
-            pass
+        tracks = datastore.get("Tracks")
+        tracks.add_object(datastore.get("CurrentEvent"), Track(self.parametrisation, (distance, angle), "track"))
         logging.info("track parameters:\t" + str(angle) + "\t" + str(distance))
 
     def accumulate(self, poslist, matrix):
