@@ -1,15 +1,12 @@
 __author__ = 'Patrick Schreiber'
 
-from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
-from driftchamber.data.hitobjects import HitObjects
 
 
 class ParticlePropagator(Module):
 
     def begin(self, datastore):
         self._detector = datastore.get('Detector')
-        datastore.put('HitObjects', HitObjects(), ObjectLifetime.Application)
 
 
     def event(self, datastore):
@@ -59,11 +56,7 @@ class ParticlePropagator(Module):
 
         # return false if particle is outside of detector
         if 0 <= cell_pos([x, y])[0] < self._detector.width and 0 <= cell_pos([x, y])[1] < self._detector.height:
-            hit = self._detector.deposit_energy_at(cell_pos([x, y]), particle)
-            n = datastore.get('CurrentEvent')
-            datastore.get('HitObjects').add_hit(hit, n, particle.particle_name)
-
-
+            self._detector.deposit_energy_at(cell_pos([x, y]), particle)
             return True
         else:
             return False

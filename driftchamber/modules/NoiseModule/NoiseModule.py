@@ -1,7 +1,8 @@
-import random
 import logging
-from driftchamber.core.particles import Particle
+import random
+
 from driftchamber.core.module import Module
+from driftchamber.core.particles import Particle
 
 
 class Noise(Module):
@@ -21,9 +22,7 @@ class Noise(Module):
         for y in range(self._detector.height): #Loop over layers
             for x in range(self._detector.width): #Loop over cells in one layer
                 if random.random() < self._noise_probability:
-                    hit = self._detector.deposit_energy_at((x,y), self._noise_part) #Flag current cell as triggered due to noise
-                    n = datastore.get('CurrentEvent')
-                    datastore.get('HitObjects').add_hit(hit, n, 'Noise')
+                    self._detector.deposit_energy_at((x,y), self._noise_part) #Flag current cell as triggered due to noise
 
     def end(self, datastore):
         logging.info("End of module 'Noise'")
