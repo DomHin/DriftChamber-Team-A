@@ -1,5 +1,4 @@
 import random
-from driftchamber.data.hit import HitObject
 
 
 class Cell:
@@ -26,6 +25,10 @@ class Cell:
 
     def energy(self):
         return self.deposited_energy
+
+    def reset(self):
+        self.deposited_energy = 0
+        self.triggered = False
 
 
 class Layer:
@@ -96,6 +99,12 @@ class Detector:
         layer_pos = pos[1] - sl.pos
         layer = sl.layers[int(round(layer_pos))]
         layer.cells[int(round(pos[0]))].deposit_energy(particle)
-        return HitObject(pos, 1, layer.cells[int(round(pos[0]))])
+        return
+
+    def reset(self):
+        for idx, sl in enumerate(self.detector):
+            for layer in sl.layers:
+                for cell in layer.cells:
+                    cell.reset()
         
 
