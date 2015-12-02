@@ -8,6 +8,7 @@ import logging
 import numpy as np
 
 from driftchamber.core.datastore import NotFoundInDataStore
+from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
 from driftchamber.data.eventcontainer import EventContainer
 from driftchamber.modules.TrackingModule.Track import Track
@@ -15,10 +16,9 @@ from driftchamber.modules.TrackingModule.Track import Track
 
 class Tracking(Module):
 
-    def __init__(self):
-        super(Tracking, self).__init__()
-        # TODO: config argument
-        self.precision = 1  # n decimals precision. This increases required memory by a lot!
+    def begin(self, datastore):
+        configuration = datastore.get(self)
+        self.precision = configuration['Tracking_precission']  # n decimals precision. This increases required memory by a lot!
 
         self.max_distance = 0
         self.rows = 0
@@ -26,12 +26,8 @@ class Tracking(Module):
         self.radians = []  # numpy calculates with radians but matrix is easier to understand with degrees
         self.parametrisation = "[0] = cos([1]/degree)*x + sin([1]/degree)*y"
 
-    def begin(self, datastore):
-        try:
-            detector = datastore.get("Detector")
-        except NotFoundInDataStore:
-            return
-        # TODO: consider center-coordinates to reduce size:
+        detector = datastore.get("Detector")
+        # TODO: consider center-coordinates to reduce size and therefore required memory:
             # Drawback: final parameters are center-coordinates and
             # need to be transformed to our matplotlib coordinates again.
         # calculate size of required array
@@ -41,11 +37,11 @@ class Tracking(Module):
         self.rows = 10**self.precision * 180 - 1  # 180 degrees times 10**precision
         self.radians = np.radians(np.linspace(0, 180, num=self.rows, endpoint=False))
 
-        datastore.put("Tracks", EventContainer())
+        datastore.put("Tracks", EventContainer(), ObjectLifetime.Application)
 
-    def event(self, datastore)
+    def event(self, datastore):
         try:
-            hitlist = datastore.get('HitObjects').get_all_hits(datastore.get('CurrentEvent'))
+            hitlist = datastore.get('HitObjects').get_objects(datastore.get('CurrentEvent'))
         except NotFoundInDataStore:
             return
         # create poslist instead of hitlist to reduce depth and ignore other information than position.
