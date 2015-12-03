@@ -1,6 +1,7 @@
 # Eclipse project files
 .project
 .pydevproject
+.settings
 
 # PyCharm project files
 *.py[cod]
