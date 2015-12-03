@@ -6,10 +6,10 @@ __author__ = 'elcerdo'
 from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
 from driftchamber.data.eventcontainer import EventContainer
-from driftchamber.data.hit import HitObject
+from driftchamber.data.hitObject import HitObject
 
 
-class DetectorAuslese(Module):
+class DetectorReadOut(Module):
 
     def begin(self, datastore):
         datastore.put('HitObjects', EventContainer(), ObjectLifetime.Application)

@@ -23,7 +23,7 @@ class AlreadyInDataStore(Exception):
 
 class ObjectLifetime(Enum):
     """
-    Enum to represent the lifeime of an data store object
+    Enum to represent the lifetime of an data store object
 
     Objects with Event lifetime will be cleared after one
     event has been processed and before the next one is started
@@ -90,7 +90,7 @@ class DataStore(object):
 
     def __str__(self):
         """
-        Convinience function to convert the data store content into a string
+        Convenience function to convert the data store content into a string
         :return: string representation of the data store content
         """
         return functools.reduce(

@@ -40,7 +40,7 @@ class MPLDisplay(Module):
         detector = datastore.get("Detector")
         plt.ylim(-0.5, detector.height-0.5)
         plt.xlim(-0.5, detector.width-0.5)
-        plt.savefig(self.folder + str(datastore.get("CurrentEvent")) + ".png", format="png", dpi='figure')
+        plt.savefig(self.folder + str(datastore.get("CurrentEvent")) + ".png", format="png")
         self.subplot.clear()
         return
 

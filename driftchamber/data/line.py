@@ -9,10 +9,10 @@ import numpy as np
 class LineObject(object):
     def __init__(self, parametrisation, parameters, identifier):
         """
-        Baseobject that can be represented by a continious line.
+        Base object that can be represented by a continuous line.
         :param string identifier: type of object
-        :param tuple parameters: tuple of parameters that define this object in regard to its parametrisation
-        :param string parametrisation: String representation of used parametrisation.
+        :param tuple parameters: tuple of parameters that define this object in regard to its parameterization
+        :param string parameterization: String representation of used parameterization.
         :return:
         """
         self.identifier = identifier
@@ -23,7 +23,7 @@ class LineObject(object):
         """
         Calculates x- and y-coordinates from given figure size.
         :param width: width of figure (width of detector)
-        :param height: height of figure (heigt  of detector)
+        :param height: height of figure (height  of detector)
         :return numpy arrays: x, y
         """
         print("not implemented!")

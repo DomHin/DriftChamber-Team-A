@@ -71,6 +71,7 @@ class DriftChamber:
                 pathToConfigurationSpecification = pathToModule + '/configuration_specification.py'
                 pathToModule_py += '.' + moduleName
                 pathToModule += '/' + moduleName
+                #if the module resides in a sub folder it can also have a specification for its configuration
                 if os.path.exists(pathToConfigurationSpecification):
                     if moduleSpecification.pathToConfigurationFile is None:
                         raise ValueError("Module '" + moduleName + "' needs a configuration, but no file is specified.'")

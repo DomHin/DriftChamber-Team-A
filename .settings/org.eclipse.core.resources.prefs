@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//driftchamber/data/eventcontainer.py=utf-8
+encoding//driftchamber/data/line.py=utf-8
+encoding//driftchamber/modules/DetectorReadOutModule.py=utf-8
+encoding//driftchamber/modules/MPLDetectorModule.py=utf-8
+encoding//driftchamber/modules/MPLDisplayModule.py=utf-8
+encoding//driftchamber/modules/MPLHitModule.py=utf-8
+encoding//driftchamber/modules/MPLTrackModule.py=utf-8
+encoding//tests/driftchamber/core/test_configuration/test_configuration.py=utf-8
+encoding//tests/driftchamber/core/test_drift_chamber/test_driftChamber.py=utf-8
+encoding//tests/driftchamber/core/test_run_engine.py=utf-8
+encoding//tests/driftchamber/modules/__init__.py=utf-8
