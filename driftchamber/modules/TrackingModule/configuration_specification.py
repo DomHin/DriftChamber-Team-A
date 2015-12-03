@@ -10,12 +10,12 @@ from driftchamber.core.configuration.configuration_option_validation import Conf
 
 configuration_specification = {
 'Tracking': [
-    ConfigurationOption('precission',
-                        'Decimal precission',
+    ConfigurationOption('precision',
+                        'Decimal precision',
                         int,
                         [ConfigurationOptionValidation(
                             lambda value: value >= 0,
-                            'The precission should be positiv'
+                            'The precision should be positive.'
                         )],
                         p_isCompulsory=True)
     ]

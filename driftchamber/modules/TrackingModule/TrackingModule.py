@@ -18,12 +18,12 @@ class Tracking(Module):
 
     def begin(self, datastore):
         configuration = datastore.get(self)
-        self.precision = configuration['Tracking_precission']  # n decimals precision. This increases required memory by a lot!
+        self.precision = configuration['Tracking_precision']  # n decimals precision. This increases required memory by a lot!
 
         self.max_distance = 0
         self.rows = 0
         self.columns = 0
-        self.radians = []  # numpy calculates with radians but matrix is easier to understand with degrees
+        self.radians = []  # numpy calculates using radians but matrix is easier to understand with degrees
         self.parametrisation = "[0] = cos([1]/degree)*x + sin([1]/degree)*y"
 
         detector = datastore.get("Detector")
