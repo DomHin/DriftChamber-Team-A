@@ -15,8 +15,8 @@ class ParticleGunTest(unittest.TestCase):
     """
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
-        self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/particleGun_Electron.cfg'
-        configuration = Configuration(self.pathToDefaultTestConfigFile, configuration_specification) #Read configuration from config file
+        self.path_to_default_test_config_file = self.pathToConfgiFiles + '/particleGun_Electron.cfg'
+        configuration = Configuration(self.path_to_default_test_config_file, configuration_specification) #Read configuration from config file
         self.datastore = DataStore()
         self.module = ParticleGun()
         self.datastore.put(self.module, configuration, ObjectLifetime.Application)

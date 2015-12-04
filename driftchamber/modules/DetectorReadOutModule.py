@@ -22,6 +22,6 @@ class DetectorReadOut(Module):
                 for cell in layer.cells:
                     if cell.is_triggered():
                         hit = HitObject(cell.pos, cell.energy(), cell)
-                        hitobjects.add_object(datastore.get("CurrentEvent"), hit)
+                        hitobjects.add_object(datastore.get("current_event_index"), hit)
         # reset detector for next event.
         detector.reset()

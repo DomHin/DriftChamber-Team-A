@@ -41,7 +41,7 @@ class Tracking(Module):
 
     def event(self, datastore):
         try:
-            hitlist = datastore.get('HitObjects').get_objects(datastore.get('CurrentEvent'))
+            hitlist = datastore.get('HitObjects').get_objects(datastore.get('current_event_index'))
         except NotFoundInDataStore:
             return
         # create poslist instead of hitlist to reduce depth and ignore other information than position.
@@ -58,7 +58,7 @@ class Tracking(Module):
         angle = i / (10**self.precision)
         distance = j / 10**self.precision - self.max_distance
         tracks = datastore.get("Tracks")
-        tracks.add_object(datastore.get("CurrentEvent"), Track(self.parametrisation, (distance, angle), "track"))
+        tracks.add_object(datastore.get("current_event_index"), Track(self.parametrisation, (distance, angle), "track"))
         logging.info("track parameters:\t" + str(angle) + "\t" + str(distance))
 
     def accumulate(self, poslist, matrix):

@@ -20,7 +20,7 @@ class ConfigurationTest(unittest.TestCase):
     
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
-        self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/test_config.cfg'
+        self.path_to_default_test_config_file = self.pathToConfgiFiles + '/test_config.cfg'
         self.defaultSpec = {
             "Section1": [ 
                 ConfigurationOption(
@@ -73,7 +73,7 @@ class ConfigurationTest(unittest.TestCase):
         }
 
     def test_config_file_standard_types(self):
-        configuration = Configuration(self.pathToDefaultTestConfigFile, self.defaultSpec)
+        configuration = Configuration(self.path_to_default_test_config_file, self.defaultSpec)
         self.assertEqual(configuration['Section1_aPositiveInt'], 100)
         self.assertEqual(configuration['Section1_aNegativeInt'], -100)
         self.assertEqual(configuration['Section1_aBoolean'], True)
@@ -97,7 +97,7 @@ class ConfigurationTest(unittest.TestCase):
                     p_isCompulsory=True)
             ]
         }
-        self.assertRaises(ValueError, Configuration, self.pathToDefaultTestConfigFile, spec)
+        self.assertRaises(ValueError, Configuration, self.path_to_default_test_config_file, spec)
         
         
     def test_optional_option_missing(self):
@@ -110,7 +110,7 @@ class ConfigurationTest(unittest.TestCase):
                     p_isCompulsory=False)
             ]
         }
-        Configuration(self.pathToDefaultTestConfigFile, spec)
+        Configuration(self.path_to_default_test_config_file, spec)
         
     
     def test_invalid_value(self):
@@ -126,7 +126,7 @@ class ConfigurationTest(unittest.TestCase):
                             "This value must be very large.")])
             ]
         }
-        self.assertRaises(ValueError, Configuration, self.pathToDefaultTestConfigFile, spec)
+        self.assertRaises(ValueError, Configuration, self.path_to_default_test_config_file, spec)
         
     
     def test_parsing_of_module_sequence(self):

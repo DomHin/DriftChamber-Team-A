@@ -15,7 +15,7 @@ class MPLTrack(Module):
     def event(self, datastore):
         try:
             subplot = datastore.get("Subplot")
-            tracks = datastore.get("Tracks").get_objects(datastore.get("CurrentEvent"))
+            tracks = datastore.get("Tracks").get_objects(datastore.get("current_event_index"))
             detector = datastore.get("Detector")
         except NotFoundInDataStore:
             logging.error("MPLTrack: Missing required objects")

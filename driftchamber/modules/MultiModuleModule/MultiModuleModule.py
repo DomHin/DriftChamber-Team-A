@@ -1,5 +1,5 @@
 
-from driftchamber.core.RunEngineFactory import RunEngineFactory
+from driftchamber.core.run_engine_factory import RunEngineFactory
 from driftchamber.core.module import Module
 
 class MultiModule(Module):

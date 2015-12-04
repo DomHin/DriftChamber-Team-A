@@ -3,7 +3,7 @@ Created on Nov 26, 2015
 
 @author: Fabian Leven
 """
-from driftchamber.core.RunEngineFactory import ModuleFactory
+from driftchamber.core.run_engine_factory import ModuleFactory
 
 def to_bool(p_value):
     """

@@ -13,10 +13,10 @@ class TestDetectorInitializerModule(unittest.TestCase):
     
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
-        self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/detector.cfg'
+        self.path_to_default_test_config_file = self.pathToConfgiFiles + '/detector.cfg'
 
     def test_run(self):
-        configuration = Configuration(self.pathToDefaultTestConfigFile, configuration_specification)
+        configuration = Configuration(self.path_to_default_test_config_file, configuration_specification)
         dataStore = DataStore()
         module = DetectorInitializer()
         dataStore.put(module, configuration, ObjectLifetime.Application)

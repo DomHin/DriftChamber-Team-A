@@ -17,10 +17,10 @@ class TestMultiModule(unittest.TestCase):
 
     def setUp(self):
         self.pathToConfgiFiles = os.path.dirname(os.path.abspath(__file__))
-        self.pathToDefaultTestConfigFile = self.pathToConfgiFiles + '/multiModule_TestModules.cfg'
+        self.path_to_default_test_config_file = self.pathToConfgiFiles + '/multiModule_TestModules.cfg'
 
     def test_run(self):
-        configuration = Configuration(self.pathToDefaultTestConfigFile, configuration_specification)
+        configuration = Configuration(self.path_to_default_test_config_file, configuration_specification)
         dataStore = DataStore()
         dataStore.put('nEvent', 2)
         module = MultiModule()

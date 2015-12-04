@@ -6,7 +6,7 @@ Created on Nov 19, 2015
 
 from driftchamber.core.configuration.configuration_option import ConfigurationOption
 from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
-from driftchamber.core.RunEngineFactory import ModuleFactory
+from driftchamber.core.run_engine_factory import ModuleFactory
 
 def parse_module_sequence(p_value):
     """

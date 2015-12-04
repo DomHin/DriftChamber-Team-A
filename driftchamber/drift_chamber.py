@@ -9,7 +9,7 @@ from driftchamber.core.configuration.configuration import Configuration
 from driftchamber.core.configuration.config_general_specification import driftChamberConfig_generalSpecification
 from driftchamber.core.datastore import DataStore
 from driftchamber.core.datastore import ObjectLifetime
-from driftchamber.core.RunEngineFactory import RunEngineFactory
+from driftchamber.core.run_engine_factory import RunEngineFactory
 
 
 class DriftChamber:

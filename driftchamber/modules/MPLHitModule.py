@@ -16,7 +16,7 @@ class MPLHit(Module):
     def event(self, datastore):
         try:
             subplot = datastore.get("Subplot")
-            hits = datastore.get("HitObjects").get_objects(datastore.get("CurrentEvent"))
+            hits = datastore.get("HitObjects").get_objects(datastore.get("current_event_index"))
         except NotFoundInDataStore:
             logging.error("MPLHit: Missing required objects.")
         else:
