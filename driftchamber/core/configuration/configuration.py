@@ -16,16 +16,16 @@ class Configuration:
         moduleNames = configuration["General_nEvent"]
     """
     
-    def __init__(self, p_pathToConfigurationFile, p_specification):
+    def __init__(self, p_path_to_configuration_file, p_specification):
         """
         Constructor.
         
-        :param p_pathToConfigurationFile       the path to the configuration file.
+        :param p_path_to_configuration_file       the path to the configuration file.
         :param p_specification                 meta data about the configuration,
                                                 e.g. which options have to be specified 
                                                 and which values they can take
         """
-        self._pathToConfiguratioFile = p_pathToConfigurationFile
+        self._pathToConfiguratioFile = p_path_to_configuration_file
         
         # reorganize the specification of the options from 
         # an "easy-to-type"-form to an "easy-to-handle-by-pc"-form

@@ -3,7 +3,7 @@ Created on Nov 26, 2015
 
 @author: Fabian Leven
 """
-from driftchamber.core.RunEngineFactory import ModuleSpecification
+from driftchamber.core.RunEngineFactory import ModuleFactory
 
 def to_bool(p_value):
     """
@@ -23,7 +23,7 @@ def parse_module_sequence(p_value):
     """
     Parses the module sequence in the configuration file.
     
-    :return: a list of ModuleSpecification objects.
+    :return: a list of ModuleFactory objects.
     """
     result = []
     lines = p_value.split('\n')
@@ -38,7 +38,7 @@ def parse_module_sequence(p_value):
         modulePathConfigurationFile = None
         if len(moduleConfiguration_str) > 1:
             modulePathConfigurationFile = moduleConfiguration_str[1]
-        result.append(ModuleSpecification(moduleName, modulePathConfigurationFile))
+        result.append(ModuleFactory(moduleName, modulePathConfigurationFile))
     return result
         
         

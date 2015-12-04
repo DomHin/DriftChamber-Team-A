@@ -9,7 +9,7 @@ import unittest
 from driftchamber.core.configuration.configuration import Configuration
 from driftchamber.core.configuration.configuration_option import ConfigurationOption
 from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
-from driftchamber.core.configuration.parsing_functions import to_bool, parse_module_sequence, ModuleSpecification
+from driftchamber.core.configuration.parsing_functions import to_bool, parse_module_sequence, ModuleFactory
 
 
 
@@ -128,7 +128,7 @@ class ConfigurationTest(unittest.TestCase):
         }
         self.assertRaises(ValueError, Configuration, self.pathToDefaultTestConfigFile, spec)
         
-        
+    
     def test_parsing_of_module_sequence(self):
         testConfig = (
             "DetectorInitializerModule ../configuration/detector.cfg\n"
@@ -139,15 +139,16 @@ class ConfigurationTest(unittest.TestCase):
         parsingResult = parse_module_sequence(testConfig)
         self.assertEqual(len(parsingResult), 4)
         for moduleSpecification in parsingResult:
-            self.assertIsInstance(moduleSpecification, ModuleSpecification)
+            self.assertIsInstance(moduleSpecification, ModuleFactory)
             
-        self.assertEqual(parsingResult[0].moduleName, "DetectorInitializerModule")
-        self.assertEqual(parsingResult[0].pathToConfigurationFile, "../configuration/detector.cfg")
-        self.assertEqual(parsingResult[1].moduleName, "ParticleGunModule")
-        self.assertEqual(parsingResult[1].pathToConfigurationFile, "../configuration/particleGun_Electron.cfg")
-        self.assertEqual(parsingResult[2].moduleName, "ParticleGunModule")
-        self.assertEqual(parsingResult[2].pathToConfigurationFile, "../configuration/particleGun_Kaon.cfg")
-        self.assertEqual(parsingResult[3].moduleName, "ParticlePrinterModule")
-        self.assertEqual(parsingResult[3].pathToConfigurationFile, None)
+        self.assertEqual(parsingResult[0]._module_name, "DetectorInitializerModule")
+        self.assertEqual(parsingResult[0]._path_to_configuration_file, "../configuration/detector.cfg")
+        self.assertEqual(parsingResult[1]._module_name, "ParticleGunModule")
+        self.assertEqual(parsingResult[1]._path_to_configuration_file, "../configuration/particleGun_Electron.cfg")
+        self.assertEqual(parsingResult[2]._module_name, "ParticleGunModule")
+        self.assertEqual(parsingResult[2]._path_to_configuration_file, "../configuration/particleGun_Kaon.cfg")
+        self.assertEqual(parsingResult[3]._module_name, "ParticlePrinterModule")
+        self.assertEqual(parsingResult[3]._path_to_configuration_file, None)
+        
             
             
