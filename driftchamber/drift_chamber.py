@@ -92,6 +92,7 @@ class DriftChamber:
         
     def start_simulation(self):
         logging.info("'Drift Chamber Simulation' started.")
+        self._runEngine.log_configuration()
         self._runEngine.run()
         logging.info("'Drift Chamber Simulation' done.")
         

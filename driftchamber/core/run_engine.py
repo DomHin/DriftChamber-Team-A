@@ -11,7 +11,6 @@ class RunEngine(object):
         self._datastore = p_dataStore
         self._nEvent = self._datastore.get('nEvent')
         self._modules = p_moduleList
-        self.log_configuration()
 
     def run(self):
         """
