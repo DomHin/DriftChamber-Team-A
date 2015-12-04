@@ -3,6 +3,7 @@ Created on Nov 26, 2015
 
 @author: Fabian Leven
 """
+from driftchamber.core.RunEngineFactory import ModuleSpecification
 
 def to_bool(p_value):
     """
@@ -17,11 +18,6 @@ def to_bool(p_value):
     raise ValueError(
         ("Can not parse the configuration file "
          "because a boolean value is not specified as 'true' or 'false'."))
-    
-class ModuleSpecification():
-    def __init__(self, p_moduleName, p_pathToConfigurationFile = None):
-        self.moduleName = p_moduleName
-        self.pathToConfigurationFile = p_pathToConfigurationFile
     
 def parse_module_sequence(p_value):
     """

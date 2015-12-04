@@ -2,15 +2,14 @@
 
 import logging
 import traceback
-from importlib import import_module
 from argparse import ArgumentParser
-import os
+
 
 from driftchamber.core.configuration.configuration import Configuration
 from driftchamber.core.configuration.config_general_specification import driftChamberConfig_generalSpecification
-from driftchamber.core.run_engine import RunEngine
 from driftchamber.core.datastore import DataStore
 from driftchamber.core.datastore import ObjectLifetime
+from driftchamber.core.RunEngineFactory import RunEngineFactory
 
 
 class DriftChamber:
@@ -30,7 +29,6 @@ class DriftChamber:
         self._init_commandline_argument_parser()
         self._init_confiuration()
         self._init_data_store()
-        self._init_modules()
         self._init_run_engine()      
         
         
@@ -57,43 +55,15 @@ class DriftChamber:
         self._dataStore.put('configuration', self._configuration, ObjectLifetime.Application)
         self._dataStore.put('driftChamber', self, ObjectLifetime.Application)
         
-        
-    def _init_modules(self):
-        self._modules = []
-        for moduleSpecification in self._configuration["Modules_moduleSequence"]:
-            moduleName = moduleSpecification.moduleName
-            moduleConfiguration = None 
-            pathToModule_py = 'driftchamber.modules.' + moduleName
-            pathToModule = 'modules/' + moduleName
-            # a module can either reside in a sub folder or in the module folder
-            if os.path.isdir(pathToModule):
-                pathToConfigurationSpecification_py = pathToModule_py + '.configuration_specification'
-                pathToConfigurationSpecification = pathToModule + '/configuration_specification.py'
-                pathToModule_py += '.' + moduleName
-                pathToModule += '/' + moduleName
-                #if the module resides in a sub folder it can also have a specification for its configuration
-                if os.path.exists(pathToConfigurationSpecification):
-                    if moduleSpecification.pathToConfigurationFile is None:
-                        raise ValueError("Module '" + moduleName + "' needs a configuration, but no file is specified.'")
-                    moduleConfigurationSpecification = import_module(pathToConfigurationSpecification_py)
-                    configurationSpecification = getattr(moduleConfigurationSpecification, 'configuration_specification')
-                    moduleConfiguration = Configuration(moduleSpecification.pathToConfigurationFile, configurationSpecification)   
-            module = import_module(pathToModule_py)
-            className = moduleName[:-6]
-            moduleInstance = getattr(module, className)()
-            # store the configuration for each module in the data store using the instance of the module as key
-            self._dataStore.put(moduleInstance, moduleConfiguration, ObjectLifetime.Application)
-            self._modules.append(moduleInstance)
-    
             
     def _init_run_engine(self):
-        self._runEngine = RunEngine(self._modules, self._dataStore)
+        self._run_engine = RunEngineFactory(self._configuration["Modules_moduleSequence"], self._dataStore).get_run_engine()
             
         
     def start_simulation(self):
         logging.info("'Drift Chamber Simulation' started.")
-        self._runEngine.log_configuration()
-        self._runEngine.run()
+        self._run_engine.log_configuration()
+        self._run_engine.run()
         logging.info("'Drift Chamber Simulation' done.")
         
 
