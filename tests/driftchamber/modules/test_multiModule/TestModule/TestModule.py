@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-@author: elcerdo
-"""
+
 from driftchamber.core.module import Module
 
 class Test(Module):
