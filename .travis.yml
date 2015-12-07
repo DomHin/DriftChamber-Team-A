@@ -10,7 +10,6 @@ notifications:
     slack: team-a-collsoftdes:uygRtC38l74KuBVMH2zyoaM9
 
 install:
-    - pip install testfixtures
-    - pip install matplotlib
+	- pip install -r requirements_dev.txt
     
 script: python -m unittest discover
