@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 
 from driftchamber.core.module import Module
 
-
-class ShowDetectorInMatplotLib(Module):
+class DetectorGraphicalView(Module):
 
     def begin(self, datastore):
         logging.info("Begin of module 'ShowDetectorInMatplotLib'")

@@ -4,8 +4,7 @@ import logging
 
 from driftchamber.core.module import Module
 
-
-class ShowDetecorInConsole(Module):
+class DetectorConsoleView(Module):
 
     def begin(self, datastore):
         logging.info("Begin of module 'ShowDetecorInConsole'")
