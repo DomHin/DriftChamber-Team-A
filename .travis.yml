@@ -4,7 +4,6 @@ python:
     - "3.4"
     - "3.5"
     - "3.5-dev"
-    - "nightly"
 
 notifications:
     slack: team-a-collsoftdes:uygRtC38l74KuBVMH2zyoaM9

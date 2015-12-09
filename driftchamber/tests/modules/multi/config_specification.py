@@ -4,8 +4,8 @@ Created on Nov 19, 2015
 @author: Fabian Leven
 """
 
-from driftchamber.core.configuration.configuration_option import ConfigurationOption
-from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
+from driftchamber.core.config.option import ConfigurationOption
+from driftchamber.core.config.option_validation import ConfigurationOptionValidation
 from driftchamber.core.run_engine_factory import ModuleFactory
 
 def parse_module_sequence(p_value):
@@ -29,8 +29,8 @@ def parse_module_sequence(p_value):
             modulePathConfigurationFile = moduleConfiguration_str[1]
         result.append(ModuleFactory(moduleName, 
                                     modulePathConfigurationFile,
-                                    "tests/driftchamber/modules/test_multiModule/",
-                                    "tests.driftchamber.modules.multi."
+                                    "driftchamber/tests/modules/multi/",
+                                    "driftchamber.tests.modules.multi."
                                     ))
     return result
 

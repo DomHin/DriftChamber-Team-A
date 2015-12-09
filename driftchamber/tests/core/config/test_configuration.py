@@ -6,10 +6,10 @@
 import os
 import unittest
 
-from driftchamber.core.configuration.configuration import Configuration
-from driftchamber.core.configuration.configuration_option import ConfigurationOption
-from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
-from driftchamber.core.configuration.parsing_functions import to_bool, parse_module_sequence, ModuleFactory
+from driftchamber.core.config.config import Configuration
+from driftchamber.core.config.option import ConfigurationOption
+from driftchamber.core.config.option_validation import ConfigurationOptionValidation
+from driftchamber.core.config.parsing_functions import to_bool, parse_module_sequence, ModuleFactory
 
 
 

@@ -1,8 +1,8 @@
 
 from ast import literal_eval
 
-from driftchamber.core.configuration.configuration_option import ConfigurationOption
-from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
+from driftchamber.core.config.option import ConfigurationOption
+from driftchamber.core.config.option_validation import ConfigurationOptionValidation
 
 
 configuration_specification = {

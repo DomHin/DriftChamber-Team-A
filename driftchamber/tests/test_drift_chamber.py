@@ -17,7 +17,4 @@ class DriftChamberTest(unittest.TestCase):
         self.pathToConfigFile = self.pathToConfgiFiles + '/config.cfg'
 
     def test_main(self):
-        try:
-            mainModule.main(['--config', self.pathToConfigFile])
-        except:
-            self.fail("Calling the main module should not throw an exception.")
+        mainModule.main(['--config', self.pathToConfigFile])

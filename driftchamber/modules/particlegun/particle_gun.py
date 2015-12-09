@@ -6,7 +6,7 @@ import random
 from driftchamber.core.datastore import NotFoundInDataStore
 from driftchamber.core.module import Module
 from driftchamber.core.particles import Particle
-from driftchamber.data.particlecontainer import ParticleContainer
+from driftchamber.data.particle_container import ParticleContainer
 
 
 class ParticleGun(Module):

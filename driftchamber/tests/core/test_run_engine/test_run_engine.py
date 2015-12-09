@@ -9,7 +9,7 @@ import unittest
 from driftchamber.core.run_engine import RunEngine, RunEngineInInconsistentState
 from driftchamber.core.datastore import DataStore, ObjectLifetime, NotFoundInDataStore
 from driftchamber.core.module import Module
-from tests.driftchamber.core.test_runEngine.TestModule.TestModule import Test
+from driftchamber.tests.core.test_run_engine.TestModule.TestModule import Test
         
 class TestObjectLifeTimeModule(Module):
 

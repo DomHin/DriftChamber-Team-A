@@ -1,10 +1,10 @@
 import unittest
 import os
 
-from  driftchamber.modules.DetectorInitializerModule.configuration_specification import configuration_specification
-from driftchamber.core.configuration.configuration import Configuration
+from driftchamber.core.config.config import Configuration
 from driftchamber.core.datastore import DataStore, ObjectLifetime
-from driftchamber.modules.DetectorInitializerModule.DetectorInitializerModule import DetectorInitializer
+from driftchamber.modules.detectorinitializer.config_specification import configuration_specification
+from driftchamber.modules.detectorinitializer.detector_initializer import DetectorInitializer
 
 class TestDetectorInitializerModule(unittest.TestCase):
     """

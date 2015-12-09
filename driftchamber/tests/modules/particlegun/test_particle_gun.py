@@ -2,10 +2,10 @@ import unittest
 import os
 
 from testfixtures import LogCapture
-from driftchamber.modules.ParticleGunModule.ParticleGunModule import ParticleGun
 from driftchamber.core.datastore import DataStore, ObjectLifetime
-from driftchamber.core.configuration.configuration import Configuration
-from driftchamber.modules.ParticleGunModule.configuration_specification import configuration_specification
+from driftchamber.core.config.config import Configuration
+from driftchamber.modules.particlegun.particle_gun import ParticleGun
+from driftchamber.modules.particlegun.config_specification import configuration_specification
 
 
 

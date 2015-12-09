@@ -1,11 +1,11 @@
 import unittest
 
 from testfixtures import LogCapture
-from driftchamber.modules.ParticlePrinterModule import ParticlePrinter
+from driftchamber.modules.particle_printer import ParticlePrinter
 from driftchamber.core.datastore import DataStore, ObjectLifetime
 
 from driftchamber.core.particles import Particle
-from driftchamber.data.particlecontainer import ParticleContainer
+from driftchamber.data.particle_container import ParticleContainer
 
 
 class ParticlePrinterTest(unittest.TestCase):

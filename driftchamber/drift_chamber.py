@@ -5,8 +5,8 @@ import traceback
 from argparse import ArgumentParser
 
 
-from driftchamber.core.configuration.configuration import Configuration
-from driftchamber.core.configuration.config_general_specification import driftChamberConfig_generalSpecification
+from driftchamber.core.config.config import Configuration
+from driftchamber.core.config.general_specification import driftChamberConfig_generalSpecification
 from driftchamber.core.datastore import DataStore
 from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.run_engine_factory import RunEngineFactory

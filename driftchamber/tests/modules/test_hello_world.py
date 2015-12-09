@@ -2,7 +2,7 @@ import unittest
 
 from testfixtures import LogCapture
 from driftchamber.core.datastore import DataStore
-from driftchamber.modules.HelloWorldModule import HelloWorld
+from driftchamber.modules.hello_world import HelloWorld
 
 class HelloWorldModuleTest(unittest.TestCase):
     """

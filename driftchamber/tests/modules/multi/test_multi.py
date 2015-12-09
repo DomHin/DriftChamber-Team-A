@@ -3,10 +3,10 @@
 import unittest
 import os
 
-from tests.driftchamber.modules.test_multiModule.configuration_specification import configuration_specification
-from driftchamber.core.configuration.configuration import Configuration
+from driftchamber.tests.modules.multi.config_specification import configuration_specification
+from driftchamber.core.config.config import Configuration
 from driftchamber.core.datastore import DataStore, ObjectLifetime
-from driftchamber.modules.MultiModuleModule.MultiModuleModule import MultiModule
+from driftchamber.modules.multi.multi import MultiModule
 
 
 

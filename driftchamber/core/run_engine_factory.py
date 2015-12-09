@@ -3,7 +3,7 @@ import os
 from importlib import import_module
 
 from driftchamber.core.run_engine import RunEngine
-from driftchamber.core.configuration.configuration import Configuration
+from driftchamber.core.config.config import Configuration
 from driftchamber.core.datastore import ObjectLifetime
 
 
@@ -48,10 +48,10 @@ class ModuleFactory:
         if os.path.isdir(self._path_to_module):
             # if it resides in a sub folder, it might need a configuration
             self._path_to_configuration_spec = (
-                self._path_to_module + '/configuration_specification.py')
+                self._path_to_module + '/config_specification.py')
             if os.path.isfile(self._path_to_configuration_spec):
                 self._path_to_configuration_spec_py = (
-                    self._path_to_module_py + '.configuration_specification')
+                    self._path_to_module_py + '.config_specification')
             else:
                 self._path_to_configuration_spec = None
             self._path_to_module += '/' + self._module_name + '.py'
@@ -94,9 +94,10 @@ class ModuleFactory:
         :return: the module
         """
         if self._module is None:
-            module_py = import_module(self._path_to_module_py)
-            class_name = self._module_name[:-6]
-            self._module = getattr(module_py, class_name)()
+            self._module = getattr(self._path_to_modules, self._module_name)
+            #self._module = import_module(self._path_to_module_py)
+            #class_name = self._module_name[:-6]
+            #self._module = getattr(module_py, class_name)()
         return self._module
         
 

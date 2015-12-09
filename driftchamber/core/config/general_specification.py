@@ -6,9 +6,9 @@ Created on Nov 19, 2015
 
 import logging
 
-from driftchamber.core.configuration.configuration_option import ConfigurationOption
-from driftchamber.core.configuration.configuration_option_validation import ConfigurationOptionValidation
-from driftchamber.core.configuration.parsing_functions import parse_module_sequence
+from driftchamber.core.config.option import ConfigurationOption
+from driftchamber.core.config.option_validation import ConfigurationOptionValidation
+from driftchamber.core.config.parsing_functions import parse_module_sequence
 
 
 driftChamberConfig_generalSpecification = {
