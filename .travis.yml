@@ -11,4 +11,6 @@ notifications:
 install: 
     - pip install -r requirements_dev.txt
     
-script: python -m unittest discover
+script:
+    - pep8 driftchamber
+    - python -m unittest discover
