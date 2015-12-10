@@ -1,0 +1,15 @@
+run_configuration:
+  nr_events: 5
+    
+  objects:
+    - objects/detector
+    - objects/noise
+    - objects/electron
+    
+  modules:
+    - detector_initializer
+    - particle_printer
+    - particle_propagator
+    - noise
+    - detector_readout
+    - tracking

@@ -1,0 +1,9 @@
+object:
+  id: kaon0
+  type: particles.Particle
+  lifetime: Event
+  
+  attr_values:
+    name: kaon0
+    mass: 0.000497648
+    max_momentum: 0.1

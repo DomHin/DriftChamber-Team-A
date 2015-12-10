@@ -7,13 +7,11 @@ from driftchamber.core.module import Module
 class ByeByeWorld(Module):
 
     def begin(self, datastore):
-        self.number_of_events = 0
-        logging.info("Begin of module 'ByeByeWorld'")
+        logging.info('Module ByeByeWorld before event processing')
 
     def event(self, datastore):
-        self.number_of_events += 1
-        logging.info("Number of previous events in module 'ByeByeWorld': " + str(self.number_of_events))
+        logging.info('Module ByeByeWorld during event processing')
 
     def end(self, datastore):
-        logging.info("End of module 'ByeByeWorld'")
+        logging.info('Module ByeByeWorld after event processing')
 

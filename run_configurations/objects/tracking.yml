@@ -1,0 +1,7 @@
+object:
+  id: tracking
+  type: Tracking
+  lifetime: Application
+  
+  attr_values:
+    precision: 1

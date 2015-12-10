@@ -4,17 +4,13 @@ import logging
 
 from driftchamber.core.module import Module
 
-
 class HelloWorld(Module):
 
     def begin(self, datastore):
-        logging.info("Begin of module 'HelloWorld'")
-        self.number_of_events = 0
+        logging.info('Module HelloWorld before event processing')
 
     def event(self, datastore):
-        self.number_of_events += 1
-        logging.info("Number of previous events in module 'HelloWorld': " + str(self.number_of_events))
+        logging.info('Module HelloWorld during event processing')
 
     def end(self, datastore):
-        logging.info("End of module 'HelloWorld'")
-
+        logging.info('Module HelloWorld after event processing')

@@ -4,7 +4,7 @@
 """
 
 import unittest
-import driftchamber.drift_chamber as mainModule
+import driftchamber.drift_chamber1 as mainModule
 import os
 
 class DriftChamberTest(unittest.TestCase):

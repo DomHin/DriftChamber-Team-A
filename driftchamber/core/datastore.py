@@ -23,7 +23,7 @@ class AlreadyInDataStore(Exception):
 
 class ObjectLifetime(Enum):
     """
-    Enum to represent the lifetime of an data store object
+    Enum to represent the lifetime of a data store object
 
     Objects with Event lifetime will be cleared after one
     event has been processed and before the next one is started

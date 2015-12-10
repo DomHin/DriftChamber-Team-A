@@ -16,7 +16,7 @@ class RunEngineFactoryTest(unittest.TestCase):
     def setUp(self):
         self.path_to_test = os.path.dirname(os.path.abspath(__file__))
         self.path_to_test_modules = self.path_to_test+"/"
-        self.path_to_test_modules_py = 'driftchamber.tests.core.test_run_engine.'
+        self.path_to_test_modules_py = 'driftchamber.tests1.core.test_run_engine.'
         self.path_to_default_test_config_file = self.path_to_test + '/test.cfg'
 
     def test_run(self):

@@ -30,7 +30,7 @@ def parse_module_sequence(p_value):
         result.append(ModuleFactory(moduleName, 
                                     modulePathConfigurationFile,
                                     "driftchamber/tests/modules/multi/",
-                                    "driftchamber.tests.modules.multi."
+                                    "driftchamber.tests1.modules.multi."
                                     ))
     return result
 
