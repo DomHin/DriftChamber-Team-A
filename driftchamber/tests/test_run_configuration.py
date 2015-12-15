@@ -1,6 +1,10 @@
 from unittest.case import TestCase
+from nose_parameterized import parameterized
 from os.path import realpath, dirname, join
-from driftchamber.run_configuration import YamlConfiguration
+from driftchamber.utils import Introspection
+from driftchamber.run_configuration import YamlConfiguration, Loader
+from driftchamber.modules.hello_world import HelloWorld
+from driftchamber.modules.bye_bye_world import ByeByeWorld
 
 class YamlConfigurationTest(TestCase):
     
@@ -15,3 +19,17 @@ class YamlConfigurationTest(TestCase):
         self.assertEqual(config.get_value('b'), 4)
         self.assertIsInstance(config.get_value('c'), list)
         self.assertListEqual(config.get_value('c'), [1, 2, 3, 4])
+        
+class LoaderTest(TestCase):
+    
+    def setUp(self):
+        introspect = Introspection()
+        self._loader = Loader(introspect)
+        
+    @parameterized.expand([
+        ('hello_world.HelloWorld', HelloWorld),
+        ('bye_bye_world.ByeByeWorld', ByeByeWorld)
+    ])
+    def test_load_module(self, module, cls):
+        obj = self._loader.load_module(module)
+        self.assertIsInstance(obj, cls)

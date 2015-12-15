@@ -1,7 +1,6 @@
 __author__ = 'Patrick Schreiber'
 
 import logging
-
 from driftchamber.core.module import Module
 
 class HelloWorld(Module):
