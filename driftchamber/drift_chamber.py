@@ -1,7 +1,7 @@
 import logging
 from argparse import ArgumentParser
 from driftchamber.core.run_engine import RunEngine
-from driftchamber.run_config import RunConfiguration
+from driftchamber.run_configuration import RunConfiguration
 
 def main(args = None):
     logging.basicConfig(level=logging.DEBUG)

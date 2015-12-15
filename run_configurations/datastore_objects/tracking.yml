@@ -1,6 +1,6 @@
-object:
+datastore_object:
   id: tracking
-  type: Tracking
+  class: Tracking
   lifetime: Application
   
   attr_values:

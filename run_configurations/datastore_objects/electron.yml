@@ -1,6 +1,6 @@
-object:
+datastore_object:
   id: electron
-  type: particles.Particle
+  class: particles.Particle
   lifetime: Event
   
   attr_values:

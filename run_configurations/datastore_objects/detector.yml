@@ -1,6 +1,6 @@
-object:
+datastore_object:
   id: detector
-  type: detector.Detector
+  class: detector.Detector
   lifetime: Application
   
   attr_values:

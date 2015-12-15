@@ -1,6 +1,6 @@
-object:
+datastore_object:
   id: kaon0
-  type: particles.Particle
+  class: particles.Particle
   lifetime: Event
   
   attr_values:
