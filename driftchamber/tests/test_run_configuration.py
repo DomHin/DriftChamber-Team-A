@@ -12,28 +12,28 @@ class YamlConfigurationTest(TestCase):
     
     def setUp(self):
         current_dir = dirname(realpath(__file__))
-        self._config_path = join(current_dir, 'resources', 'dummy.yml')
+        config_path = join(current_dir, 'resources', 'dummy.yml')
+        
+        self._config = YamlConfiguration(path = config_path, 
+                                         root_node = 'dummy')
     
     def test_parse(self):
-        config = YamlConfiguration(path=self._config_path, root_node='dummy')
-        
-        self.assertEqual(config.get_value('a'), 1)
-        self.assertEqual(config.get_value('b'), 4)
-        self.assertIsInstance(config.get_value('c'), list)
-        self.assertListEqual(config.get_value('c'), [1, 2, 3, 4])
+        self.assertEqual(self._config.get_value('a'), 1)
+        self.assertEqual(self._config.get_value('b'), 4)
+        self.assertIsInstance(self._config.get_value('c'), list)
+        self.assertListEqual(self._config.get_value('c'), [1, 2, 3, 4])
  
 class RunConfigurationTest(TestCase):
     
     def setUp(self):
         current_dir = dirname(realpath(__file__))
-        self._config_path = join(current_dir, 
-                                 'resources', 'run_configuration_basic.yml')
+        config_path = join(current_dir, 'resources', 
+                           'run_configuration_basic.yml')
+        self._config = RunConfiguration(config_path)
         
     def test_parse(self):
-        config = RunConfiguration(self._config_path)
-        
-        self.assertEqual(config.get_value('nr_events'), 5)
-        self.assertListEqual(config.get_value('modules'), 
+        self.assertEqual(self._config.get_value('nr_events'), 5)
+        self.assertListEqual(self._config.get_value('modules'), 
                              ['hello_world.HelloWorld', 
                               'bye_bye_world.ByeByeWorld'])
         
@@ -54,19 +54,23 @@ class LoaderTest(TestCase):
 class RunEngineConfigurationTest(TestCase):
     
     def setUp(self):
-        current_dir = dirname(realpath(__file__))
-        self._config_path = join(current_dir, 
-                                 'resources', 'run_configuration_basic.yml')
+        self._set_up_run_config()
+        self._set_up_run_engine_config()
         
+    def _set_up_run_config(self):
+        current_dir = dirname(realpath(__file__))
+        config_path = join(current_dir, 'resources', 
+                           'run_configuration_basic.yml')
+        self._config = RunConfiguration(config_path)
+        
+    def _set_up_run_engine_config(self):
         introspect = Introspection()
         loader = Loader(introspect)
         self._configurator = RunEngineConfigurator(loader)
         
     def test_apply(self):
-        config = RunConfiguration(self._config_path)
         engine = RunEngine()
-        
-        self._configurator.apply(config, engine)
+        self._configurator.apply(self._config, engine)
         
         self.assertEqual(engine._nr_events, 5)
         self.assertIsInstance(engine._modules[0], HelloWorld)

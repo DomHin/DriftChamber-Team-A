@@ -28,7 +28,7 @@ class RunEngine(object):
         for module in self._modules:
             module.begin(self._datastore)
         
-        for _ in range(self.__nr_events):
+        for _ in range(self._nr_events):
             for module in self._modules:
                 module.event(self._datastore)
             

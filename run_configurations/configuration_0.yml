@@ -1,4 +1,4 @@
-run_configuration:
+drift_chamber:
   nr_events: 5
     
   modules:

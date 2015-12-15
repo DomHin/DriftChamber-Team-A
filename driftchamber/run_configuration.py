@@ -20,7 +20,7 @@ class YamlConfiguration(object):
 class RunConfiguration(YamlConfiguration):
     
     def __init__(self, path):
-        super().__init__(path, 'run_configuration')
+        super().__init__(path, 'drift_chamber')
 
 class Loader(object):
     

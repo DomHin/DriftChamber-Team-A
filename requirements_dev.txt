@@ -1,3 +1,4 @@
 nose
 nose-parameterized
+testfixtures
 pep8
