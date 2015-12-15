@@ -6,27 +6,31 @@ from driftchamber.core.module import Module
 class RunEngine(object):
     
     def __init__(self, nr_events = 1):
-        self.__modules = []
-        self.__nr_events = nr_events
-        self.__datastore = DataStore()
+        self._modules = []
+        self._nr_events = nr_events
+        self._datastore = DataStore()
         
     @property
-    def nr_events(self, nr_events):
-        self.__nr_events = nr_events
+    def nr_events(self):
+        return self._nr_events
+        
+    @nr_events.setter
+    def nr_events(self, value):
+        self._nr_events = value
     
     def add_module(self, module):
         if not isinstance(module, Module):
             raise TypeError('This is not a module.')
         
-        self.__modules.append(module)
+        self._modules.append(module)
     
     def execute(self):
-        for module in self.__modules:
-            module.begin(self.__datastore)
+        for module in self._modules:
+            module.begin(self._datastore)
         
         for _ in range(self.__nr_events):
-            for module in self.__modules:
-                module.event(self.__datastore)
+            for module in self._modules:
+                module.event(self._datastore)
             
-        for module in self.__modules:
-            module.end(self.__datastore)
+        for module in self._modules:
+            module.end(self._datastore)

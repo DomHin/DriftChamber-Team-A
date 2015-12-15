@@ -2,9 +2,11 @@ from unittest.case import TestCase
 from nose_parameterized import parameterized
 from os.path import realpath, dirname, join
 from driftchamber.utils import Introspection
-from driftchamber.run_configuration import YamlConfiguration, Loader
+from driftchamber.run_configuration import YamlConfiguration, RunConfiguration,\
+    Loader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
 from driftchamber.modules.bye_bye_world import ByeByeWorld
+from driftchamber.core.run_engine import RunEngine
 
 class YamlConfigurationTest(TestCase):
     
@@ -19,6 +21,21 @@ class YamlConfigurationTest(TestCase):
         self.assertEqual(config.get_value('b'), 4)
         self.assertIsInstance(config.get_value('c'), list)
         self.assertListEqual(config.get_value('c'), [1, 2, 3, 4])
+ 
+class RunConfigurationTest(TestCase):
+    
+    def setUp(self):
+        current_dir = dirname(realpath(__file__))
+        self._config_path = join(current_dir, 
+                                 'resources', 'run_configuration_basic.yml')
+        
+    def test_parse(self):
+        config = RunConfiguration(self._config_path)
+        
+        self.assertEqual(config.get_value('nr_events'), 5)
+        self.assertListEqual(config.get_value('modules'), 
+                             ['hello_world.HelloWorld', 
+                              'bye_bye_world.ByeByeWorld'])
         
 class LoaderTest(TestCase):
     
@@ -33,3 +50,24 @@ class LoaderTest(TestCase):
     def test_load_module(self, module, cls):
         obj = self._loader.load_module(module)
         self.assertIsInstance(obj, cls)
+        
+class RunEngineConfigurationTest(TestCase):
+    
+    def setUp(self):
+        current_dir = dirname(realpath(__file__))
+        self._config_path = join(current_dir, 
+                                 'resources', 'run_configuration_basic.yml')
+        
+        introspect = Introspection()
+        loader = Loader(introspect)
+        self._configurator = RunEngineConfigurator(loader)
+        
+    def test_apply(self):
+        config = RunConfiguration(self._config_path)
+        engine = RunEngine()
+        
+        self._configurator.apply(config, engine)
+        
+        self.assertEqual(engine._nr_events, 5)
+        self.assertIsInstance(engine._modules[0], HelloWorld)
+        self.assertIsInstance(engine._modules[1], ByeByeWorld)

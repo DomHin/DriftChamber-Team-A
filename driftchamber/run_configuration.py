@@ -1,5 +1,4 @@
 import yaml
-from os import path
 
 class YamlConfiguration(object):
 
@@ -17,6 +16,11 @@ class YamlConfiguration(object):
     
     def get_value(self, key):
         return self._values[key]
+    
+class RunConfiguration(YamlConfiguration):
+    
+    def __init__(self, path):
+        super().__init__(path, 'run_configuration')
 
 class Loader(object):
     
@@ -41,17 +45,19 @@ class RunEngineConfigurator(object):
         self._loader = loader
     
     def apply(self, config, engine):
-        nr_events = config.nr_events()
-        engine.nr_events(nr_events)
+        nr_events = config.get_value('nr_events')
+        engine.nr_events = nr_events
         
         self._add_modules(config, engine)
         self._add_objects(config, engine)
             
     def _add_modules(self, config, engine):
-        for module_name in config.module_names():
+        module_names = config.get_value('modules')
+        
+        for module_name in module_names:
             module = self._loader.load_module(module_name)
             engine.add_module(module)
     
     def _add_objects(self, config, engine):
-        run_config_dir = path.dirname(path.realpath(config.path()))
+        pass
         

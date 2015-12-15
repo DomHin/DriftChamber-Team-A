@@ -1,0 +1,6 @@
+run_configuration:
+  nr_events: 5
+    
+  modules:
+    - hello_world.HelloWorld
+    - bye_bye_world.ByeByeWorld
