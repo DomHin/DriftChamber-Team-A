@@ -5,60 +5,18 @@ class YamlConfiguration(object):
 
     def __init__(self, path, root_node):
         self._path = path
+        self._root_node = root_node
         self._values = {}
         
-        self._parse(root_node)
+        self._parse()
 
-    def _parse(self, path, root_node):
+    def _parse(self):
         stream = open(self._path, 'r')
         data = yaml.load(stream)
-
-        self._values = data[root_node]
-
-    @property
-    def path(self):
-        return self._path
+        self._values = data[self._root_node]
     
     def get_value(self, key):
         return self._values[key]
-
-class RunConfiguration(object):
-
-    def __init__(self, path):
-        self._config = YamlConfiguration(root_node = 'run_configuration')
-        
-    @property
-    def nr_events(self):
-        return self._config.get_value('nr_events')
-    
-    @property
-    def datastore_objects(self):
-        return self._config.get_value('datastore_objects')
-    
-    @property
-    def module_names(self):
-        return self._config.get_value('modules')
-    
-class DataStoreObjectConfiguration(object):
-    
-    def __init(self, path):
-        self._config = YamlConfiguration(root_node = 'datastore_objects')
-        
-    @property
-    def id(self):
-        return self._config.get_value('id')
-    
-    @property
-    def class_name(self):
-        return self._config.get_value('class')
-    
-    @property
-    def lifetime(self):
-        return self._config.get_value('lifetime')
-    
-    @property
-    def attr_values(self):
-        return self._config.get_value('attr_values')
 
 class Loader(object):
     
@@ -69,9 +27,9 @@ class Loader(object):
         self._introspect = introspect
     
     def load_module(self, module):
-        module_cls = self._inflector.camelize(module)
-        module_cls_fqn = '{0}.{1}' % (self.MODULES_PACKAGE, module_cls)
-        cls = self._introspect.load_class(module_cls_fqn)
+        cls_name = self._inflector.camelize(module)
+        cls_fqn = '{0}.{1}' % (self.MODULES_PACKAGE, cls_name)
+        cls = self._introspect.load_class(cls_fqn)
         
         return cls()
     
