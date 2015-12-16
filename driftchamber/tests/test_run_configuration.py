@@ -2,8 +2,8 @@ from unittest.case import TestCase
 from nose_parameterized import parameterized
 from os.path import realpath, dirname, join
 from driftchamber.utils import Introspection
-from driftchamber.run_configuration import YamlConfiguration, RunConfiguration,\
-    Loader, RunEngineConfigurator
+from driftchamber.run_configuration import YamlConfiguration,\
+    RunConfiguration, Loader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
 from driftchamber.modules.bye_bye_world import ByeByeWorld
 from driftchamber.core.run_engine import RunEngine

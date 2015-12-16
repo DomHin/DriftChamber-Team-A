@@ -8,17 +8,16 @@ from driftchamber.utils import Introspection
 class DriftChamber(object):
         
     def __init__(self):
-        introspect = Introspection()
-        loader = Loader(introspect)
-        
-        self._engine = None
+        loader = Loader(Introspection())
         self._configurator = RunEngineConfigurator(loader)
         
-    def load_run_config(self, runconfig_path):
-        self._engine = RunEngine()
-        runconfig = RunConfiguration(runconfig_path)
+        self._engine = None
         
-        self._configurator.apply(runconfig, self._engine)
+    def load_run_config(self, run_config_path):
+        self._engine = RunEngine()
+        run_config = RunConfiguration(run_config_path)
+        
+        self._configurator.apply(run_config, self._engine)
     
     def run_sim(self):
         self._engine.execute()

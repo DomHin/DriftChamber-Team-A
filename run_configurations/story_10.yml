@@ -1,0 +1,5 @@
+# Configuration files
+# -------------------
+#
+# - I can put the geometry and background configuration into 
+#   a file and read those from file

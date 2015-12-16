@@ -1,0 +1,8 @@
+# Module for creation of particle with random x-position and momentum
+# -------------------------------------------------------------------
+#
+# - I can add a ParticleGunModule to the RunEngine, that stores a single particle in the
+#   DataStore.
+#
+# - I have a ParticlePrinterModule, that retrieves a Particle from the DataStore and prints
+#   it initial position and momentum.

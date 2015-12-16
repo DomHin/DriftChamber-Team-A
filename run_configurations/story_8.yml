@@ -1,0 +1,6 @@
+# Several Particles in one Event
+# ------------------------------
+#
+# - I can add several ParticleGun Modules to the RunEngine or shoot 
+#   several particles with the same ParticleGun module, and all Particles p
+#   roduce hits in the same event.

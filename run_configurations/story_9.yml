@@ -1,0 +1,6 @@
+# Particle information from a text file
+# -------------------------------------
+#
+# - I can read in a file in some predetermined format instead of using
+#   the ParticleGun to define which particles are simulated (assume we
+#   will use an external "generator program" at some time).
