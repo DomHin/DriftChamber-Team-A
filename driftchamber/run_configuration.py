@@ -52,11 +52,10 @@ class RunEngineConfigurator(object):
         self._loader = loader
     
     def apply(self, config, engine):
-        nr_events = config.get_value('nr_events')
-        engine.nr_events = nr_events
+        engine.events = config.get_value('events')
         
         self._add_modules(config, engine)
-        self._add_objects(config, engine)
+        self._add_datastore_objects(config, engine)
             
     def _add_modules(self, config, engine):
         module_names = config.get_value('modules')
@@ -65,6 +64,6 @@ class RunEngineConfigurator(object):
             module = self._loader.load_module(module_name)
             engine.add_module(module)
     
-    def _add_objects(self, config, engine):
+    def _add_datastore_objects(self, config, engine):
         pass
         

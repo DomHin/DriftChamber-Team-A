@@ -1,5 +1,5 @@
 drift_chamber:
-  nr_events: 5
+  events: 5
     
   modules:
     - hello_world.HelloWorld

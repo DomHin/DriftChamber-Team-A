@@ -6,5 +6,5 @@
 # - For each cell, that is hit, I get an Hit object in the DataStore, that knows 
 #   how much energy the particle deposited in that cell.
 #
-# - In the graphical representation, hit cells are drawn with
-#   a different symbol, than cells which have not been hit.
+# - In the graphical representation, hit cells are drawn with a different symbol, 
+#   than cells which have not been hit.

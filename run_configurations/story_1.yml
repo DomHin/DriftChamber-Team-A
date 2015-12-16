@@ -7,7 +7,7 @@
 #   function of each module is executed, this is repeated nEvent times
 
 drift_chamber:
-  nr_events: 5
+  events: 5
     
   modules:
     - hello_world.HelloWorld

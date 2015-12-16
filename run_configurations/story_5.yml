@@ -1,5 +1,5 @@
 # Random Background Hits Module
 # -----------------------------
 #
-# - I can add a module to the RunEngine, that adds random noise energy depositions/ background Hits.
+# - I can add a module to the RunEngine, that adds random noise energy depositions/background Hits.
 #   I can configure the probability of such hits to show up via a module parameter.

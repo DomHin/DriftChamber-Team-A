@@ -18,5 +18,8 @@ class Vector(object):
     def __sub__(self, vec):
         return Vector(self.x - vec.x, self.y - vec.y)
     
-    def __eq__(self, *args, **kwargs):
-        return object.__eq__(self, *args, **kwargs)
+    def __eq__(self, vec):
+        return self.x == vec.x and self.y == vec.y
+    
+    def __ne__(self, vec):
+        return not self == vec

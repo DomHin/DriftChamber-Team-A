@@ -32,10 +32,12 @@ class RunConfigurationTest(TestCase):
         self._config = RunConfiguration(config_path)
         
     def test_parse(self):
-        self.assertEqual(self._config.get_value('nr_events'), 5)
+        self.assertEqual(self._config.get_value('events'), 5)
+        
+        expected_modules = ['hello_world.HelloWorld', 
+                            'bye_bye_world.ByeByeWorld']
         self.assertListEqual(self._config.get_value('modules'), 
-                             ['hello_world.HelloWorld', 
-                              'bye_bye_world.ByeByeWorld'])
+                             expected_modules)
         
 class LoaderTest(TestCase):
     
@@ -62,16 +64,16 @@ class LoaderTest(TestCase):
 class RunEngineConfigurationTest(TestCase):
     
     def setUp(self):
-        self._set_up_run_config()
-        self._set_up_run_engine_config()
+        self._load_config()
+        self._load_configurator()
         
-    def _set_up_run_config(self):
+    def _load_config(self):
         current_dir = dirname(realpath(__file__))
         config_path = join(current_dir, 'resources', 
                            'run_configuration_basic.yml')
         self._config = RunConfiguration(config_path)
         
-    def _set_up_run_engine_config(self):
+    def _load_configurator(self):
         loader = Loader()
         self._configurator = RunEngineConfigurator(loader)
         
@@ -79,6 +81,6 @@ class RunEngineConfigurationTest(TestCase):
         engine = RunEngine()
         self._configurator.apply(self._config, engine)
         
-        self.assertEqual(engine._nr_events, 5)
+        self.assertEqual(engine._events, 5)
         self.assertIsInstance(engine._modules[0], HelloWorld)
         self.assertIsInstance(engine._modules[1], ByeByeWorld)
