@@ -5,7 +5,6 @@
 #   of SuperLayers, for each SuperLayer the number of Layers, and the width of the drift
 #   chamber in total (which is global as every layer has the same width). Each layer is
 #   filled with Drift Cells of width "1". The geometry is supposed to be created only once
-#
-# - I have a simple graphical depiction of the chosen geometry.
-#   Different SuperLayers can be shown either by different colours
-#   or different symbols for the cells.
+
+# - I have a simple graphical depiction of the chosen geometry. Different SuperLayers 
+#   can be shown either by different colours or different symbols for the cells.

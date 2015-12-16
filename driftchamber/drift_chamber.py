@@ -5,37 +5,27 @@ from driftchamber.run_configuration import RunConfiguration,\
     RunEngineConfigurator, Loader
 from driftchamber.utils import Introspection
 
-class DriftChamber(object):
-        
-    def __init__(self):
-        loader = Loader(Introspection())
-        self._configurator = RunEngineConfigurator(loader)
-        
-        self._engine = None
-        
-    def load_run_config(self, run_config_path):
-        self._engine = RunEngine()
-        run_config = RunConfiguration(run_config_path)
-        
-        self._configurator.apply(run_config, self._engine)
+def run_simulation(run_config_path):
+    loader = Loader(Introspection())
+    configurator = RunEngineConfigurator(loader)
+    run_config = RunConfiguration(run_config_path)
     
-    def run_sim(self):
-        self._engine.execute()
+    engine = RunEngine()
+    configurator.apply(run_config, engine)
+    engine.execute()
 
 def main(args = None):
     logging.basicConfig(level=logging.DEBUG)
-    logging.info('Drift Chamber Program started')
+    logging.info('Drift Chamber Simulator started')
 
     parser = ArgumentParser(description='DriftChamber [Team A]')
     parser.add_argument('runconfiguration', type = str,  required = True,
                         help = 'Path to a run configuration file.')
     args = parser.parse_args(args)
 
-    chamber = DriftChamber()
-    chamber.load_run_config(args.runconfiguration)
-    chamber.run_sim()
+    run_simulation(args.runconfiguration)
 
-    logging.info('All processing done')
+    logging.info('Drift Chamber Simulator done')
 
 if __name__ == '__main__':
     main()

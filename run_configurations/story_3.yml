@@ -3,6 +3,11 @@
 #
 # - I can add a ParticleGunModule to the RunEngine, that stores a single particle in the
 #   DataStore.
-#
 # - I have a ParticlePrinterModule, that retrieves a Particle from the DataStore and prints
 #   it initial position and momentum.
+
+drift_chamber:
+
+  modules:
+    - particle_gun.ParticleGun
+    - particle_printer.ParticlePrinter

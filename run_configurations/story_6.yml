@@ -2,5 +2,5 @@
 # --------------------
 #
 # - I can add a module, that uses the hits to find track(s) via the Hough-algorithm 
-#   (https://de.wikipedia.org/wiki/Hough-Transformation).
-#   The parameters of the found track are printed out.
+#   (https://de.wikipedia.org/wiki/Hough-Transformation). The parameters of the found
+#   track are printed out.

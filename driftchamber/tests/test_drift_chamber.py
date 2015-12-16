@@ -1,7 +1,7 @@
 from unittest.case import TestCase
 from testfixtures import log_capture
 from os.path import realpath, dirname, join
-from driftchamber.drift_chamber import DriftChamber
+from driftchamber.drift_chamber import run_simulation
 
 class DriftChamberTest(TestCase):
     
@@ -11,9 +11,7 @@ class DriftChamberTest(TestCase):
         config_path = join(current_dir, 'resources', 
                                  'run_configuration_basic.yml')
         
-        chamber = DriftChamber()
-        chamber.load_run_config(config_path)
-        chamber.run_sim()
+        run_simulation(config_path)
         
         log.check(
             ('root', 'INFO', 'Module HelloWorld before event processing'),

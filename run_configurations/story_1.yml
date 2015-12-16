@@ -2,11 +2,8 @@
 # -----------------------------------
 #
 # - I'm able to add modules, e.g. HelloWorldModule and ByeByeWorldModule to the RunEngine
-#
 # - These modules print out some text in their event functions
-#
 # - I can specify nEvents with a method of the RunEngine and ask it to run, then the event
-#
 #   function of each module is executed, this is repeated nEvent times
 
 drift_chamber:
