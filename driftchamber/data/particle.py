@@ -27,8 +27,8 @@ class Particle(object):
     
     @property
     def energy(self):
-        return (self._mass**2 + self._momentum.x()**2 + 
-                self._momentum.y()**2)**0.5
+        return (self.mass**2 + self.momentum.x**2 + 
+                self.momentum.y**2)**0.5
 
     @energy.setter
     def energy(self, value):

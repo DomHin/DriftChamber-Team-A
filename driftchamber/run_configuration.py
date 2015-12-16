@@ -27,14 +27,21 @@ class Loader(object):
     MODULES_PACKAGE = 'driftchamber.modules'
     DATA_PACKAGE = 'driftchamber.data'
     
-    def __init__(self, introspect):
-        self._introspect = introspect
-    
     def load_module(self, module):
         cls_fqn = '%s.%s' % (self.MODULES_PACKAGE, module)
-        cls = self._introspect.load_class(cls_fqn)
+        cls = self.load_class(cls_fqn)
         
         return cls()
+    
+    def load_class(self, class_fqn):
+        parts = class_fqn.split('.')
+        module_name = '.'.join(parts[:-1])
+        module = __import__(module_name)
+        
+        for component in parts[1:]:
+            module = getattr(module, component)
+        
+        return module
     
     def load_datastore_object(self, config):
         pass

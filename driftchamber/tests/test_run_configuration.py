@@ -1,7 +1,7 @@
 from unittest.case import TestCase
 from nose_parameterized import parameterized
 from os.path import realpath, dirname, join
-from driftchamber.utils import Introspection
+import inspect
 from driftchamber.run_configuration import YamlConfiguration,\
     RunConfiguration, Loader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
@@ -40,8 +40,7 @@ class RunConfigurationTest(TestCase):
 class LoaderTest(TestCase):
     
     def setUp(self):
-        introspect = Introspection()
-        self._loader = Loader(introspect)
+        self._loader = Loader()
         
     @parameterized.expand([
         ('hello_world.HelloWorld', HelloWorld),
@@ -50,6 +49,15 @@ class LoaderTest(TestCase):
     def test_load_module(self, module, cls):
         obj = self._loader.load_module(module)
         self.assertIsInstance(obj, cls)
+        
+    @parameterized.expand([
+        ('collections.abc.Sequence'),
+        ('collections.abc.Coroutine'),
+        ('collections.abc.Generator')
+    ])
+    def test_load_class(self, class_fqn):
+        cls = self._loader.load_class(class_fqn)
+        self.assertTrue(inspect.isclass(cls))
         
 class RunEngineConfigurationTest(TestCase):
     
@@ -64,8 +72,7 @@ class RunEngineConfigurationTest(TestCase):
         self._config = RunConfiguration(config_path)
         
     def _set_up_run_engine_config(self):
-        introspect = Introspection()
-        loader = Loader(introspect)
+        loader = Loader()
         self._configurator = RunEngineConfigurator(loader)
         
     def test_apply(self):

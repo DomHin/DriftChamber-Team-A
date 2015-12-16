@@ -3,10 +3,9 @@ from argparse import ArgumentParser
 from driftchamber.core.run_engine import RunEngine
 from driftchamber.run_configuration import RunConfiguration,\
     RunEngineConfigurator, Loader
-from driftchamber.utils import Introspection
 
 def run_simulation(run_config_path):
-    loader = Loader(Introspection())
+    loader = Loader()
     configurator = RunEngineConfigurator(loader)
     run_config = RunConfiguration(run_config_path)
     
@@ -29,3 +28,4 @@ def main(args = None):
 
 if __name__ == '__main__':
     main()
+    
