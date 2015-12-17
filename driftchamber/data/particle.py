@@ -1,4 +1,4 @@
-from driftchamber.math import Vector
+from driftchamber.math import Vector, norm
 
 class Particle(object):
 
@@ -8,6 +8,10 @@ class Particle(object):
         self._mass = mass
         self._momentum = momentum
         self._position = position
+    
+    @property
+    def name(self):
+        return self._name
         
     @property
     def position(self):
@@ -27,7 +31,7 @@ class Particle(object):
     
     @property
     def energy(self):
-        return (self.mass**2 + (self.momentum**2).norm())**0.5
+        return (self.mass**2 + norm(self.momentum**2))**0.5
 
     @energy.setter
     def energy(self, value):

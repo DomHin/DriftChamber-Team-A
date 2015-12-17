@@ -28,7 +28,7 @@ class Loader(object):
     DATA_PACKAGE = 'driftchamber.data'
     
     def load_module(self, module):
-        cls_fqn = '%s.%s' % (self.MODULES_PACKAGE, module)
+        cls_fqn = '{}.{}'.format(self.MODULES_PACKAGE, module)
         cls = self.load_class(cls_fqn)
         
         return cls()

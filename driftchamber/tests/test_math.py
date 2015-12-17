@@ -1,6 +1,6 @@
 from unittest.case import TestCase
 from nose_parameterized import parameterized
-from driftchamber.math import Vector
+from driftchamber.math import Vector, norm
 
 class VectorTest(TestCase):
     
@@ -29,6 +29,6 @@ class VectorTest(TestCase):
         (Vector(2, 4), 2, Vector(4, 16), 16.49),
         (Vector(2, 4), 5, Vector(32, 1024), 1024.5)
     ])
-    def test_vector_pow(self, v, exponent, result_v, norm):
+    def test_vector_pow(self, v, exponent, result_v, norm_val):
         self.assertEqual(v**exponent, result_v)
-        self.assertAlmostEqual((v**exponent).norm(), norm, 2)
+        self.assertAlmostEqual(norm(v**exponent), norm_val, 2)
