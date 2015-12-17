@@ -1,8 +1,7 @@
 class Vector(object):
 
     def __init__(self, x, y):
-        self._x = x
-        self._y = y
+        self._x, self._y = x, y
 
     @property
     def x(self):
@@ -23,3 +22,6 @@ class Vector(object):
     
     def __ne__(self, vec):
         return not self == vec
+    
+    def __mul__(self, vec):
+        return self.x * vec.x + self.y * vec.y
