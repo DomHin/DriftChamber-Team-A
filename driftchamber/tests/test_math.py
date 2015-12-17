@@ -5,16 +5,30 @@ from driftchamber.math import Vector
 class VectorTest(TestCase):
     
     @parameterized.expand([
-        (Vector(2, 4), Vector(3, 5), Vector(5, 9), Vector(-1, -1), 26),
-        (Vector(-7, -9), Vector(-4, 30), Vector(-11, 21), Vector(-3, -39), -242)
+        (Vector(2, 4), Vector(3, 5), Vector(5, 9)),
+        (Vector(-7, -9), Vector(-4, 30), Vector(-11, 21))
     ])
-    def test_vector_operations(self, v1, v2, sum_v, diff_v, prod):
-        self.assertIsNotNone(v1.x)
-        self.assertIsNotNone(v1.y)
-        self.assertIsNotNone(v2.x)
-        self.assertIsNotNone(v2.y)
-        
+    def test_vector_sum(self, v1, v2, sum_v):
         self.assertEqual(v1 + v2, sum_v)
+        
+    @parameterized.expand([
+        (Vector(2, 4), Vector(3, 5), Vector(-1, -1)),
+        (Vector(-7, -9), Vector(-4, 30), Vector(-3, -39))
+    ])
+    def test_vector_diff(self, v1, v2, diff_v):
         self.assertEqual(v1 - v2, diff_v)
+        
+    @parameterized.expand([
+        (Vector(2, 4), Vector(3, 5), 26),
+        (Vector(-7, -9), Vector(-4, 30), -242)
+    ])
+    def test_vector_prod(self, v1, v2, prod):
         self.assertEqual(v1 * v2, prod)
-        self.assertNotEqual(sum_v, diff_v)
+        
+    @parameterized.expand([
+        (Vector(2, 4), 2, Vector(4, 16), 16.49),
+        (Vector(2, 4), 5, Vector(32, 1024), 1024.5)
+    ])
+    def test_vector_pow(self, v, exponent, result_v, norm):
+        self.assertEqual(v**exponent, result_v)
+        self.assertAlmostEqual((v**exponent).norm(), norm, 2)
