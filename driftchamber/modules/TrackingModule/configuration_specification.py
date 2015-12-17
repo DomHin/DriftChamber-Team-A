@@ -12,10 +12,26 @@ configuration_specification = {
 'Tracking': [
     ConfigurationOption('precision',
                         'Decimal precision',
-                        int,
+                        float,
                         [ConfigurationOptionValidation(
                             lambda value: value >= 0,
                             'The precision should be positive.'
+                        )],
+                        p_isCompulsory=True),
+    ConfigurationOption('threshold',
+                        'minimum hits in houghspace to generate Track',
+                        int,
+                        [ConfigurationOptionValidation(
+                            lambda value: value >= 0,
+                            'The threshold should be positive.'
+                        )],
+                        p_isCompulsory=True),
+    ConfigurationOption('minDistance',
+                        'minimum distance in houghspace from other Tracks',
+                        int,
+                        [ConfigurationOptionValidation(
+                            lambda value: value >= 0,
+                            'minDistance should be positive.'
                         )],
                         p_isCompulsory=True)
     ]
