@@ -1,55 +1,47 @@
 from unittest.case import TestCase
 from nose_parameterized import parameterized
-from os.path import realpath, dirname, join
 import inspect
 from driftchamber.run_configuration import YamlConfiguration,\
     RunConfiguration, Loader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
 from driftchamber.modules.bye_bye_world import ByeByeWorld
+from driftchamber.modules.geometry import DetectorGeometry
 from driftchamber.core.run_engine import RunEngine
+from driftchamber.tests.resources import resource_path
 
 class YamlConfigurationTest(TestCase):
-    
-    def setUp(self):
-        current_dir = dirname(realpath(__file__))
-        config_path = join(current_dir, 'resources', 'dummy.yml')
+
+    def test_dummy_file(self):
+        dummy_path = resource_path('dummy.yml')
+        config = YamlConfiguration(path = dummy_path, root_node = 'dummy')
         
-        self._config = YamlConfiguration(path = config_path, 
-                                         root_node = 'dummy')
-    
-    def test_parse(self):
-        self.assertEqual(self._config.get_value('a'), 1)
-        self.assertEqual(self._config.get_value('b'), 4)
-        self.assertIsInstance(self._config.get_value('c'), list)
-        self.assertListEqual(self._config.get_value('c'), [1, 2, 3, 4])
+        self.assertEqual(config.get_value('a'), 1)
+        self.assertEqual(config.get_value('b'), 4)
+        self.assertEqual(config.get_value('nonexisting'), None)
+        self.assertEqual(config.get_value('nonexisting1', 0), 0)
+        self.assertIsInstance(config.get_value('c'), list)
+        self.assertListEqual(config.get_value('c'), [1, 2, 3, 4])
  
 class RunConfigurationTest(TestCase):
-    
-    def setUp(self):
-        current_dir = dirname(realpath(__file__))
-        config_path = join(current_dir, 'resources', 
-                           'run_configuration_basic.yml')
-        self._config = RunConfiguration(config_path)
-        
-    def test_parse(self):
-        self.assertEqual(self._config.get_value('events'), 5)
-        
+
+    def test_basic_configuration(self):
+        path = resource_path('run_configuration_basic.yml')
+        config = RunConfiguration(path)
         expected_modules = ['hello_world.HelloWorld', 
                             'bye_bye_world.ByeByeWorld']
-        self.assertListEqual(self._config.get_value('modules'), 
-                             expected_modules)
+        
+        self.assertEqual(config.get_value('events'), 5)
+        self.assertListEqual(config.get_value('modules'), expected_modules)
         
 class LoaderTest(TestCase):
-    
-    def setUp(self):
-        self._loader = Loader()
-        
+
     @parameterized.expand([
         ('hello_world.HelloWorld', HelloWorld),
         ('bye_bye_world.ByeByeWorld', ByeByeWorld)
     ])
     def test_load_module(self, module, cls):
-        obj = self._loader.load_module(module)
+        loader = Loader()
+        obj = loader.load_module(module)
         self.assertIsInstance(obj, cls)
         
     @parameterized.expand([
@@ -58,29 +50,34 @@ class LoaderTest(TestCase):
         ('collections.abc.Generator')
     ])
     def test_load_class(self, class_fqn):
-        cls = self._loader.load_class(class_fqn)
+        loader = Loader()
+        cls = loader.load_class(class_fqn)
         self.assertTrue(inspect.isclass(cls))
         
 class RunEngineConfigurationTest(TestCase):
-    
-    def setUp(self):
-        self._load_config()
-        self._load_configurator()
-        
-    def _load_config(self):
-        current_dir = dirname(realpath(__file__))
-        config_path = join(current_dir, 'resources', 
-                           'run_configuration_basic.yml')
-        self._config = RunConfiguration(config_path)
-        
-    def _load_configurator(self):
-        loader = Loader()
-        self._configurator = RunEngineConfigurator(loader)
-        
-    def test_apply(self):
+
+    def test_basic_configuration(self):
         engine = RunEngine()
-        self._configurator.apply(self._config, engine)
-        
-        self.assertEqual(engine._events, 5)
+        configurator = RunEngineConfigurator(Loader())
+        config_path = resource_path('run_configuration_basic.yml')
+
+        configurator.apply(RunConfiguration(config_path), engine)
+
+        self.assertEqual(engine.events, 5)
         self.assertIsInstance(engine._modules[0], HelloWorld)
         self.assertIsInstance(engine._modules[1], ByeByeWorld)
+        
+    def test_configuration_with_parameters(self):
+        engine = RunEngine()
+        configurator = RunEngineConfigurator(Loader())
+        config_path = resource_path('run_configuration_params.yml')
+
+        configurator.apply(RunConfiguration(config_path), engine)
+
+        self.assertEqual(engine.events, 0)
+        self.assertIsInstance(engine._modules[0], HelloWorld)
+        self.assertIsInstance(engine._modules[1], DetectorGeometry)
+        self.assertIsInstance(engine._modules[2], ByeByeWorld)
+        self.assertEqual(engine._modules[1]._superlayers, 4)
+        self.assertListEqual(engine._modules[1]._layers, [4, 2, 5, 1])
+        self.assertEqual(engine._modules[1]._cells, 5)

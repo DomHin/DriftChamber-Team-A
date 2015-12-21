@@ -4,7 +4,6 @@ import os
 import functools
 from enum import Enum
 
-
 class NotFoundInDataStore(Exception):
     """
     Exception which gets raised if an object with the
@@ -12,14 +11,12 @@ class NotFoundInDataStore(Exception):
     """
     pass
 
-
 class AlreadyInDataStore(Exception):
     """
     Exception which gets raised if an object with the
     same name is already registered in the the data store
     """
     pass
-
 
 class ObjectLifetime(Enum):
     """
@@ -34,7 +31,6 @@ class ObjectLifetime(Enum):
     Event = 1
     Application = 2
 
-
 class DataStore(object):
     """
     Data store for modules to retrieve input for their computation and
@@ -47,8 +43,8 @@ class DataStore(object):
 
     def put(self, name, obj, lifetime=ObjectLifetime.Event):
         """
-        Put a object in the datastore. An object with the same name must not exist,
-        otherwise a AlreadyInDataStore exception is thrown
+        Put a object in the datastore. An object with the same name must 
+        not exist, otherwise a AlreadyInDataStore exception is thrown
         :param name: identifying name
         :param obj: object to store
         :param lifetime: lifetime of the object
@@ -63,8 +59,8 @@ class DataStore(object):
 
     def get(self, name):
         """
-        retrieves an object by its name. Can raise a NotFoundInDataStore exception, if
-        no object with this name is registered
+        retrieves an object by its name. Can raise a NotFoundInDataStore 
+        exception, if no object with this name is registered
         :param name: object name
         :return: reference to the object
         """
@@ -76,9 +72,10 @@ class DataStore(object):
 
     def clear(self, lifetime):
         """
-        Remove all objects from the datastore which have the lifetime specifies in the
-        parameter
-        :param lifetime: all objects with this lifetime will be removed from the store
+        Remove all objects from the datastore which have the lifetime 
+        specifies in the parameter
+        :param lifetime: all objects with this lifetime will be removed from
+        the store
         :return: None
         """
 
@@ -94,6 +91,6 @@ class DataStore(object):
         :return: string representation of the data store content
         """
         return functools.reduce(
-            lambda acc, v: acc + str(v[0]) + " : " + str(v[1][1]) + " - lifetime " + str(v[1][0]) + os.linesep,
-            self.store.items(), "")
-
+            lambda acc, v: acc + str(v[0]) + " : " + str(v[1][1]) + 
+            " - lifetime " + str(v[1][0]) + os.linesep, self.store.items(), 
+            "")

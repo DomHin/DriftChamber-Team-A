@@ -1,6 +1,5 @@
 __author__ = 'Thomas Hauth, Martin Heck'
 
-
 class Module(object):
     """
     Base class for processing modules
@@ -21,9 +20,11 @@ class Module(object):
 
     def event(self, datastore):
         """
-        Called by the processing framework for every event during event processing.
-        Overwrite this, if your module implementation needs to perform some work on a
-        per-event basis. This function is called many times in the application lifetime.
+        Called by the processing framework for every event during event 
+        processing.
+        Overwrite this, if your module implementation needs to perform some 
+        work on a per-event basis. This function is called many times in the 
+        application lifetime.
 
         :param datastore: reference to the DataStore object
         :return: None
@@ -32,12 +33,13 @@ class Module(object):
 
     def end(self, datastore):
         """
-        Called by the processing framework after the last event has been processed.
-        Overwrite this, if your module implementation needs to perform some work after
-        all events have been processed. This function is only called once in the application lifetime.
+        Called by the processing framework after the last event has been 
+        processed.
+        Overwrite this, if your module implementation needs to perform some 
+        work after all events have been processed. This function is only 
+        called once in the application lifetime.
 
         :param datastore: reference to the DataStore object
         :return: None
         """
         pass
-

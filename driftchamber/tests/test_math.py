@@ -31,4 +31,11 @@ class VectorTest(TestCase):
     ])
     def test_vector_pow(self, v, exponent, result_v, norm_val):
         self.assertEqual(v**exponent, result_v)
-        self.assertAlmostEqual(norm(v**exponent), norm_val, 2)
+    
+    @parameterized.expand([
+        (Vector(2, 4), 4.47),
+        (Vector(-4, 30), 30.265),
+        (Vector(5, 9), 10.295)
+    ])
+    def test_vector_norm(self, v, norm_val):
+        self.assertAlmostEqual(norm(v), norm_val, 2)

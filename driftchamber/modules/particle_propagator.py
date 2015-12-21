@@ -2,7 +2,6 @@ __author__ = 'Patrick Schreiber'
 
 from driftchamber.core.module import Module
 
-
 class ParticlePropagator(Module):
 
     def begin(self, datastore):

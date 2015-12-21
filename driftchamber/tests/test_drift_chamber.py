@@ -1,16 +1,13 @@
 from unittest.case import TestCase
 from testfixtures import log_capture
-from os.path import realpath, dirname, join
 from driftchamber.drift_chamber import run_simulation
+from driftchamber.tests.resources import resource_path
 
 class DriftChamberTest(TestCase):
     
     @log_capture()
     def test_basic_simulation(self, log):
-        current_dir = dirname(realpath(__file__))
-        config_path = join(current_dir, 'resources', 
-                                 'run_configuration_basic.yml')
-        
+        config_path = resource_path('run_configuration_basic.yml')
         run_simulation(config_path)
         
         log.check(

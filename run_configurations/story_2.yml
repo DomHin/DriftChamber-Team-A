@@ -12,11 +12,11 @@
 drift_chamber:
 
   modules:
-    - { class: geometry.DetectorGeometry, parameters: '%detector_geometry%' }
+    - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
     - visualization.SimpleDetectorVisualization
     
   parameters:
     detector_geometry:
       superlayers: 4
       layers: [4, 2, 5, 1]
-      layer_cells: 5
+      cells: 5

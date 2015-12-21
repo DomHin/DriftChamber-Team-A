@@ -25,12 +25,12 @@ class RunEngine(object):
         self._modules.append(module)
     
     def execute(self):
-        for module in self._modules:
-            module.begin(self._datastore)
+        for m in self._modules:
+            m.begin(self._datastore)
         
         for _ in range(self.events):
-            for module in self._modules:
-                module.event(self._datastore)
+            for m in self._modules:
+                m.event(self._datastore)
             
-        for module in self._modules:
-            module.end(self._datastore)
+        for m in self._modules:
+            m.end(self._datastore)

@@ -1,0 +1,12 @@
+drift_chamber:
+
+  modules:
+    - hello_world.HelloWorld
+    - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
+    - { class: bye_bye_world.ByeByeWorld }
+    
+  parameters:
+    detector_geometry:
+      superlayers: 4
+      layers: [4, 2, 5, 1]
+      cells: 5
