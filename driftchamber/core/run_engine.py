@@ -1,5 +1,3 @@
-__author__ = 'Patrick Schreiber, Genti Saliu'
-
 from driftchamber.core.datastore import DataStore
 from driftchamber.core.module import Module
 

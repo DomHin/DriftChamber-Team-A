@@ -1,6 +1,8 @@
 import yaml
+from driftchamber.core.datastore import ObjectLifetime
 
 class YamlConfiguration(object):
+    
     def __init__(self, path, root_node):
         stream = open(path, 'r')
         data = yaml.load(stream)
@@ -18,11 +20,12 @@ class RunConfiguration(YamlConfiguration):
         modules = []
         is_dict = lambda obj: isinstance(obj, dict)
         
-        for m in self.get_value('modules'):
-            module = {}
-            module['cls'] = m['class'] if is_dict(m) else m
-            module['params'] = self.parameters(m['parameters']) \
+        for m in self.get_value('modules', []):
+            module = {
+                'cls': m['class'] if is_dict(m) else m,
+                'params': self.parameters(m['parameters']) \
                                 if is_dict(m) and 'parameters' in m else {}
+            }
             modules.append(module)
         
         return modules
@@ -33,26 +36,32 @@ class RunConfiguration(YamlConfiguration):
 class Loader(object):
     
     MODULES_PACKAGE = 'driftchamber.modules'
-    DATA_PACKAGE = 'driftchamber.data'
     
     def load_module(self, cls_name, params = {}):
         cls_fqn = '{}.{}'.format(self.MODULES_PACKAGE, cls_name)
         cls = self.load_class(cls_fqn)
-        
         return cls(**params)
 
     def load_class(self, class_fqn):
         parts = class_fqn.split('.')
         module_name = '.'.join(parts[:-1])
         cls = __import__(module_name)
-
+        
         for component in parts[1:]:
             cls = getattr(cls, component)
 
         return cls
 
-    def load_datastore_object(self, config):
-        pass
+    def deserialize_object(self, config):
+        params = {}
+        is_dict = lambda obj: isinstance(obj, dict)
+        
+        for name, val in config['attr_values'].items():
+            params[name] = self.deserialize_object(val) \
+                                if is_dict(val) else val
+            
+        cls = self.load_class(config['class'])
+        return cls(**params)
         
 class RunEngineConfigurator(object):
     
@@ -65,9 +74,14 @@ class RunEngineConfigurator(object):
         self._add_datastore_objects(config, engine)
             
     def _add_modules(self, config, engine):
-        for module in config.modules():
-            module = self._loader.load_module(module['cls'], module['params'])
+        for m in config.modules():
+            module = self._loader.load_module(m['cls'], m['params'])
             engine.add_module(module)
 
     def _add_datastore_objects(self, config, engine):
-        pass
+        datastore_objects = config.get_value('datastore_objects', {}).items()
+        
+        for name, obj_config in datastore_objects:
+            lifetime = ObjectLifetime[obj_config['lifetime']]
+            obj = self._loader.deserialize_object(obj_config)
+            engine._datastore.put(name, obj, lifetime)

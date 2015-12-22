@@ -10,6 +10,10 @@ class Particle(object):
     @property
     def name(self):
         return self._name
+    
+    @property
+    def mass(self):
+        return self._mass
         
     @property
     def momentum(self):

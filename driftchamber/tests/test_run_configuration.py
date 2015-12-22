@@ -1,6 +1,7 @@
 from unittest.case import TestCase
 from nose_parameterized import parameterized
 import inspect
+from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.run_configuration import YamlConfiguration,\
     RunConfiguration, Loader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
@@ -54,7 +55,7 @@ class LoaderTest(TestCase):
         cls = loader.load_class(class_fqn)
         self.assertTrue(inspect.isclass(cls))
         
-class RunEngineConfigurationTest(TestCase):
+class RunEngineConfiguratorTest(TestCase):
 
     def test_basic_configuration(self):
         engine = RunEngine()
@@ -81,3 +82,19 @@ class RunEngineConfigurationTest(TestCase):
         self.assertEqual(engine._modules[1]._superlayers, 4)
         self.assertListEqual(engine._modules[1]._layers, [4, 2, 5, 1])
         self.assertEqual(engine._modules[1]._cells, 5)
+        
+    def test_configuration_with_datastore_objects(self):
+        engine = RunEngine()
+        configurator = RunEngineConfigurator(Loader())
+        config_path = resource_path('run_configuration_datastore_objects.yml')
+        
+        configurator.apply(RunConfiguration(config_path), engine)
+        
+        ds = engine._datastore
+        self.assertEqual(ds.store['electron'][0], ObjectLifetime.Event)
+        
+        electron = ds.get('electron')
+        self.assertEqual(electron.name, 'electron')
+        self.assertEqual(electron.mass, 0.000501)
+        self.assertEqual(electron.momentum.x, 0.04)
+        self.assertEqual(electron.momentum.y, 0.06)

@@ -1,0 +1,15 @@
+drift_chamber:
+  datastore_objects:
+    
+    electron:
+      class: driftchamber.data.particle.Particle
+      lifetime: Event
+      
+      attr_values:
+        name: electron
+        mass: 0.000501
+        momentum:
+          class: driftchamber.math.Vector
+          attr_values:
+            x: 0.04
+            y: 0.06
