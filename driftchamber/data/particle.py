@@ -1,8 +1,9 @@
-from driftchamber.math import Vector, norm
+from numpy import array
+from numpy.linalg import norm
 
 class Particle(object):
 
-    def __init__(self, name, mass, momentum = Vector(0, 0)):
+    def __init__(self, name, mass, momentum = array([0, 0])):
         self._name = name
         self._mass = mass
         self._momentum = momentum

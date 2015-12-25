@@ -9,7 +9,6 @@ drift_chamber:
         name: electron
         mass: 0.000501
         momentum:
-          class: driftchamber.math.Vector
+          class: numpy.array
           attr_values:
-            x: 0.04
-            y: 0.06
+            object: [0.04, 0.06]

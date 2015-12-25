@@ -6,15 +6,15 @@ class RunEngineTest(unittest.TestCase):
     
     def test_datastore_object_lifetimes(self):
         engine = RunEngine()
-        engine.events(1)
-        engine._datastore.put('key1', {}, ObjectLifetime.Application)
-        engine._datastore.put('key2', {}, ObjectLifetime.Event)
+        engine.events = 1
+        engine._datastore.put('item1', {}, ObjectLifetime.Application)
+        engine._datastore.put('item2', {}, ObjectLifetime.Event)
         engine.execute()
         
         with self.assertRaises(NotFoundInDataStore):
-            engine._datastore.get('key2')
+            engine._datastore.get('item2')
             
         try:
-            engine._datastore.get('key1')
+            engine._datastore.get('item1')
         except NotFoundInDataStore:
             self.fail()

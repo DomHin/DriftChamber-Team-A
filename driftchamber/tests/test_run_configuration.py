@@ -96,5 +96,5 @@ class RunEngineConfiguratorTest(TestCase):
         electron = ds.get('electron')
         self.assertEqual(electron.name, 'electron')
         self.assertEqual(electron.mass, 0.000501)
-        self.assertEqual(electron.momentum.x, 0.04)
-        self.assertEqual(electron.momentum.y, 0.06)
+        self.assertEqual(electron.momentum[0], 0.04)
+        self.assertEqual(electron.momentum[1], 0.06)

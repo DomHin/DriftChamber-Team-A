@@ -50,13 +50,12 @@ class Loader(object):
 
         return cls
 
-    def deserialize_object(self, config):
+    def load_object(self, config):
         params = {}
         is_dict = lambda obj: isinstance(obj, dict)
 
         for name, val in config['attr_values'].items():
-            params[name] = self.deserialize_object(val) \
-                                if is_dict(val) else val
+            params[name] = self.load_object(val) if is_dict(val) else val
 
         cls = self.load_class(config['class'])
         return cls(**params)
@@ -81,5 +80,5 @@ class RunEngineConfigurator(object):
 
         for name, obj_config in datastore_objects:
             lifetime = ObjectLifetime[obj_config['lifetime']]
-            obj = self._loader.deserialize_object(obj_config)
+            obj = self._loader.load_object(obj_config)
             engine._datastore.put(name, obj, lifetime)
