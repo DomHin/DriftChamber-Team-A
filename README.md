@@ -1,6 +1,6 @@
 # Drift Chamber Project
 
-![Travis Build Status](https://api.travis-ci.com/KIT-CSD-WS15/DriftChamber-Team-A.svg?token=gFo2Ex7F6BVFXsMexjnj)
+[![Travis Build Status](https://api.travis-ci.com/KIT-CSD-WS15/DriftChamber-Team-A.svg?token=gFo2Ex7F6BVFXsMexjnj)](https://travis-ci.com/KIT-CSD-WS15/DriftChamber-Team-A)
 
 This is a python3 project and needs at least python version 3.4 to work properly.
 

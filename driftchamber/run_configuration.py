@@ -19,19 +19,17 @@ class RunConfiguration(YamlConfiguration):
     def modules(self):
         modules = []
         is_dict = lambda obj: isinstance(obj, dict)
+        parameters = lambda name: self.get_value('parameters')[name]
         
         for m in self.get_value('modules', []):
             module = {
                 'cls': m['class'] if is_dict(m) else m,
-                'params': self.parameters(m['parameters']) \
-                                if is_dict(m) and 'parameters' in m else {}
+                'params': parameters(m['parameters']) \
+                            if is_dict(m) and 'parameters' in m else {}
             }
             modules.append(module)
         
         return modules
-
-    def parameters(self, name):
-        return self.get_value('parameters')[name]
 
 class Loader(object):
     
@@ -55,11 +53,11 @@ class Loader(object):
     def deserialize_object(self, config):
         params = {}
         is_dict = lambda obj: isinstance(obj, dict)
-        
+
         for name, val in config['attr_values'].items():
             params[name] = self.deserialize_object(val) \
                                 if is_dict(val) else val
-            
+
         cls = self.load_class(config['class'])
         return cls(**params)
         
@@ -80,7 +78,7 @@ class RunEngineConfigurator(object):
 
     def _add_datastore_objects(self, config, engine):
         datastore_objects = config.get_value('datastore_objects', {}).items()
-        
+
         for name, obj_config in datastore_objects:
             lifetime = ObjectLifetime[obj_config['lifetime']]
             obj = self._loader.deserialize_object(obj_config)
