@@ -32,11 +32,9 @@ class RunConfiguration(YamlConfiguration):
         return modules
 
 class Loader(object):
-    
-    MODULES_PACKAGE = 'driftchamber.modules'
-    
+
     def load_module(self, cls_name, params = {}):
-        cls_fqn = '{}.{}'.format(self.MODULES_PACKAGE, cls_name)
+        cls_fqn = 'driftchamber.modules.{}'.format(cls_name)
         cls = self.load_class(cls_fqn)
         return cls(**params)
 

@@ -1,5 +1,4 @@
 drift_chamber:
-
   modules:
     - hello_world.HelloWorld
     - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }

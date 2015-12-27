@@ -2,8 +2,8 @@ drift_chamber:
   datastore_objects:
     
     electron:
-      class: driftchamber.data.particle.Particle
       lifetime: Event
+      class: driftchamber.data.particle.Particle
       
       attr_values:
         name: electron

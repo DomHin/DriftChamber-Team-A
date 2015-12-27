@@ -26,8 +26,9 @@ class YamlConfigurationTest(TestCase):
 class RunConfigurationTest(TestCase):
 
     def test_basic_configuration(self):
-        path = resource_path('run_configuration_basic.yml')
-        config = RunConfiguration(path)
+        config_path = resource_path('run_configuration_basic.yml')
+        
+        config = RunConfiguration(config_path)
         expected_modules = ['hello_world.HelloWorld', 
                             'bye_bye_world.ByeByeWorld']
         
@@ -58,10 +59,10 @@ class LoaderTest(TestCase):
 class RunEngineConfiguratorTest(TestCase):
 
     def test_basic_configuration(self):
-        engine = RunEngine()
-        configurator = RunEngineConfigurator(Loader())
         config_path = resource_path('run_configuration_basic.yml')
 
+        engine = RunEngine()
+        configurator = RunEngineConfigurator(Loader())
         configurator.apply(RunConfiguration(config_path), engine)
 
         self.assertEqual(engine.events, 5)
@@ -69,10 +70,10 @@ class RunEngineConfiguratorTest(TestCase):
         self.assertIsInstance(engine._modules[1], ByeByeWorld)
         
     def test_configuration_with_parameters(self):
-        engine = RunEngine()
-        configurator = RunEngineConfigurator(Loader())
         config_path = resource_path('run_configuration_params.yml')
 
+        engine = RunEngine()
+        configurator = RunEngineConfigurator(Loader())
         configurator.apply(RunConfiguration(config_path), engine)
 
         self.assertEqual(engine.events, 0)
@@ -84,17 +85,18 @@ class RunEngineConfiguratorTest(TestCase):
         self.assertEqual(engine._modules[1]._cells, 5)
         
     def test_configuration_with_datastore_objects(self):
+        config_path = resource_path('run_configuration_datastore_objects.yml')
+
         engine = RunEngine()
         configurator = RunEngineConfigurator(Loader())
-        config_path = resource_path('run_configuration_datastore_objects.yml')
-        
         configurator.apply(RunConfiguration(config_path), engine)
         
-        ds = engine._datastore
-        self.assertEqual(ds.store['electron'][0], ObjectLifetime.Event)
+        datastore = engine._datastore
+        electron = datastore.get('electron')
         
-        electron = ds.get('electron')
+        self.assertEqual(datastore.store['electron'][0], ObjectLifetime.Event)
         self.assertEqual(electron.name, 'electron')
         self.assertEqual(electron.mass, 0.000501)
         self.assertEqual(electron.momentum[0], 0.04)
         self.assertEqual(electron.momentum[1], 0.06)
+        

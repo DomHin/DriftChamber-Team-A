@@ -11,8 +11,6 @@ class DriftChamberTest(TestCase):
         run_simulation(config_path)
         
         log.check(
-            ('root', 'INFO', 'Module HelloWorld before event processing'),
-            ('root', 'INFO', 'Module ByeByeWorld before event processing'),
             ('root', 'INFO', 'Module HelloWorld processing event #1'),
             ('root', 'INFO', 'Module ByeByeWorld processing event #1'),
             ('root', 'INFO', 'Module HelloWorld processing event #2'),
@@ -22,6 +20,4 @@ class DriftChamberTest(TestCase):
             ('root', 'INFO', 'Module HelloWorld processing event #4'),
             ('root', 'INFO', 'Module ByeByeWorld processing event #4'),
             ('root', 'INFO', 'Module HelloWorld processing event #5'),
-            ('root', 'INFO', 'Module ByeByeWorld processing event #5'),
-            ('root', 'INFO', 'Module HelloWorld after event processing'),
-            ('root', 'INFO', 'Module ByeByeWorld after event processing'))
+            ('root', 'INFO', 'Module ByeByeWorld processing event #5'))
