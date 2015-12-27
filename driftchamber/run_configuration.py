@@ -28,10 +28,10 @@ class RunConfiguration(YamlConfiguration):
                             if is_dict(m) and 'parameters' in m else {}
             }
             modules.append(module)
-        
+
         return modules
 
-class Loader(object):
+class ResourceLoader(object):
 
     def load_module(self, cls_name, params = {}):
         cls_fqn = 'driftchamber.modules.{}'.format(cls_name)

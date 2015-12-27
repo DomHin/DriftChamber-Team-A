@@ -8,11 +8,11 @@
 
 drift_chamber:
   modules:
-    - { class: particle_gun.ParticleGun, parameters: 'particle_gun' }
+    - { class: particle_gun.ParticleGun, parameters: 'particle_properties' }
     - particle_printer.ParticlePrinter
     
   parameters:
-    particle_gun:
+    particle_properties:
       name: electron
       mass: 0.000501
       max_position_x: 1000

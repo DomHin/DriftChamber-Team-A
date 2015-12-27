@@ -1,9 +1,0 @@
-datastore_object:
-  id: detector
-  class: detector.Detector
-  lifetime: Application
-  
-  attr_values:
-    width: 100
-    superlayers: 11
-    layers_per_superlayer: [1, 5, 5, 2, 6, 6, 2, 7, 5, 7, 8]

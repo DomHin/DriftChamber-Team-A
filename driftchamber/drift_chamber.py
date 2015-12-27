@@ -2,14 +2,14 @@ import logging
 from argparse import ArgumentParser
 from driftchamber.core.run_engine import RunEngine
 from driftchamber.run_configuration import RunConfiguration,\
-    RunEngineConfigurator, Loader
+    RunEngineConfigurator, ResourceLoader
 
 def run_simulation(run_config_path):
-    loader = Loader()
+    loader = ResourceLoader()
     configurator = RunEngineConfigurator(loader)
     run_config = RunConfiguration(run_config_path)
-    engine = RunEngine()
     
+    engine = RunEngine()
     configurator.apply(run_config, engine)
     engine.execute()
 

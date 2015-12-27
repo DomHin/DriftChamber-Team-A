@@ -1,9 +1,0 @@
-datastore_object:
-  id: noise
-  class: particles.Particle
-  lifetime: Event
-  
-  attr_values:
-    name: noise
-    mass: 0.00001
-    noise_probability: 0.001

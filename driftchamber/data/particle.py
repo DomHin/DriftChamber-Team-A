@@ -2,14 +2,15 @@ from numpy import array
 
 class Particle(object):
 
-    def __init__(self, name, mass,
-                 position = array([0, 0]), 
-                 momentum = array([0, 0])):
-        self._name = name
-        self._mass = mass
-        self._position = position
-        self._momentum = momentum
-    
+    def __init__(self, **kwargs):
+        self._name = kwargs['name']
+        self._mass = kwargs['mass']
+        
+        self._position = kwargs['position'] if 'position' in kwargs \
+                            else array([0, 0])
+        self._momentum = kwargs['momentum'] if 'momentum' in kwargs \
+                            else array([0, 0])
+
     @property
     def name(self):
         return self._name

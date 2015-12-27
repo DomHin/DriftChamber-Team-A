@@ -1,7 +1,0 @@
-datastore_object:
-  id: tracking
-  class: Tracking
-  lifetime: Application
-  
-  attr_values:
-    precision: 1

@@ -3,7 +3,7 @@ from nose_parameterized import parameterized
 import inspect
 from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.run_configuration import YamlConfiguration,\
-    RunConfiguration, Loader, RunEngineConfigurator
+    RunConfiguration, ResourceLoader, RunEngineConfigurator
 from driftchamber.modules.hello_world import HelloWorld
 from driftchamber.modules.bye_bye_world import ByeByeWorld
 from driftchamber.modules.geometry import DetectorGeometry
@@ -22,7 +22,7 @@ class YamlConfigurationTest(TestCase):
         self.assertEqual(config.get_value('nonexisting1', 0), 0)
         self.assertIsInstance(config.get_value('c'), list)
         self.assertListEqual(config.get_value('c'), [1, 2, 3, 4])
- 
+
 class RunConfigurationTest(TestCase):
 
     def test_basic_configuration(self):
@@ -35,14 +35,14 @@ class RunConfigurationTest(TestCase):
         self.assertEqual(config.get_value('events'), 5)
         self.assertListEqual(config.get_value('modules'), expected_modules)
         
-class LoaderTest(TestCase):
+class ResourceLoaderTest(TestCase):
 
     @parameterized.expand([
         ('hello_world.HelloWorld', HelloWorld),
         ('bye_bye_world.ByeByeWorld', ByeByeWorld)
     ])
     def test_load_module(self, module, cls):
-        loader = Loader()
+        loader = ResourceLoader()
         obj = loader.load_module(module)
         self.assertIsInstance(obj, cls)
         
@@ -52,7 +52,7 @@ class LoaderTest(TestCase):
         ('collections.abc.Generator')
     ])
     def test_load_class(self, class_fqn):
-        loader = Loader()
+        loader = ResourceLoader()
         cls = loader.load_class(class_fqn)
         self.assertTrue(inspect.isclass(cls))
         
@@ -62,7 +62,7 @@ class RunEngineConfiguratorTest(TestCase):
         config_path = resource_path('run_configuration_basic.yml')
 
         engine = RunEngine()
-        configurator = RunEngineConfigurator(Loader())
+        configurator = RunEngineConfigurator(ResourceLoader())
         configurator.apply(RunConfiguration(config_path), engine)
 
         self.assertEqual(engine.events, 5)
@@ -73,7 +73,7 @@ class RunEngineConfiguratorTest(TestCase):
         config_path = resource_path('run_configuration_params.yml')
 
         engine = RunEngine()
-        configurator = RunEngineConfigurator(Loader())
+        configurator = RunEngineConfigurator(ResourceLoader())
         configurator.apply(RunConfiguration(config_path), engine)
 
         self.assertEqual(engine.events, 0)
@@ -88,7 +88,7 @@ class RunEngineConfiguratorTest(TestCase):
         config_path = resource_path('run_configuration_datastore_objects.yml')
 
         engine = RunEngine()
-        configurator = RunEngineConfigurator(Loader())
+        configurator = RunEngineConfigurator(ResourceLoader())
         configurator.apply(RunConfiguration(config_path), engine)
         
         datastore = engine._datastore
