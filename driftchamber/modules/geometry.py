@@ -1,4 +1,5 @@
 from driftchamber.core.module import Module
+from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.data.detector import Detector, SuperLayer, Layer, Cell
 
 
@@ -13,7 +14,7 @@ class DetectorGeometry(Module):
         superlayers = self._create_superlayers()
         detector = Detector(superlayers)
 
-        datastore.put('detector', detector)
+        datastore.put('detector', detector, ObjectLifetime.Application)
 
     def _create_superlayers(self):
         return [SuperLayer(self._create_layers(count))
