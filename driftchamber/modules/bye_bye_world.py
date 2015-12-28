@@ -1,6 +1,7 @@
 import logging
 from driftchamber.core.module import Module
 
+
 class ByeByeWorld(Module):
 
     def __init__(self):

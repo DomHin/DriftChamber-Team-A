@@ -1,8 +1,7 @@
-__author__ = 'Thomas Hauth, Martin Heck'
-
 import os
 import functools
 from enum import Enum
+
 
 class NotFoundInDataStore(Exception):
     """
@@ -11,12 +10,14 @@ class NotFoundInDataStore(Exception):
     """
     pass
 
+
 class AlreadyInDataStore(Exception):
     """
     Exception which gets raised if an object with the
     same name is already registered in the the data store
     """
     pass
+
 
 class ObjectLifetime(Enum):
     """
@@ -31,6 +32,7 @@ class ObjectLifetime(Enum):
     Event = 1
     Application = 2
 
+
 class DataStore(object):
     """
     Data store for modules to retrieve input for their computation and
@@ -43,7 +45,7 @@ class DataStore(object):
 
     def put(self, name, obj, lifetime=ObjectLifetime.Event):
         """
-        Put a object in the datastore. An object with the same name must 
+        Put a object in the datastore. An object with the same name must
         not exist, otherwise a AlreadyInDataStore exception is thrown
         :param name: identifying name
         :param obj: object to store
@@ -59,20 +61,20 @@ class DataStore(object):
 
     def get(self, name):
         """
-        retrieves an object by its name. Can raise a NotFoundInDataStore 
+        retrieves an object by its name. Can raise a NotFoundInDataStore
         exception, if no object with this name is registered
         :param name: object name
         :return: reference to the object
         """
 
-        if not name in self.store.keys():
+        if name not in self.store.keys():
             raise NotFoundInDataStore()
 
         return self.store[name][1]
 
     def clear(self, lifetime):
         """
-        Remove all objects from the datastore which have the lifetime 
+        Remove all objects from the datastore which have the lifetime
         specifies in the parameter
         :param lifetime: all objects with this lifetime will be removed from
         the store
@@ -91,6 +93,6 @@ class DataStore(object):
         :return: string representation of the data store content
         """
         return functools.reduce(
-            lambda acc, v: acc + str(v[0]) + " : " + str(v[1][1]) + 
-            " - lifetime " + str(v[1][0]) + os.linesep, self.store.items(), 
+            lambda acc, v: acc + str(v[0]) + " : " + str(v[1][1]) +
+            " - lifetime " + str(v[1][0]) + os.linesep, self.store.items(),
             "")

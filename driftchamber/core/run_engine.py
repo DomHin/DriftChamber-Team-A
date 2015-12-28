@@ -1,9 +1,10 @@
 from driftchamber.core.datastore import DataStore, ObjectLifetime
 from driftchamber.core.module import Module
 
+
 class RunEngine(object):
 
-    def __init__(self, events = 0):
+    def __init__(self, events=0):
         self._modules = []
         self._events = events
         self._datastore = DataStore()
@@ -29,7 +30,7 @@ class RunEngine(object):
         for _ in range(self.events):
             for m in self._modules:
                 m.event(self._datastore)
-                
+
             self._datastore.clear(ObjectLifetime.Event)
 
         for m in self._modules:

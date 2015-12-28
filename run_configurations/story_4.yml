@@ -8,3 +8,7 @@
 #
 # - In the graphical representation, hit cells are drawn with a different symbol, 
 #   than cells which have not been hit.
+
+drift_chamber:
+  modules:
+    - particle_propagator.ParticlePropagator

@@ -10,7 +10,6 @@
 #   be shown either by different colours or different symbols for the cells.
 
 drift_chamber:
-
   modules:
     - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
     - graphics.SimpleDetectorView
