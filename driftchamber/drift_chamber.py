@@ -1,8 +1,8 @@
 import logging
 from argparse import ArgumentParser
 from driftchamber.core.run_engine import RunEngine
-from driftchamber.run_configuration import RunConfiguration,\
-    RunEngineConfigurator, ResourceLoader
+from driftchamber.run_configuration import (
+    RunConfiguration, RunEngineConfigurator, ResourceLoader)
 
 def run_simulation(run_config_path):
     loader = ResourceLoader()
@@ -17,9 +17,9 @@ def main(args = None):
     logging.basicConfig(level=logging.DEBUG)
     logging.info('Drift Chamber Simulator started')
     
-    parser = ArgumentParser(description = 'DriftChamber [Team A]')
-    parser.add_argument('runconfiguration', type = str,  required = True,
-                        help = 'Path to a run configuration file.')
+    parser = ArgumentParser(description='DriftChamber [Team A]')
+    parser.add_argument('runconfiguration', type=str, required=True,
+                        help='Path to a run configuration file.')
     args = parser.parse_args(args)
     
     run_simulation(args.runconfiguration)

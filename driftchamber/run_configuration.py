@@ -4,12 +4,12 @@ from driftchamber.core.datastore import ObjectLifetime
 class YamlConfiguration(object):
     
     def __init__(self, path, root_node):
-        stream = open(path, 'r')
-        data = yaml.load(stream)
-        self._values = data[root_node]
+        with open(path, 'r') as stream:
+            data = yaml.load(stream)
+            self._values = data.get(root_node)
         
     def get_value(self, key, default = None):
-        return self._values[key] if key in self._values else default
+        return self._values.get(key) if key in self._values else default
     
 class RunConfiguration(YamlConfiguration):
     
@@ -18,18 +18,22 @@ class RunConfiguration(YamlConfiguration):
 
     def modules(self):
         modules = []
-        is_dict = lambda obj: isinstance(obj, dict)
-        parameters = lambda name: self.get_value('parameters')[name]
-        
-        for m in self.get_value('modules', []):
-            module = {
-                'cls': m['class'] if is_dict(m) else m,
-                'params': parameters(m['parameters']) \
-                            if is_dict(m) and 'parameters' in m else {}
-            }
-            modules.append(module)
+        def is_dict(obj): return isinstance(obj, dict)
+
+        for mod in self.get_value('modules', []):
+            param_name = mod.get('parameters') if is_dict(mod) else None
+            
+            modules.append({'cls': mod.get('class') if is_dict(mod) else mod, 
+                            'params': self.parameters(param_name)})
 
         return modules
+
+    def parameters(self, param_name):
+        all_params = self.get_value('parameters', {})
+        return all_params.get(param_name, {}) if param_name else {}
+    
+    def datastore_objects(self):
+        return self.get_value('datastore_objects', {}).items()
 
 class ResourceLoader(object):
 
@@ -52,10 +56,10 @@ class ResourceLoader(object):
         params = {}
         is_dict = lambda obj: isinstance(obj, dict)
 
-        for name, val in config['attr_values'].items():
+        for name, val in config.get('attr_values').items():
             params[name] = self.load_object(val) if is_dict(val) else val
 
-        cls = self.load_class(config['class'])
+        cls = self.load_class(config.get('class'))
         return cls(**params)
         
 class RunEngineConfigurator(object):
@@ -70,13 +74,11 @@ class RunEngineConfigurator(object):
             
     def _add_modules(self, config, engine):
         for m in config.modules():
-            module = self._loader.load_module(m['cls'], m['params'])
+            module = self._loader.load_module(m.get('cls'), m.get('params'))
             engine.add_module(module)
 
     def _add_datastore_objects(self, config, engine):
-        datastore_objects = config.get_value('datastore_objects', {}).items()
-
-        for name, obj_config in datastore_objects:
-            lifetime = ObjectLifetime[obj_config['lifetime']]
+        for name, obj_config in config.datastore_objects():
+            lifetime = ObjectLifetime[obj_config.get('lifetime')]
             obj = self._loader.load_object(obj_config)
             engine._datastore.put(name, obj, lifetime)

@@ -3,13 +3,11 @@ from numpy import array
 class Particle(object):
 
     def __init__(self, **kwargs):
-        self._name = kwargs['name']
-        self._mass = kwargs['mass']
+        self._name = kwargs.get('name')
+        self._mass = kwargs.get('mass')
         
-        self._position = kwargs['position'] if 'position' in kwargs \
-                            else array([0, 0])
-        self._momentum = kwargs['momentum'] if 'momentum' in kwargs \
-                            else array([0, 0])
+        self._position = kwargs.get('position', array([0, 0]))
+        self._momentum = kwargs.get('momentum', array([0, 0]))
 
     @property
     def name(self):

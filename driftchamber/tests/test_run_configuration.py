@@ -2,8 +2,8 @@ from unittest.case import TestCase
 from nose_parameterized import parameterized
 import inspect
 from driftchamber.core.datastore import ObjectLifetime
-from driftchamber.run_configuration import YamlConfiguration,\
-    RunConfiguration, ResourceLoader, RunEngineConfigurator
+from driftchamber.run_configuration import (
+    YamlConfiguration, RunConfiguration, ResourceLoader, RunEngineConfigurator)
 from driftchamber.modules.hello_world import HelloWorld
 from driftchamber.modules.bye_bye_world import ByeByeWorld
 from driftchamber.modules.geometry import DetectorGeometry

@@ -6,13 +6,13 @@ from driftchamber.data.particle import Particle
 class ParticleGun(Module):
 
     def __init__(self, **kwargs):
-        self._name = kwargs['name']
-        self._mass = kwargs['mass']
-        self._max_position_x = kwargs['max_position_x']
-        self._max_position_y = kwargs['max_position_y']
-        self._max_momentum = kwargs['max_momentum']
+        self._name = kwargs.get('name')
+        self._mass = kwargs.get('mass')
+        self._max_position_x = kwargs.get('max_position_x')
+        self._max_position_y = kwargs.get('max_position_y')
+        self._max_momentum = kwargs.get('max_momentum')
 
-    def begin(self, datastore):
+    def event(self, datastore):
         mom_x = (random() - 0.5) * 2 * self._max_momentum
         mom_y = random() * self._max_momentum
         

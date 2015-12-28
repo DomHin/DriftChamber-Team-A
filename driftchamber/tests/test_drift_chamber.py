@@ -21,3 +21,4 @@ class DriftChamberTest(TestCase):
             ('root', 'INFO', 'Module ByeByeWorld processing event #4'),
             ('root', 'INFO', 'Module HelloWorld processing event #5'),
             ('root', 'INFO', 'Module ByeByeWorld processing event #5'))
+        

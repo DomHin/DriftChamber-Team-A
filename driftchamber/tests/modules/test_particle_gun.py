@@ -13,7 +13,7 @@ class ParticleGunTest(TestCase):
                                 max_position_y=100)
     
     def test(self):
-        self._gun.begin(self._datastore)
+        self._gun.event(self._datastore)
         
         particle = self._datastore.get('particle')
         
@@ -24,4 +24,3 @@ class ParticleGunTest(TestCase):
         self.assertGreaterEqual(particle.position[0], 0)
         self.assertLessEqual(particle.position[1], 100)
         self.assertGreaterEqual(particle.position[1], 0)
-        
