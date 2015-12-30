@@ -6,7 +6,7 @@ from driftchamber.tests.resources import resource_path
 
 class DriftChamberTest(TestCase):
 
-    @log_capture()
+    @log_capture
     def test_basic_simulation(self, log):
         config_path = resource_path('run_configuration_basic.yml')
         run_simulation(config_path)

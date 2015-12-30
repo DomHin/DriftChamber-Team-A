@@ -13,15 +13,21 @@ class ParticleGun(Module):
         self._max_position_y = kwargs.get('max_position_y')
         self._max_momentum = kwargs.get('max_momentum')
 
-    def event(self, datastore):
+    def begin(self, datastore):
+        particle = Particle(name=self._name, mass=self._mass)
+        particle.momentum = self._create_momentum()
+        particle.position = self._create_position()
+
+        datastore.put('particle', particle)
+
+    def _create_momentum(self):
         mom_x = (random() - 0.5) * 2 * self._max_momentum
         mom_y = random() * self._max_momentum
 
+        return array([mom_x, mom_y])
+
+    def _create_position(self):
         pos_x = randint(0, self._max_position_x)
         pos_y = randint(0, self._max_position_y)
 
-        particle = Particle(name=self._name, mass=self._mass)
-        particle.momentum = array([mom_x, mom_y])
-        particle.position = array([pos_x, pos_y])
-
-        datastore.put('particle', particle)
+        return array([pos_x, pos_y])
