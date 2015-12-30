@@ -12,7 +12,7 @@ class BasicDetectorView(Module):
                 print(*cells, sep=' ')
 
     def _cell_view(self, cell, superlayer_index):
-        symbols = ['o', 'x', 'O', 'X', ':', '.', 'I', '-', '#', '@']
+        symbols = ['o', 'O', '0']
         index = superlayer_index % len(symbols)
 
         return cell.width * symbols[index]

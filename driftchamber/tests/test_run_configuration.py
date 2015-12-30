@@ -83,9 +83,9 @@ class RunEngineConfiguratorTest(TestCase):
         self.assertIsInstance(engine._modules[0], HelloWorld)
         self.assertIsInstance(engine._modules[1], DetectorGeometry)
         self.assertIsInstance(engine._modules[2], ByeByeWorld)
-        self.assertEqual(engine._modules[1]._superlayer_counts, 4)
-        self.assertListEqual(engine._modules[1]._layer_counts, [4, 2, 5, 1])
-        self.assertEqual(engine._modules[1]._cells_per_layer, 5)
+        self.assertEqual(engine._modules[1]._superlayers, 4)
+        self.assertListEqual(engine._modules[1]._layers, [4, 2, 5, 1])
+        self.assertEqual(engine._modules[1]._cells, 5)
 
     def test_configuration_with_datastore_objects(self):
         config_path = resource_path('run_configuration_datastore_objects.yml')

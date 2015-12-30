@@ -51,9 +51,33 @@ class Layer(object):
 
 class Cell(object):
 
-    def __init__(self, width=1):
+    def __init__(self, position, width=1):
+        self._position = position
         self._width = 1
+
+    @property
+    def position(self):
+        return self._position
 
     @property
     def width(self):
         return self._width
+
+    def __eq__(self, cell):
+        return self.position[0] == cell.position[0] and \
+            self.position[1] == cell.position[1]
+
+
+class Hit(object):
+
+    def __init__(self, cell, deposited_energy):
+        self._cell = cell
+        self._deposited_energy = deposited_energy
+
+    @property
+    def cell(self):
+        return self._cell
+
+    @property
+    def deposited_energy(self):
+        return self._deposited_energy

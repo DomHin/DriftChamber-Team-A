@@ -8,4 +8,4 @@ drift_chamber:
     detector_geometry:
       superlayers: 4
       layers: [4, 2, 5, 1]
-      cells: 5
+      layer_cells: 5
