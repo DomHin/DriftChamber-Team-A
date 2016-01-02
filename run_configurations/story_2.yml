@@ -12,7 +12,7 @@
 drift_chamber:
   modules:
     - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
-    - graphics.SimpleDetectorView
+    - graphics.BasicDetectorView
     
   parameters:
     detector_geometry:

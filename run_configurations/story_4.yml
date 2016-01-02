@@ -11,4 +11,30 @@
 
 drift_chamber:
   modules:
+    # create detector
+    - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
+    
+    # create electron particle
+    - { class: particle_gun.ParticleGun, parameters: 'electron_properties' }
+    
+    # print particle properties
+    - particle_printer.ParticlePrinter
+
+    # propagate particles
     - particle_propagator.ParticlePropagator
+    
+    # view detector with hit/non-hit cells
+    - graphics.DetectorView
+
+  parameters:
+    detector_geometry:
+      superlayers: 6
+      layers: [4, 8, 3, 9, 5, 7]
+      layer_cells: 40
+
+    electron_properties:
+      name: electron
+      mass: 0.000501
+      max_position_x: 40
+      max_position_y: 36
+      max_momentum: 10

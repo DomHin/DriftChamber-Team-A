@@ -1,4 +1,5 @@
 from numpy import array
+from numpy.linalg.linalg import norm
 
 
 class Particle(object):
@@ -33,3 +34,7 @@ class Particle(object):
     @momentum.setter
     def momentum(self, value):
         self._momentum = value
+
+    @property
+    def at_rest(self):
+        return norm(self.momentum) == 0

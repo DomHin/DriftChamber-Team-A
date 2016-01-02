@@ -1,3 +1,16 @@
+from numpy import array
+
+
+def cell_geometry(cell):
+    pos = cell.geometry
+
+    return array([
+        [pos[0], pos[1]],
+        [pos[0] + cell.width, pos[1]],
+        [pos[0], pos[1] + cell.height],
+        [pos[0] + cell.width, pos[1] + cell.height]])
+
+
 class Detector(object):
 
     def __init__(self, superlayers):
@@ -15,6 +28,16 @@ class Detector(object):
     @property
     def superlayers(self):
         return self._superlayers
+
+    @property
+    def cells(self):
+        cells = []
+
+        for superlayer in self.superlayers:
+            for layer in superlayer.layers:
+                cells.extend(layer.cells)
+
+        return cells
 
 
 class SuperLayer(object):
@@ -54,6 +77,7 @@ class Cell(object):
     def __init__(self, position, width=1):
         self._position = position
         self._width = 1
+        self._height = 1
 
     @property
     def position(self):
@@ -63,9 +87,15 @@ class Cell(object):
     def width(self):
         return self._width
 
+    @property
+    def height(self):
+        return self._height
+
     def __eq__(self, cell):
-        return self.position[0] == cell.position[0] and \
-            self.position[1] == cell.position[1]
+        pos = self.position
+        cell_pos = cell.position
+
+        return pos[0] == cell_pos[0] and pos[1] == cell_pos[1]
 
 
 class Hit(object):
