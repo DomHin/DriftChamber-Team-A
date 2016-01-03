@@ -59,6 +59,20 @@ class DataStore(object):
         # no, store it!
         self.store[name] = (lifetime, obj)
 
+    def add(self, name, obj, lifetime=ObjectLifetime.Event):
+        """
+        Adds an object to a list with the given name. If the list does not
+        exist in the datastore, one is created with the supplied lifetime.
+        :param name: identifying name
+        :param obj: object to store
+        :param lifetime: lifetime of the object
+        :return: None
+        """
+        if name not in self.store.keys():
+            self.store[name] = (lifetime, [])
+
+        self.store[name][1].append(object)
+
     def get(self, name):
         """
         retrieves an object by its name. Can raise a NotFoundInDataStore
