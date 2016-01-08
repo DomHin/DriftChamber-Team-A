@@ -1,5 +1,9 @@
 language: python
 
+env:
+    global:
+        - SONAR_RUNNER_HOME=$TRAVIS_BUILD_DIR/sonar-runner
+
 python:
     - "3.4"
     - "3.5"
@@ -22,8 +26,3 @@ after_script:
     - unzip -q sonar-runner-dist-2.4.zip
     - mv sonar-runner-dist-2.4 sonar-runner
     - $SONAR_RUNNER_HOME/sonar-runner
-    # SonarQube Runner install end
-
-env:
-    global:
-        - SONAR_RUNNER_HOME=$TRAVIS_BUILD_DIR/sonar-runner
