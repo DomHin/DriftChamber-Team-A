@@ -1,5 +1,9 @@
 language: python
 
+env:
+    global:
+        - SONAR_RUNNER_HOME=$TRAVIS_BUILD_DIR/sonar-runner
+
 python:
     - "3.4"
     - "3.5"
@@ -15,3 +19,10 @@ install:
 script:
     - pep8 driftchamber
     - nosetests
+    
+after_script:
+    # Execute SonarQube Runner
+    - wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
+    - unzip -q sonar-runner-dist-2.4.zip
+    - mv sonar-runner-dist-2.4 sonar-runner
+    - $SONAR_RUNNER_HOME/sonar-runner
