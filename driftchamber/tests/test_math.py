@@ -1,7 +1,7 @@
 from unittest.case import TestCase
 from nose_parameterized import parameterized
 from numpy import array
-from driftchamber.math import point_in_rect
+from driftchamber.math import point_in_rect, sign
 
 
 class MathTest(TestCase):
@@ -21,3 +21,11 @@ class MathTest(TestCase):
     ])
     def test_point_in_rect_false(self, point, rect):
         self.assertFalse(point_in_rect(point, rect))
+
+    @parameterized.expand([
+        (-7, -1),
+        (0, 0),
+        (32, 1)
+    ])
+    def test_sign(self, value, expected_value):
+        self.assertEqual(sign(value), expected_value)

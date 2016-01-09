@@ -12,43 +12,31 @@ class DetectorGeometry(Module):
         self._cells = kwargs.get('layer_cells')
 
     def begin(self, datastore):
-        detector = self._create_detector()
+        superlayers = self._create_superlayers()
+        detector = Detector(superlayers)
 
         datastore.put('detector', detector, ObjectLifetime.Application)
 
-    def _create_detector(self):
+    def _create_superlayers(self):
         superlayers = []
-        superlayer_y_pos = 0
+        cell_y = 0
 
         for layer_count in self._layers:
-            superlayer = self._create_superlayer(layer_count,
-                                                 superlayer_y_pos)
+            layers = []
+
+            for _ in range(layer_count):
+                cells = []
+
+                for cell_x in range(self._cells):
+                    position = array([cell_x, cell_y])
+                    cell = Cell(position)
+                    cells.append(cell)
+
+                cell_y += 1
+                layer = Layer(cells)
+                layers.append(layer)
+
+            superlayer = SuperLayer(layers)
             superlayers.append(superlayer)
 
-            superlayer_y_pos += layer_count
-
-        return Detector(superlayers)
-
-    def _create_superlayer(self, layer_count, y_pos):
-        layers = []
-        layer_y_pos = y_pos
-
-        for _ in range(layer_count):
-            cells = self._create_layer_cells(layer_y_pos)
-            layer = Layer(cells)
-            layers.append(layer)
-
-            layer_y_pos += 1
-
-        return SuperLayer(layers)
-
-    def _create_layer_cells(self, layer_y_pos):
-        cells = []
-
-        for x_pos in range(self._cells):
-            position = array([x_pos, layer_y_pos])
-            cell = Cell(position)
-
-            cells.append(cell)
-
-        return cells
+        return superlayers

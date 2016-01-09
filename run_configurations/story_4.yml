@@ -13,16 +13,16 @@ drift_chamber:
   modules:
     # create detector
     - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }
-    
+
     # create electron particle
     - { class: particle_gun.ParticleGun, parameters: 'electron_properties' }
-    
+
     # print particle properties
     - particle_printer.ParticlePrinter
 
     # propagate particles
     - particle_propagator.ParticlePropagator
-    
+
     # view detector with hit/non-hit cells
     - graphics.DetectorView
 

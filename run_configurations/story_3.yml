@@ -9,6 +9,7 @@
 drift_chamber:
   modules:
     - { class: particle_gun.ParticleGun, parameters: 'particle_properties' }
+
     - particle_printer.ParticlePrinter
     
   parameters:

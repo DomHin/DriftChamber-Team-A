@@ -26,7 +26,7 @@ class DetectorGeometryTest(TestCase):
         self.assertEqual(self.detector.superlayers[3].layer_count, 1)
 
     def test_cell_positions(self):
-        cell_y_pos = 0
+        cell_y = 0
 
         for superlayer in self.detector.superlayers:
             for layer in superlayer.layers:
@@ -34,6 +34,6 @@ class DetectorGeometryTest(TestCase):
                     position = cell.position
 
                     self.assertEqual(index, position[0])
-                    self.assertEqual(cell_y_pos, position[1])
+                    self.assertEqual(cell_y, position[1])
 
-                cell_y_pos += 1
+                cell_y += 1
