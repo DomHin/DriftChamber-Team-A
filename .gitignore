@@ -6,3 +6,7 @@
 # PyCharm project files
 *.py[cod]
 .idea
+
+# Code Coverage reports
+reports
+.coverage
