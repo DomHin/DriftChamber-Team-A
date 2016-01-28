@@ -7,6 +7,7 @@
 #   it initial position and momentum.
 
 drift_chamber:
+  events: 5
   modules:
     - { class: particle_gun.ParticleGun, parameters: 'particle_properties' }
 

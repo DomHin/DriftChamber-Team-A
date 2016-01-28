@@ -2,6 +2,7 @@ from random import random, randint
 from numpy import array
 from driftchamber.core.module import Module
 from driftchamber.data.particle import Particle
+from driftchamber.core.datastore import ObjectLifetime
 
 
 class ParticleGun(Module):
@@ -18,7 +19,7 @@ class ParticleGun(Module):
         particle.momentum = self._create_momentum()
         particle.position = self._create_position()
 
-        datastore.put('particle', particle)
+        datastore.put('particle', particle, ObjectLifetime.Application)
 
     def _create_momentum(self):
         mom_x = (random() - 0.5) * 2 * self._max_momentum
