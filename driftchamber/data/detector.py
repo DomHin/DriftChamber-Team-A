@@ -1,21 +1,11 @@
-from numpy import array
+from driftchamber.math import Rectangle2D, Dimension2D
 from driftchamber.math import point_in_rect
-
-
-def cell_geometry(cell):
-    pos = cell.geometry
-
-    return array([
-        [pos[0], pos[1]],
-        [pos[0] + cell.width, pos[1]],
-        [pos[0], pos[1] + cell.height],
-        [pos[0] + cell.width, pos[1] + cell.height]])
 
 
 def find_cell_in_position(detector, position):
     for cell in detector.cells:
-        geometry = cell_geometry(cell)
-        if point_in_rect(position, geometry):
+        rect = Rectangle2D(cell.position, Dimension2D(cell.width, cell.height))
+        if point_in_rect(position, rect):
             return cell
 
     return None

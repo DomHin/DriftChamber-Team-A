@@ -1,8 +1,9 @@
 from random import random, randint
-from numpy import array
+
+from driftchamber.core.datastore import ObjectLifetime
 from driftchamber.core.module import Module
 from driftchamber.data.particle import Particle
-from driftchamber.core.datastore import ObjectLifetime
+from driftchamber.math import Point2D
 
 
 class ParticleGun(Module):
@@ -25,10 +26,10 @@ class ParticleGun(Module):
         mom_x = (random() - 0.5) * 2 * self._max_momentum
         mom_y = random() * self._max_momentum
 
-        return array([mom_x, mom_y])
+        return Point2D(mom_x, mom_y)
 
     def _create_position(self):
         pos_x = randint(0, self._max_position_x)
         pos_y = randint(0, self._max_position_y)
 
-        return array([pos_x, pos_y])
+        return Point2D(pos_x, pos_y)

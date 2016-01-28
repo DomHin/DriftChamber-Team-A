@@ -1,7 +1,7 @@
-from numpy import array
-from driftchamber.core.module import Module
 from driftchamber.core.datastore import ObjectLifetime
+from driftchamber.core.module import Module
 from driftchamber.data.detector import Detector, SuperLayer, Layer, Cell
+from driftchamber.math import Point2D
 
 
 class DetectorGeometry(Module):
@@ -28,7 +28,7 @@ class DetectorGeometry(Module):
                 cells = []
 
                 for cell_x in range(self._cells):
-                    position = array([cell_x, cell_y])
+                    position = Point2D(cell_x, cell_y)
                     cell = Cell(position)
                     cells.append(cell)
 

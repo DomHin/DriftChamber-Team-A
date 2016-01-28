@@ -1,5 +1,6 @@
-from numpy import array
 from numpy.linalg.linalg import norm
+
+from driftchamber.math import Point2D
 from driftchamber.physics import relativistic_energy, relativistic_momentum
 
 
@@ -9,8 +10,8 @@ class Particle(object):
         self._name = kwargs.get('name')
         self._mass = kwargs.get('mass')
 
-        self._position = kwargs.get('position', array([0, 0]))
-        self._momentum = kwargs.get('momentum', array([0, 0]))
+        self._position = kwargs.get('position', Point2D(0, 0))
+        self._momentum = kwargs.get('momentum', Point2D(0, 0))
 
     @property
     def name(self):
@@ -49,8 +50,8 @@ class Particle(object):
         new_momentum = relativistic_momentum(value, self.mass)
 
         if value < self.mass or self.at_rest:
-            self.momentum = array([0, 0])
+            self.momentum = Point2D(0, 0)
         else:
-            ratio = new_momentum / self.momentum
-            self.momentum[0] *= ratio
-            self.momentum[1] *= ratio
+            ratio = new_momentum / norm(self.momentum)
+            self.momentum.x *= ratio
+            self.momentum.y *= ratio

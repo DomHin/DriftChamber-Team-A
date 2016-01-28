@@ -10,6 +10,7 @@
 #   than cells which have not been hit.
 
 drift_chamber:
+  events: 1000
   modules:
     # create detector
     - { class: geometry.DetectorGeometry, parameters: 'detector_geometry' }

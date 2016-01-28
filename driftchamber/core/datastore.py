@@ -1,5 +1,5 @@
-import os
 import functools
+import os
 from enum import Enum
 
 
@@ -71,7 +71,7 @@ class DataStore(object):
         if name not in self.store.keys():
             self.store[name] = (lifetime, [])
 
-        self.store[name][1].append(object)
+        self.store[name][1].append(obj)
 
     def get(self, name):
         """

@@ -1,4 +1,5 @@
 from random import random
+
 from driftchamber.core.module import Module
 from driftchamber.data.detector import Hit, find_cell_in_position
 from driftchamber.math import sign
@@ -13,9 +14,9 @@ class ParticlePropagator(Module):
     def event(self, datastore):
         self._propagate_to_adjacent_cell()
         cell = find_cell_in_position(self._detector, self._particle.position)
-        hit = self._hit_cell(cell)
-
-        datastore.add('hit', hit)
+        if cell is not None:
+            hit = self._hit_cell(cell)
+            datastore.add('hits', hit)
 
     def _propagate_to_adjacent_cell(self):
         momentum = self._particle.momentum
