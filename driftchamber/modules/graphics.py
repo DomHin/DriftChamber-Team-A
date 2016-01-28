@@ -9,7 +9,7 @@ class BasicDetectorView(Module):
         for i, superlayer in enumerate(detector.superlayers):
             for layer in superlayer.layers:
                 for cell in layer.cells:
-                    print(self._show_cell_view(cell, i))
+                    print(self._show_cell_view(cell, i), end="")
                 print('')
 
     def _show_cell_view(self, cell, cell_index):
