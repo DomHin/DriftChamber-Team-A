@@ -16,7 +16,7 @@ class MathTest(TestCase):
 
     @parameterized.expand([
         (Point2D(4, 13.01), Rectangle2D(Point2D(2, 3), Dimension2D(8, 10))),
-        (Point2D(3, 6), Rectangle2D(Point2D(2, 3), Dimension2D(8, 10))),
+        (Point2D(3, 16), Rectangle2D(Point2D(2, 3), Dimension2D(8, 10))),
         (Point2D(3, 17), Rectangle2D(Point2D(4, 6), Dimension2D(8, 10)))
     ])
     def test_point_in_rect_false(self, point, rect):

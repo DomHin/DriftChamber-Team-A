@@ -5,7 +5,7 @@ from driftchamber.data.particle import Particle
 
 
 class ParticleTest(TestCase):
-    
+
     def test_energy_momentum_values(self):
         particle = Particle(name='test', mass=0.003)
         particle.momentum = array([0.345, 0.154])

@@ -20,7 +20,7 @@ def main(args=None):
     logging.info('Drift Chamber Simulator started')
 
     parser = ArgumentParser(description='DriftChamber [Team A]')
-    parser.add_argument('runconfiguration', type=str, required=True,
+    parser.add_argument('runconfiguration', type=str,
                         help='Path to a run configuration file.')
     args = parser.parse_args(args)
 

@@ -1,10 +1,12 @@
-from numpy import array
+from numpy import ndarray
 
 
-class Point2D(array):
-
-    def __init__(self, x, y):
-        super().__init__(x, y)
+class Point2D(ndarray):
+    def __new__(cls, x, y):
+        arr = ndarray.__new__(Point2D, shape=(2,), dtype=float)
+        arr[0] = x
+        arr[1] = y
+        return arr
 
     @property
     def x(self):
@@ -23,35 +25,47 @@ class Point2D(array):
         self[1] = value
 
 
-class Dimension2D(array):
-
-    def __init(self, width, height):
-        super().__init__(width, height)
+class Dimension2D:
+    def __init__(self, width, height):
+        self._width = width
+        self._height = height
 
     @property
     def width(self):
-        return self[0]
+        return self._width
 
     @property
     def height(self):
-        return self[1]
+        return self._height
 
 
-class Rectangle2D(array):
-    
+class Rectangle2D:
     def __init__(self, pos, dim):
-        super().__init__([
-            [pos.x, pos.y],
-            [pos.x + dim.width, pos.y],
-            [pos.x, pos.y + dim.height],
-            [pos.x + dim.width, pos.y + dim.height]
-        ])
+        self._bottom_left = Point2D(pos.x, pos.y)
+        self._bottom_right = Point2D(pos.x + dim.width, pos.y)
+        self._upper_left = Point2D(pos.x, pos.y + dim.height)
+        self._upper_right = Point2D(pos.x + dim.width, pos.y + dim.height)
+
+    @property
+    def upper_left(self):
+        return self._upper_left
+
+    @property
+    def upper_right(self):
+        return self._upper_right
+
+    @property
+    def bottom_left(self):
+        return self._bottom_left
+
+    @property
+    def bottom_right(self):
+        return self._bottom_right
+
 
 def point_in_rect(point, rect):
-    return point[0] >= rect[0][0] and \
-            point[0] <= rect[1][0] and \
-            point[1] >= rect[0][1] and \
-            point[1] <= rect[2][1]
+    return rect.upper_left.x <= point.x <= rect.upper_right.x and \
+           rect.bottom_left.y <= point.y <= rect.upper_right.y
 
 
 def sign(x):
