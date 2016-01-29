@@ -23,6 +23,22 @@ configuration_specification = {
                             lambda value: value > 0,
                             'The maximum momentum of a particle must be positive.'
                         )],
-                        p_isCompulsory=True)
+                        p_isCompulsory=True),
+    ConfigurationOption('x_pos',
+                        'The initial x-position of the particle in cells of the detector',
+                        int,
+                        p_isCompulsory=True),
+        ConfigurationOption('y_pos',
+                        'The initial y-position of the particle in cells of the detector',
+                        int,
+                        p_isCompulsory=True),
+    ConfigurationOption('x_mom',
+                        'The momentum of the particle in GeV',
+                        float,
+                        p_isCompulsory=True),
+    ConfigurationOption('y_mom',
+                        'The momentum of the particle in GeV',
+                        float,
+                        p_isCompulsory=True),
     ]
 }
