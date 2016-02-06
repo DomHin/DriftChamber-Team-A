@@ -76,7 +76,7 @@ class RunEngine(object):
             
         
     def call_all_end_methods(self):
-        if not self._begins_called or (self._events_called is not self._nEvent) or self._ends_called:
+        if not self._begins_called or (self._events_called != self._nEvent) or self._ends_called:
             raise RunEngineInInconsistentState()
         self._ends_called = True
         for module in self._modules:
